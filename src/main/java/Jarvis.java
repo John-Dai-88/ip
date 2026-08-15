@@ -217,11 +217,33 @@ public class Jarvis {
 
     // Marks/Unmarks the corresponding task in the toDoTasks ArrayList as being done and reprint its
     // updated status for the user
-    public static void markDoneOrUndone(String userInput, String completionStatus) {
+    public static void markDoneOrUndone(String userInput, String completionStatus) throws JarvisException {
         // Splits the user input's into two separate strings and store them in an array
         String[] splitUserInput = userInput.split(" ");
-        // Acquire task number inputted by user
-        int taskNumber = Integer.parseInt(splitUserInput[1]);
+        // int variable to store task number inputted by user
+        int taskNumber = 0;
+        try {
+            // Acquire task number inputted by user
+            taskNumber = Integer.parseInt(splitUserInput[1]);
+        }
+        catch (ArrayIndexOutOfBoundsException error) {
+            throw new IncompleteCommandException(
+                    "Error : Your command is missing certain parameters.\n"
+                            + " Please re-enter your command in the format : \n"
+                            + " - mark <Task Number> for marking tasks as done\n"
+                            + " - unmark <Task Number> for marking tasks as undone\n"
+                            + borderLine
+            );
+        }
+
+        if(taskNumber < 1 || taskNumber > toDoTasks.size()) {
+            throw new InvalidTaskNumberException(
+                    "Error : The task number you inputted is invalid.\n"
+                            + String.format("Please re-enter with a valid number ranging from 1 to %d\n", toDoTasks.size())
+                            + borderLine
+            );
+        }
+
         // Modify the number to match its corresponding index number in toDoTasks
         int toDoListIndexNo = taskNumber - 1;
 
