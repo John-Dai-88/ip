@@ -121,11 +121,14 @@ public class Jarvis {
         // Temp String variable to store task substring from user's input
         String task;
 
+        // Attempt to acquire task from user's string input
         try {
-            // Extract the task substring from user's string input
+            // Extracts the task substring from user's string input
             task = userInput.substring(5).trim();
         }
+        // Catches errors resulting from incomplete user command input
         catch (StringIndexOutOfBoundsException error) {
+            // Throw an incomplete command error
             throw new IncompleteCommandException(
                     "Error : Your command is missing certain parameters.\n"
                     + "Please re-enter your command in the format : todo <Task>\n"
@@ -133,7 +136,9 @@ public class Jarvis {
             );
         }
 
+        // Checks if task string is empty, if so throw an error
         if(task.isEmpty()) {
+            // Throw an incomplete command error
             throw new IncompleteCommandException(
                     "Error : Your command is missing certain parameters.\n"
                     + "Please re-enter your command in the format : todo <Task>\n"
@@ -221,12 +226,16 @@ public class Jarvis {
         // Splits the user input's into two separate strings and store them in an array
         String[] splitUserInput = userInput.split(" ");
         // int variable to store task number inputted by user
-        int taskNumber = 0;
+        int taskNumber;
+
+        // Attempt to acquire task number from user's string input
         try {
             // Acquire task number inputted by user
             taskNumber = Integer.parseInt(splitUserInput[1]);
         }
+        // Catches errors resulting from incomplete user command input
         catch (ArrayIndexOutOfBoundsException error) {
+            // Throws an incomplete command error
             throw new IncompleteCommandException(
                     "Error : Your command is missing certain parameters.\n"
                             + " Please re-enter your command in the format : \n"
@@ -236,7 +245,10 @@ public class Jarvis {
             );
         }
 
+        // Checks if task number extracted from user's input is outside the valid range
+        // If yes, throw an invalid task number error
         if(taskNumber < 1 || taskNumber > toDoTasks.size()) {
+            // Throws an invalid task number error
             throw new InvalidTaskNumberException(
                     "Error : The task number you inputted is invalid.\n"
                             + String.format("Please re-enter with a valid number ranging from 1 to %d\n", toDoTasks.size())
