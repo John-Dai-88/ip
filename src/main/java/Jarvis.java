@@ -1,8 +1,12 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Jarvis {
     // Declaring String variables for specific String messages
     private static String banner, borderLine, initialMsg, exitMsg, clipThatMsg;
+    // Declaring a List (of type String) to store user's inputs
+    private static List<String> toDoList = new ArrayList<String>();
 
     // Static void main(...) is the entry point function where the Java program begins execution
     public static void main(String[] args) {
@@ -53,13 +57,28 @@ public class Jarvis {
                 case "bye":
                     System.out.println(exitMsg);
                     break;
+
                 // Print a special response when detecting the phrase below
                 case "Jarvis, clip that":
                     System.out.println(clipThatMsg);
                     break;
-                // If no special phrase(s) or word(s) is entered. Echo user's input back in terminal
+
+                // Print and display a list of the user's previous input(s)
+                case "list":
+                    System.out.println("\nHere are the list of things you had wished to do earlier Sir\n");
+                    // For loop is to iterate through the toDoList and print out all the user's inputs
+                    for(int i=0; i<toDoList.size(); i++) {
+                        System.out.printf("%d. %s\n",i+1,toDoList.get(i));
+                    }
+                    System.out.println(borderLine);
+                    break;
+
+                // If no special phrase(s) or word(s) is entered.
+                // Echo user's input back in terminal and store them into the String List, toDoList
                 default:
-                    System.out.println(userInput+"\n"+borderLine);
+                    toDoList.add(userInput);
+                    System.out.printf("added: %s\n",userInput);
+                    System.out.println(borderLine);
             }
 
             // Checks if user inputs in 'bye' into the terminal
