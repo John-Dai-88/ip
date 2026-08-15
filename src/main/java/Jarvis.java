@@ -1,3 +1,6 @@
+import Exceptions.JarvisException;
+import Exceptions.IncompleteCommandException;
+import Exceptions.InvalidTaskNumberException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -55,50 +58,58 @@ public class Jarvis {
             // Reads and stores the user's input into a temp String variable
             String userInput = scanner.nextLine();
 
-            // Print a special response when the phrase below is detected
-            if(userInput.equals("Jarvis, clip that")) {
-                System.out.println(clipThatMsg);
+            // Processes the user's input and executes accordingly, based on the if loops below
+            try {
+                // Print a special response when the phrase below is detected
+                if(userInput.equals("Jarvis, clip that")) {
+                    System.out.println(clipThatMsg);
+                }
+
+                // Run list() when user input is "list"
+                else if(userInput.equals("list")) {
+                    list();
+                }
+
+                // Run markDone(...) when user input starts with "mark"
+                else if(userInput.startsWith("mark")) {
+                    markDoneOrUndone(userInput,"Done");
+                }
+
+                // Run markDoneOrUndone(...) when user input starts with "unmark"
+                else if(userInput.startsWith("unmark")) {
+                    markDoneOrUndone(userInput,"Undone");
+                }
+
+                // Run createToDoTask(...) when user input starts with "todo";
+                else if (userInput.startsWith("todo")) {
+                    createToDoTask(userInput);
+                }
+
+                // Run createDeadlineTask(...) when user input starts with "deadline"
+                else if (userInput.startsWith("deadline")) {
+                    createDeadlineTask(userInput);
+                }
+
+                // Run createEventTask(...) when user input starts with "event"
+                else if (userInput.startsWith("event")) {
+                    createEventTask(userInput);
+                }
+
+                // Prints exit message and exit the while loop, when 'bye' is detected
+                else if(userInput.equals("bye")) {
+                    System.out.println(exitMsg);
+                    break;
+                }
+
+                // If no valid command is inputted, print default unknown command message
+                else {
+                    System.out.println(unknownCMDMsg);
+                }
             }
 
-            // Run list() when user input is "list"
-            else if(userInput.equals("list")) {
-                list();
-            }
-
-            // Run markDone(...) when user input starts with "mark"
-            else if(userInput.startsWith("mark")) {
-                markDoneOrUndone(userInput,"Done");
-            }
-
-            // Run markDoneOrUndone(...) when user input starts with "unmark"
-            else if(userInput.startsWith("unmark")) {
-                markDoneOrUndone(userInput,"Undone");
-            }
-
-            // Run createToDoTask(...) when user input starts with "todo";
-            else if(userInput.startsWith("todo")) {
-                createToDoTask(userInput);
-            }
-
-            // Run createDeadlineTask(...) when user input starts with "deadline"
-            else if(userInput.startsWith("deadline")) {
-                createDeadlineTask(userInput);
-            }
-
-            // Run createEventTask(...) when user input starts with "event"
-            else if(userInput.startsWith("event")) {
-                createEventTask(userInput);
-            }
-
-            // Prints exit message and exit the while loop, when 'bye' is detected
-            else if(userInput.equals("bye")) {
-                System.out.println(exitMsg);
-                break;
-            }
-
-            // If no valid command is inputted, print default unknown command message
-            else {
-                System.out.println(unknownCMDMsg);
+            // Catches any JarvisException thrown while processing the user's input
+            catch (JarvisException error) {
+                System.err.println(error.getMessage());
             }
         }
     }
@@ -106,9 +117,29 @@ public class Jarvis {
 
 
     // Creates a new To_Do Task from user's input and stores them into the Task ArrayList, toDoTasks
-    public static void createToDoTask(String userInput) {
-        // Extract the task substring from user's string input
-        String task = userInput.substring(5).trim();
+    public static void createToDoTask(String userInput) throws JarvisException {
+        // Temp String variable to store task substring from user's input
+        String task;
+
+        try {
+            // Extract the task substring from user's string input
+            task = userInput.substring(5).trim();
+        }
+        catch (StringIndexOutOfBoundsException error) {
+            throw new IncompleteCommandException(
+                    "Error : Your command is missing certain parameters.\n"
+                    + "Please re-enter your command in the format : todo <Task>\n"
+                    + borderLine
+            );
+        }
+
+        if(task.isEmpty()) {
+            throw new IncompleteCommandException(
+                    "Error : Your command is missing certain parameters.\n"
+                    + "Please re-enter your command in the format : todo <Task>\n"
+                    + borderLine
+            );
+        }
 
         // Creates a new todo task instance from text extracted from user's input
         ToDo newToDoTask = new ToDo(task);
