@@ -75,6 +75,11 @@ public class Jarvis {
                 createToDoTask(userInput);
             }
 
+            // Run createDeadlineTask(...) when user input starts with "deadline"
+            else if(userInput.startsWith("deadline")) {
+                createDeadlineTask(userInput);
+            }
+
             // Prints exit message and exit the while loop, when 'bye' is detected
             else if(userInput.equals("bye")) {
                 System.out.println(exitMsg);
@@ -115,6 +120,23 @@ public class Jarvis {
                 + "Please do note Sir/Ma' am, that you now currently have %d task(s) awaiting you \n"
                 + borderLine, toDoTasks.size());
     }
+
+
+    // Creates a new deadline task from user's input and stores them into the Task ArrayList, toDoTasks
+    public static void createDeadlineTask(String userInput) {
+        int positionOfBy = userInput.indexOf("/by");
+        String deadline = userInput.substring(positionOfBy + 4);
+        String task = userInput.substring(9, positionOfBy).trim();
+
+        Deadline newDeadlineTask = new Deadline(task,deadline);
+        toDoTasks.add(newDeadlineTask);
+
+        System.out.printf("Very well Sir/Ma' am, I have added the following task below : \n"
+                + newDeadlineTask.toString()+"\n"
+                + "Please do note Sir/Ma' am, that you now currently have %d task(s) awaiting you \n"
+                + borderLine, toDoTasks.size());
+    }
+
 
 
     // Print and display a list of the user's previous inputted tasks, their category and status
