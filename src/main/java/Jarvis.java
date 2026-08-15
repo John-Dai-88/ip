@@ -96,6 +96,11 @@ public class Jarvis {
                     createEventTask(userInput);
                 }
 
+                // Run deleteTask(...) when user input starts with "delete"
+                else if (userInput.startsWith("delete")) {
+                    deleteTask(userInput);
+                }
+
                 // Prints exit message and exit the while loop, when 'bye' is detected
                 else if(userInput.equals("bye")) {
                     System.out.println(exitMsg);
@@ -269,7 +274,7 @@ public class Jarvis {
     // Print and display a list of the user's previous inputted tasks, their category and status
     public static void listAllTasks() {
         System.out.println("\nHere are the list of things you had wished to do earlier Sir/Ma' am\n");
-        // For loop is to iterate through the toDoTasks and print out all tasks
+        // For loop is to iterate through the toDoTasks and print out all the tasks
         for(int i = 0; i< toDoTasks.size(); i++) {
             System.out.printf("%d. %s\n",i+1, toDoTasks.get(i).toString());
         }
@@ -315,14 +320,14 @@ public class Jarvis {
             );
         }
 
-        // Modify the number to match its corresponding index number in toDoTasks
+        // Modify the task number to match its corresponding index number in toDoTasks
         int toDoListIndexNo = taskNumber - 1;
 
         if(completionStatus.equals("Done")) {
             // Set done status of user selected task to be true
             toDoTasks.get(toDoListIndexNo).markAsDone();
 
-            // Print message that the user selected task has been marked done and display the task's status
+            // Print statement showing the user selected task has been marked done and display the task's status
             System.out.println("\nVery well Sir/Ma' am, I have marked the following task as done : \n"
                     + toDoTasks.get(toDoListIndexNo).toString()+"\n"
                     +borderLine);
@@ -332,10 +337,30 @@ public class Jarvis {
             // Set done status of user selected task to be false
             toDoTasks.get(toDoListIndexNo).markAsUndone();
 
-            // Print message that the user selected task has been marked undone and display the task's status
+            // Print statement showing the user selected task has been marked undone and display the task's status
             System.out.println("\nVery well Sir/Ma' am, I have marked the following task as undone : \n"
                     + toDoTasks.get(toDoListIndexNo).toString()+"\n"
-                    +borderLine);
+                    + borderLine);
         }
+    }
+
+    public static void deleteTask(String userInput) throws JarvisException{
+        // Splits the user input's into two separate strings and store them in an array
+        String[] splitUserInput = userInput.split(" ");
+        // Acquire task number inputted by user
+        int taskNumber = Integer.parseInt(splitUserInput[1]);
+
+        // Modify the task number to match its corresponding index number in toDoTasks
+        int toDoListIndexNo = taskNumber - 1;
+
+        // Print statement showing the user selected task has been deleted
+        // and display the deleted task one more time
+        System.out.printf("\nVery good Sir/Ma' am, I have removed the following task from your list of tasks-to-do : \n"
+                + toDoTasks.get(toDoListIndexNo).toString()+"\n"
+                + "Please do note Sir/Ma' am, now you have %d task(s) awaiting you \n"
+                + borderLine, toDoTasks.size() - 1);
+
+        // Delete the corresponding task in the toDoTasks array list
+        toDoTasks.remove(toDoListIndexNo);
     }
 }
