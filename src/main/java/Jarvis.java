@@ -114,12 +114,12 @@ public class Jarvis {
 
     // Creates a new To_Do Task from user's input and stores them into the Task ArrayList, toDoTasks
     public static void createToDoTask(String userInput) {
-        //
+        // Extract the task substring from user's string input
         String task = userInput.substring(5).trim();
 
-        // Creates a new task instance using user input
+        // Creates a new todo task instance from text extracted from user's input
         ToDo newToDoTask = new ToDo(task);
-        // Store the newly created task instance into toDoTasks
+        // Store the newly created todo task instance into toDoTasks
         toDoTasks.add(newToDoTask);
         // Print statement to show that user's input has been added
         System.out.printf("Very well Sir/Ma' am, I have added the following task below : \n"
@@ -132,13 +132,18 @@ public class Jarvis {
 
     // Creates a new deadline task from user's input and stores them into the Task ArrayList, toDoTasks
     public static void createDeadlineTask(String userInput) {
+        // Extract starting index position of text "/by" in user's string input
         int positionOfBy = userInput.indexOf("/by");
+        // Extract the deadline substring from user's string input
         String deadline = userInput.substring(positionOfBy + 4);
+        // Extract the task substring from user's string input
         String task = userInput.substring(9, positionOfBy).trim();
 
+        // Create a new deadline task from texts extracted from user's input
         Deadline newDeadlineTask = new Deadline(task,deadline);
+        // Store the newly created deadline task instance into toDoTasks
         toDoTasks.add(newDeadlineTask);
-
+        // Print statement to show that user's input has been added
         System.out.printf("Very well Sir/Ma' am, I have added the following task below : \n"
                 + newDeadlineTask.toString()+"\n"
                 + "Please do note Sir/Ma' am, that you now currently have %d task(s) awaiting you \n"
@@ -149,16 +154,23 @@ public class Jarvis {
 
     // Creates a new event task from user's input and stores them into the Task ArrayList, toDoTasks
     public static void createEventTask(String userInput) {
+        // Extract starting index position of "/from" from user's input
         int positionOfFrom = userInput.indexOf("/from");
+        // Extract starting index position of "/to " from user's input
         int positionOfTo = userInput.indexOf("/to");
 
+        // Extract the start date and time substring from user's string input
         String startDAT = userInput.substring(positionOfFrom + 6, positionOfTo);
+        // Extract the end date and time substring from user's string input
         String endDAT = userInput.substring(positionOfTo + 4);
+        // Extract the task substring from user's string input
         String task = userInput.substring(6, positionOfFrom).trim();
 
+        // Create a new event task from texts extracted from user's input
         Event newEventTask = new Event(task,startDAT,endDAT);
+        // Store the newly created event task instance into toDoTasks
         toDoTasks.add(newEventTask);
-
+        // Print statement to show that user's input has been added
         System.out.printf("Very well Sir/Ma' am, I have added the following task below : \n"
                 + newEventTask.toString()+"\n"
                 + "Please do note Sir/Ma' am, that you now currently have %d task(s) awaiting you \n"
