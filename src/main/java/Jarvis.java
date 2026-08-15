@@ -347,8 +347,35 @@ public class Jarvis {
     public static void deleteTask(String userInput) throws JarvisException{
         // Splits the user input's into two separate strings and store them in an array
         String[] splitUserInput = userInput.split(" ");
-        // Acquire task number inputted by user
-        int taskNumber = Integer.parseInt(splitUserInput[1]);
+        // int variable to store task number inputted by user
+        int taskNumber;
+
+        // Attempt to acquire task number from user's string input
+        try {
+            // Acquire task number inputted by user
+            taskNumber = Integer.parseInt(splitUserInput[1]);
+        }
+
+        // Catches errors resulting from incomplete user command input
+        catch (ArrayIndexOutOfBoundsException error) {
+            // Throws an incomplete command error
+            throw new IncompleteCommandException(
+                    "Error : Your command is missing certain parameters.\n"
+                            + " Please re-enter your command in the format : delete <Task Number>\n"
+                            + borderLine
+            );
+        }
+
+        // Checks if task number extracted from user's input is outside the valid range
+        // If yes, throw an invalid task number error
+        if(taskNumber < 1 || taskNumber > toDoTasks.size()) {
+            // Throws an invalid task number error
+            throw new InvalidTaskNumberException(
+                    "Error : The task number you inputted is invalid.\n"
+                            + String.format("Please re-enter with a valid number ranging from 1 to %d\n", toDoTasks.size())
+                            + borderLine
+            );
+        }
 
         // Modify the task number to match its corresponding index number in toDoTasks
         int toDoListIndexNo = taskNumber - 1;
