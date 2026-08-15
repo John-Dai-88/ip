@@ -1,3 +1,4 @@
+import Exceptions.InvalidDeadlineException;
 import Exceptions.JarvisException;
 import Exceptions.IncompleteCommandException;
 import Exceptions.InvalidTaskNumberException;
@@ -126,6 +127,7 @@ public class Jarvis {
             // Extracts the task substring from user's string input
             task = userInput.substring(5).trim();
         }
+
         // Catches errors resulting from incomplete user command input
         catch (StringIndexOutOfBoundsException error) {
             // Throw an incomplete command error
@@ -160,13 +162,41 @@ public class Jarvis {
 
 
     // Creates a new deadline task from user's input and stores them into the Task ArrayList, toDoTasks
-    public static void createDeadlineTask(String userInput) {
-        // Extract starting index position of text "/by" in user's string input
-        int positionOfBy = userInput.indexOf("/by");
-        // Extract the deadline substring from user's string input
-        String deadline = userInput.substring(positionOfBy + 4);
-        // Extract the task substring from user's string input
-        String task = userInput.substring(9, positionOfBy).trim();
+    public static void createDeadlineTask(String userInput) throws JarvisException{
+        // int variable to store starting index position of "/by" in user's input
+        int positionOfBy;
+        // String variables to store the extracted deadline and task from user's input
+        String deadline, task;
+
+        // Attempt to acquire task and deadline from user's string input
+        try {
+            // Extract starting index position of text "/by" in user's string input
+            positionOfBy = userInput.indexOf("/by");
+            // Extract the deadline substring from user's string input
+            deadline = userInput.substring(positionOfBy + 4).trim();
+            // Extract the task substring from user's string input
+            task = userInput.substring(9, positionOfBy).trim();
+        }
+
+        // Catches errors resulting from incomplete user command input
+        catch (StringIndexOutOfBoundsException error){
+            // Throws an incomplete command error
+            throw new IncompleteCommandException(
+                    "Error : Your command is missing certain parameters.\n"
+                    + "Please re-enter your command in the format : deadline <Task> /by <deadline>\n"
+                    + borderLine
+                    );
+        }
+
+        // Checks if deadline provided is empty. If yes, throw an error
+        if(deadline.trim().isEmpty()) {
+            // Throws an invalid deadline error
+            throw new InvalidDeadlineException(
+                    "Error : Your command is missing a deadline.\n"
+                    + "Please re-enter your command in the format : deadline <Task> /by <deadline>\n"
+                    + borderLine
+            );
+        }
 
         // Create a new deadline task from texts extracted from user's input
         Deadline newDeadlineTask = new Deadline(task,deadline);
@@ -233,6 +263,7 @@ public class Jarvis {
             // Acquire task number inputted by user
             taskNumber = Integer.parseInt(splitUserInput[1]);
         }
+
         // Catches errors resulting from incomplete user command input
         catch (ArrayIndexOutOfBoundsException error) {
             // Throws an incomplete command error
