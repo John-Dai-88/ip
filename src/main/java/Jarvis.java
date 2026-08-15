@@ -67,7 +67,7 @@ public class Jarvis {
 
                 // Run list() when user input is "list"
                 else if(userInput.equals("list")) {
-                    list();
+                    listAllTasks();
                 }
 
                 // Run markDone(...) when user input starts with "mark"
@@ -209,7 +209,7 @@ public class Jarvis {
 
 
     // Print and display a list of the user's previous inputted tasks, their category and status
-    public static void list() {
+    public static void listAllTasks() {
         System.out.println("\nHere are the list of things you had wished to do earlier Sir/Ma' am\n");
         // For loop is to iterate through the toDoTasks and print out all tasks
         for(int i = 0; i< toDoTasks.size(); i++) {
