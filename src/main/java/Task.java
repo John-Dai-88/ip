@@ -29,10 +29,10 @@ public class Task {
         // Checks if task is done, if so print status of task with [X]
         // Else print status of task with []
         if(completedStatus) {
-            return "[X] "+this.taskName+"\n";
+            return "[X] "+this.taskName;
         }
         else {
-            return "[] "+this.taskName+"\n";
+            return "[] "+this.taskName;
         }
     }
 }
