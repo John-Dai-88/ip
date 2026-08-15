@@ -50,41 +50,34 @@ public class Jarvis {
             // Reads and stores the user's input into a temp String variable
             String userInput = scanner.nextLine();
 
-            // Switch case provides special responses when special phrase(s) or word(s) are detected
-            // otherwise it echo the user's input back to them
-            switch(userInput) {
-                // Prints exit message when user keys in 'bye'
-                case "bye":
-                    System.out.println(exitMsg);
-                    break;
+            // Print a special response when detecting the phrase below
+            if(userInput.equals("Jarvis, clip that")) {
+                System.out.println(clipThatMsg);
+            }
 
-                // Print a special response when detecting the phrase below
-                case "Jarvis, clip that":
-                    System.out.println(clipThatMsg);
-                    break;
-
-                // Print and display a list of the user's previous input(s)
-                case "list":
-                    System.out.println("\nHere are the list of things you had wished to do earlier Sir\n");
-                    // For loop is to iterate through the toDoList and print out all the user's inputs
-                    for(int i=0; i<toDoList.size(); i++) {
-                        System.out.printf("%d. %s\n",i+1,toDoList.get(i));
-                    }
-                    System.out.println(borderLine);
-                    break;
-
-                // If no special phrase(s) or word(s) is entered.
-                // Echo user's input back in terminal and store them into the String List, toDoList
-                default:
-                    toDoList.add(userInput);
-                    System.out.printf("added: %s\n",userInput);
-                    System.out.println(borderLine);
+            // Print and display a list of the user's previous input(s)
+            else if(userInput.equals("list")) {
+                System.out.println("\nHere are the list of things you had wished to do earlier Sir\n");
+                // For loop is to iterate through the toDoList and print out all the user's inputs
+                for(int i=0; i<toDoList.size(); i++) {
+                    System.out.printf("%d. %s\n",i+1,toDoList.get(i));
+                }
+                System.out.println(borderLine);
             }
 
             // Checks if user inputs in 'bye' into the terminal
-            // If yes, exit the while loop and exits the program
-            if(userInput.equals("bye")) {
+            // If yes, prints exit message, exit the while loop
+            else if(userInput.equals("bye")) {
+                System.out.println(exitMsg);
                 break;
+            }
+
+            // If no special phrase(s) or word(s) is entered.
+            // Echo user's input back in terminal and store them into the String List, toDoList
+            else {
+                toDoList.add(userInput);
+                System.out.printf("added: %s\n",userInput);
+                System.out.println(borderLine);
             }
         }
     }
