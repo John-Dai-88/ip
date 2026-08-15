@@ -1,4 +1,4 @@
-import Exceptions.InvalidDeadlineException;
+import Exceptions.InvalidDateAndTimeException;
 import Exceptions.JarvisException;
 import Exceptions.IncompleteCommandException;
 import Exceptions.InvalidTaskNumberException;
@@ -191,7 +191,7 @@ public class Jarvis {
         // Checks if deadline provided is empty. If yes, throw an error
         if(deadline.trim().isEmpty()) {
             // Throws an invalid deadline error
-            throw new InvalidDeadlineException(
+            throw new InvalidDateAndTimeException(
                     "Error : Your command is missing a deadline.\n"
                     + "Please re-enter your command in the format : deadline <Task> /by <deadline>\n"
                     + borderLine
@@ -212,18 +212,46 @@ public class Jarvis {
 
 
     // Creates a new event task from user's input and stores them into the Task ArrayList, toDoTasks
-    public static void createEventTask(String userInput) {
-        // Extract starting index position of "/from" from user's input
-        int positionOfFrom = userInput.indexOf("/from");
-        // Extract starting index position of "/to " from user's input
-        int positionOfTo = userInput.indexOf("/to");
+    public static void createEventTask(String userInput) throws JarvisException{
+        // int variables to store the starting index position of "/from" and "/to" from user's input
+        int positionOfFrom, positionOfTo;
+        // String variables to store the start, end date & time (DAT) and task from user's input
+        String startDAT, endDAT, task;
 
-        // Extract the start date and time substring from user's string input
-        String startDAT = userInput.substring(positionOfFrom + 6, positionOfTo);
-        // Extract the end date and time substring from user's string input
-        String endDAT = userInput.substring(positionOfTo + 4);
-        // Extract the task substring from user's string input
-        String task = userInput.substring(6, positionOfFrom).trim();
+        // Attempt to acquire start, end DAT and task from user's string input
+        try {
+            // Extract starting index position of "/from" from user's input
+            positionOfFrom = userInput.indexOf("/from");
+            // Extract starting index position of "/to " from user's input
+            positionOfTo = userInput.indexOf("/to");
+
+            // Extract the start date and time substring from user's string input
+            startDAT = userInput.substring(positionOfFrom + 6, positionOfTo);
+            // Extract the end date and time substring from user's string input
+            endDAT = userInput.substring(positionOfTo + 4);
+            // Extract the task substring from user's string input
+            task = userInput.substring(6, positionOfFrom).trim();
+        }
+
+        // Catches errors resulting from incomplete user command input
+        catch(StringIndexOutOfBoundsException error) {
+            // Throw an incomplete command error
+            throw new IncompleteCommandException(
+                    "Error : Your command is missing certain parameters.\n"
+                    + "Please re-enter your command in the format : event <Task> /from <startDAT> /to <endDAT>\n"
+                    + borderLine
+            );
+        }
+
+        // Checks if startDAT and/or endDAT string is empty. If yes, throw an error
+        if(startDAT.trim().isEmpty() || endDAT.trim().isEmpty()) {
+            // Throw an invalid date and time error
+            throw new InvalidDateAndTimeException(
+                    "Error : Your command is missing a startDAT and/or an endDAT.\n"
+                    + "Please re-enter your command in the format : event <Task> /from <startDAT> /to <endDAT>\n"
+                    + borderLine
+            );
+        }
 
         // Create a new event task from texts extracted from user's input
         Event newEventTask = new Event(task,startDAT,endDAT);
