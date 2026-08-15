@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Jarvis {
     // Declaring String variables for specific String messages
-    private static String banner, borderLine, initialMsg, exitMsg, clipThatMsg;
+    private static String banner, borderLine, initialMsg, exitMsg, clipThatMsg, unknownCMDMsg;
     // Declaring an ArrayList to store Tasks
     private static List<Task> toDoTasks = new ArrayList<Task>();
 
@@ -24,7 +24,7 @@ public class Jarvis {
                 + " ╚════╝ ╚═╝  ╚═╝╚═╝  ╚═╝  ╚═══╝  ╚═╝╚══════╝\n";
 
         // String message that creates a border
-        borderLine = "---------------------------------------------------------\n";
+        borderLine = "---------------------------------------------------------------------\n";
 
         // Preset String message to greet the user when program is first executed
         initialMsg = borderLine
@@ -40,6 +40,11 @@ public class Jarvis {
         // Preset String message in reference to a famous Jarvis meme
         clipThatMsg = "Clipped and Ready to ship Sir\n"
                     + borderLine;
+
+        // Preset String message in response to any unknown commands that user inputs
+        unknownCMDMsg = "Apologies Sir/Ma' am.\n"
+                      + "I do not understand your command, please retry with a valid command\n"
+                      + borderLine;
 
         // Print the greeting message when program is first run
         System.out.println(initialMsg);
@@ -91,23 +96,11 @@ public class Jarvis {
                 break;
             }
 
-            // If no special phrase(s) or word(s) is entered, run echo(...)
+            // If no valid command is inputted, print default unknown command message
             else {
-                echo(userInput);
+                System.out.println(unknownCMDMsg);
             }
         }
-    }
-
-
-
-    // Echo user's input back in terminal and store them into the Task ArrayList, toDoTasks
-    public static void echo(String userInput) {
-        // Creates a new task instance using user input
-        Task newTask = new Task(userInput);
-        // Store the newly created task instance into toDoTasks
-        toDoTasks.add(newTask);
-        // Print statement to show that user's input has been added
-        System.out.printf("added: %s\n" + borderLine,userInput);
     }
 
 
