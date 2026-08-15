@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class Jarvis {
     // Declaring String variables for specific String messages
     private static String banner, borderLine, initialMsg, exitMsg, clipThatMsg;
-    // Declaring a List (of type String) to store user's inputs
+    // Declaring a List to store Tasks
     private static List<Task> toDoTasks = new ArrayList<Task>();
 
     // Static void main(...) is the entry point function where the Java program begins execution
@@ -55,52 +55,19 @@ public class Jarvis {
                 System.out.println(clipThatMsg);
             }
 
-            // Print and display a list of the user's previous input(s) when "list" is detected
+            // Run list() when "list" is detected
             else if(userInput.equals("list")) {
-                System.out.println("\nHere are the list of things you had wished to do earlier Sir\n");
-                // For loop is to iterate through the toDoTasks and print out all the user's inputs
-                for(int i = 0; i< toDoTasks.size(); i++) {
-                    System.out.printf("%d. %s",i+1, toDoTasks.get(i).toString());
-                }
-                System.out.println(borderLine);
+                list();
             }
 
-            // Marks the corresponding task in the toDoTasks List as being done and reprint its
-            // status for the user when input starting with "mark" is detected
+            // Run markDone(...) when user input starts with "mark"
             else if(userInput.startsWith("mark")) {
-                // Splits the user input's into two separate strings and store them in an array
-                String[] splitUserInput = userInput.split(" ");
-                // Acquire task number inputted by user
-                int taskNumber = Integer.parseInt(splitUserInput[1]);
-                // Modify the number to match its corresponding index number in toDoTasks
-                int toDoListindexNo = taskNumber - 1;
-
-                // Set marked/done status of user selected task to be true
-                toDoTasks.get(toDoListindexNo).markAsDone();
-
-                // Print message that the user selected task has been marked done and display the task's status
-                System.out.println("\nVery well Sir/Ma' am, I have marked the following task as done : \n"
-                        + toDoTasks.get(toDoListindexNo).toString()
-                        +borderLine);
+                markDone(userInput);
             }
 
-            // Unmarks the corresponding task in the toDoTasks List as being done and reprint its
-            // status for the user when input starting with "unmark" is detected
+            // Run markUndone(...) when user input starts with "unmark"
             else if(userInput.startsWith("unmark")) {
-                // Splits the user input's into two separate strings and store them in an array
-                String[] splitUserInput = userInput.split(" ");
-                // Acquire task number inputted by user
-                int taskNumber = Integer.parseInt(splitUserInput[1]);
-                // Modify the number to match its corresponding index number in toDoTasks
-                int toDoListindexNo = taskNumber - 1;
-
-                // Set marked/done status of user selected task to be false
-                toDoTasks.get(toDoListindexNo).markAsUndone();
-
-                // Print message that the user selected task has been marked undone and display the task's status
-                System.out.println("\nVery well Sir/Ma' am, I have marked the following task as undone : \n"
-                        + toDoTasks.get(toDoListindexNo)
-                        +borderLine);
+                markUndone(userInput);
             }
 
             // Prints exit message and exit the while loop, when 'bye' is detected
@@ -109,14 +76,68 @@ public class Jarvis {
                 break;
             }
 
-            // If no special phrase(s) or word(s) is entered.
-            // Echo user's input back in terminal and store them into the String List, toDoTasks
+            // If no special phrase(s) or word(s) is entered, run echo(...)
             else {
-                Task newTask = new Task(userInput);
-                toDoTasks.add(newTask);
-                System.out.printf("added: %s\n",userInput);
-                System.out.println(borderLine);
+                echo(userInput);
             }
         }
+    }
+
+    // Echo user's input back in terminal and store them into the Task List, toDoTasks
+    public static void echo(String userInput) {
+        // Creates a new task instance using user input
+        Task newTask = new Task(userInput);
+        // Store the newly created task instance into toDoTasks
+        toDoTasks.add(newTask);
+        // Print statement to show that user's input has been added
+        System.out.printf("added: %s\n" + borderLine,userInput);
+    }
+
+    // Print and display a list of the user's previous input(s) as tasks and their status
+    public static void list() {
+        System.out.println("\nHere are the list of things you had wished to do earlier Sir\n");
+        // For loop is to iterate through the toDoTasks and print out all tasks
+        for(int i = 0; i< toDoTasks.size(); i++) {
+            System.out.printf("%d. %s",i+1, toDoTasks.get(i).toString());
+        }
+        System.out.println(borderLine);
+    }
+
+    // Marks the corresponding task in the toDoTasks List as being done and reprint its
+    // status for the user
+    public static void markDone(String userInput) {
+        // Splits the user input's into two separate strings and store them in an array
+        String[] splitUserInput = userInput.split(" ");
+        // Acquire task number inputted by user
+        int taskNumber = Integer.parseInt(splitUserInput[1]);
+        // Modify the number to match its corresponding index number in toDoTasks
+        int toDoListindexNo = taskNumber - 1;
+
+        // Set done status of user selected task to be true
+        toDoTasks.get(toDoListindexNo).markAsDone();
+
+        // Print message that the user selected task has been marked done and display the task's status
+        System.out.println("\nVery well Sir/Ma' am, I have marked the following task as done : \n"
+                + toDoTasks.get(toDoListindexNo).toString()
+                +borderLine);
+    }
+
+    // Unmarks the corresponding task in the toDoTasks List as being done and reprint its
+    // status for the user
+    public static void markUndone(String userInput) {
+        // Splits the user input's into two separate strings and store them in an array
+        String[] splitUserInput = userInput.split(" ");
+        // Acquire task number inputted by user
+        int taskNumber = Integer.parseInt(splitUserInput[1]);
+        // Modify the number to match its corresponding index number in toDoTasks
+        int toDoListindexNo = taskNumber - 1;
+
+        // Set done status of user selected task to be false
+        toDoTasks.get(toDoListindexNo).markAsUndone();
+
+        // Print message that the user selected task has been marked undone and display the task's status
+        System.out.println("\nVery well Sir/Ma' am, I have marked the following task as undone : \n"
+                + toDoTasks.get(toDoListindexNo)
+                +borderLine);
     }
 }
