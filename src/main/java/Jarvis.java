@@ -6,7 +6,7 @@ public class Jarvis {
     // Declaring String variables for specific String messages
     private static String banner, borderLine, initialMsg, exitMsg, clipThatMsg;
     // Declaring a List (of type String) to store user's inputs
-    private static List<String> toDoTasks = new ArrayList<String>();
+    private static List<Task> toDoTasks = new ArrayList<Task>();
 
     // Static void main(...) is the entry point function where the Java program begins execution
     public static void main(String[] args) {
@@ -60,7 +60,7 @@ public class Jarvis {
                 System.out.println("\nHere are the list of things you had wished to do earlier Sir\n");
                 // For loop is to iterate through the toDoTasks and print out all the user's inputs
                 for(int i = 0; i< toDoTasks.size(); i++) {
-                    System.out.printf("%d. %s\n",i+1, toDoTasks.get(i));
+                    System.out.printf("%d. %s",i+1, toDoTasks.get(i).toString());
                 }
                 System.out.println(borderLine);
             }
@@ -75,16 +75,13 @@ public class Jarvis {
                 // Modify the number to match its corresponding index number in toDoTasks
                 int toDoListindexNo = taskNumber - 1;
 
-                // Acquire the current stored String at toDoTasks
-                String taskToBeMarked = toDoTasks.get(toDoListindexNo);
-                // Replace the status of the user selected task
-                taskToBeMarked = taskToBeMarked.replace("[]","[X]");
-                // Store the updated task into the toDoTask list at the corresponding index position
-                toDoTasks.set(toDoListindexNo, taskToBeMarked);
+                // Set marked/done status of user selected task to be true
+                toDoTasks.get(toDoListindexNo).markAsDone();
 
                 // Print message that the user selected task has been marked done and display the task's status
                 System.out.println("\nVery well Sir/Ma' am, I have marked the following task as done : \n"
-                        + toDoTasks.get(toDoListindexNo)+"\n"+borderLine);
+                        + toDoTasks.get(toDoListindexNo).toString()
+                        +borderLine);
             }
 
             // Unmarks the corresponding task in the toDoTasks List as being done and reprint its
@@ -97,17 +94,13 @@ public class Jarvis {
                 // Modify the number to match its corresponding index number in toDoTasks
                 int toDoListindexNo = taskNumber - 1;
 
-                // Acquire the current stored String at toDoTasks
-                String taskToBeMarked = toDoTasks.get(toDoListindexNo);
-                // Replace the status of the user selected task
-                taskToBeMarked = taskToBeMarked.replace("[X]","[]");
-                // Store the updated task into the toDoTask list at the corresponding index position
-                toDoTasks.set(toDoListindexNo, taskToBeMarked);
+                // Set marked/done status of user selected task to be false
+                toDoTasks.get(toDoListindexNo).markAsUndone();
 
                 // Print message that the user selected task has been marked undone and display the task's status
                 System.out.println("\nVery well Sir/Ma' am, I have marked the following task as undone : \n"
-                        + toDoTasks.get(toDoListindexNo)+"\n"+borderLine);
-
+                        + toDoTasks.get(toDoListindexNo)
+                        +borderLine);
             }
 
             // Prints exit message and exit the while loop, when 'bye' is detected
@@ -119,7 +112,8 @@ public class Jarvis {
             // If no special phrase(s) or word(s) is entered.
             // Echo user's input back in terminal and store them into the String List, toDoTasks
             else {
-                toDoTasks.add("[] "+userInput);
+                Task newTask = new Task(userInput);
+                toDoTasks.add(newTask);
                 System.out.printf("added: %s\n",userInput);
                 System.out.println(borderLine);
             }
