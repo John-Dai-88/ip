@@ -80,6 +80,11 @@ public class Jarvis {
                 createDeadlineTask(userInput);
             }
 
+            // Run createEventTask(...) when user input starts with "event"
+            else if(userInput.startsWith("event")) {
+                createEventTask(userInput);
+            }
+
             // Prints exit message and exit the while loop, when 'bye' is detected
             else if(userInput.equals("bye")) {
                 System.out.println(exitMsg);
@@ -94,6 +99,7 @@ public class Jarvis {
     }
 
 
+
     // Echo user's input back in terminal and store them into the Task ArrayList, toDoTasks
     public static void echo(String userInput) {
         // Creates a new task instance using user input
@@ -103,6 +109,7 @@ public class Jarvis {
         // Print statement to show that user's input has been added
         System.out.printf("added: %s\n" + borderLine,userInput);
     }
+
 
 
     // Creates a new To_Do Task from user's input and stores them into the Task ArrayList, toDoTasks
@@ -122,6 +129,7 @@ public class Jarvis {
     }
 
 
+
     // Creates a new deadline task from user's input and stores them into the Task ArrayList, toDoTasks
     public static void createDeadlineTask(String userInput) {
         int positionOfBy = userInput.indexOf("/by");
@@ -139,6 +147,26 @@ public class Jarvis {
 
 
 
+    // Creates a new event task from user's input and stores them into the Task ArrayList, toDoTasks
+    public static void createEventTask(String userInput) {
+        int positionOfFrom = userInput.indexOf("/from");
+        int positionOfTo = userInput.indexOf("/to");
+
+        String startDAT = userInput.substring(positionOfFrom + 6, positionOfTo);
+        String endDAT = userInput.substring(positionOfTo + 4);
+        String task = userInput.substring(6, positionOfFrom).trim();
+
+        Event newEventTask = new Event(task,startDAT,endDAT);
+        toDoTasks.add(newEventTask);
+
+        System.out.printf("Very well Sir/Ma' am, I have added the following task below : \n"
+                + newEventTask.toString()+"\n"
+                + "Please do note Sir/Ma' am, that you now currently have %d task(s) awaiting you \n"
+                + borderLine, toDoTasks.size());
+    }
+
+
+
     // Print and display a list of the user's previous inputted tasks, their category and status
     public static void list() {
         System.out.println("\nHere are the list of things you had wished to do earlier Sir/Ma' am\n");
@@ -148,6 +176,7 @@ public class Jarvis {
         }
         System.out.println(borderLine);
     }
+
 
 
     // Marks/Unmarks the corresponding task in the toDoTasks ArrayList as being done and reprint its
