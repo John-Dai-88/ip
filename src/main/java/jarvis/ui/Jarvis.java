@@ -1,89 +1,45 @@
 package jarvis.ui;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-
 import jarvis.classes.Deadline;
 import jarvis.classes.Event;
 import jarvis.classes.Task;
 import jarvis.classes.ToDo;
 
-import jarvis.storage.Storage;
-
 import jarvis.exceptions.IncompleteCommandException;
 import jarvis.exceptions.InvalidDateAndTimeException;
 import jarvis.exceptions.InvalidTaskNumberException;
 import jarvis.exceptions.JarvisException;
+import jarvis.storage.Storage;
 
-/** Runs the jarvis.Jarvis chatbot and processes task-management commands. */
+/** Runs the Jarvis chatbot and processes task-management commands. */
 public class Jarvis {
-    // Declaring String variables for specific String messages
-    private static String banner, borderLine, initialMessage, exitMessage, clipThatMessage,
-            unknownCommandMessage;
-    // Declaring an ArrayList to store Tasks
-    private static List<Task> toDoTasks = new ArrayList<>();
+    private static final String BORDER_LINE = "---------------------------------------------------------------------\n";
+    private static final UI ui = new UI();
+    private static TaskList taskList;
 
     /** Starts the chatbot and reads commands until the user enters {@code bye}. */
     public static void main(String[] args) {
 
-        // Creates a new Scanner instance to allow program to read user input from the terminal
-        Scanner scanner = new Scanner(System.in);
-
         // Load previously saved tasks from the hard disk
-        toDoTasks = Storage.loadTasks();
-
-        // String banner art of jarvis.Jarvis
-        banner =
-                          "     ██╗ █████╗ ██████╗ ██╗   ██╗██╗███████╗\n"
-                        + "     ██║██╔══██╗██╔══██╗██║   ██║██║██╔════╝\n"
-                        + "     ██║███████║██████╔╝██║   ██║██║███████╗\n"
-                        + "██   ██║██╔══██║██╔══██╗╚██╗ ██╔╝██║╚════██║\n"
-                        + "╚█████╔╝██║  ██║██║  ██║ ╚████╔╝ ██║███████║\n"
-                        + " ╚════╝ ╚═╝  ╚═╝╚═╝  ╚═╝  ╚═══╝  ╚═╝╚══════╝\n";
-
-        // String message that creates a border
-        borderLine = "---------------------------------------------------------------------\n";
-
-        // Preset String message to greet the user when program is first executed
-        initialMessage = borderLine
-                + banner
-                + "Good day Sir/Ma' am, I am jarvis.Jarvis, your friendly AI assistant\n"
-                + "How may I be of service to you today ?\n"
-                + borderLine;
-
-        // Preset String message to say goodbye to the user when 'bye' is inputted into terminal
-        exitMessage = "Goodbye Sir/Ma' am. I hope to be of service to you again next time\n"
-                + borderLine;
-
-        // Preset String message in reference to a famous jarvis.Jarvis meme
-        clipThatMessage = "Clipped and Ready to ship Sir\n"
-                + borderLine;
-
-        // Preset String message in response to any unknown commands that user inputs
-        unknownCommandMessage = "Apologies Sir/Ma' am.\n"
-                + "I do not understand your command, please retry with a valid command\n"
-                + borderLine;
-
-        // Print the greeting message when program is first run
-        System.out.println(initialMessage);
+        taskList = new TaskList(Storage.loadTasks());
+        ui.showWelcome();
 
         // Purpose : To read user's terminal input and respond accordingly
         // While() is used as program is to run indefinitely until user quits it via entering 'bye'
         while (true) {
             // Reads and stores the user's input into a temp String variable
-            String userInput = scanner.nextLine();
+            String userInput = ui.readCommand();
 
             // Processes the user's input and executes accordingly, based on the if loops below
             try {
                 // Print a special response when the phrase below is detected
-                if (userInput.equals("jarvis.Jarvis, clip that")) {
-                    System.out.println(clipThatMessage);
+                if (userInput.equals("Jarvis, clip that")) {
+                    ui.showClipThat();
                 }
 
                 // Run list() when user input is "list"
                 else if (userInput.equals("list")) {
-                    listAllTasks();
+                    ui.listAllTasks(taskList.getTasks());
                 }
 
                 // Run markDone(...) when user input starts with "mark"
@@ -118,19 +74,19 @@ public class Jarvis {
 
                 // Prints exit message and exit the while loop, when 'bye' is detected
                 else if (userInput.equals("bye")) {
-                    System.out.println(exitMessage);
+                    ui.sayGoodbye();
                     break;
                 }
 
                 // If no valid command is inputted, print default unknown command message
                 else {
-                    System.out.println(unknownCommandMessage);
+                    ui.showUnknownCommand();
                 }
             }
 
             // Catches any JarvisException thrown while processing the user's input
             catch (JarvisException error) {
-                System.err.println(error.getMessage());
+                ui.showError(error.getMessage());
             }
         }
     }
@@ -157,7 +113,7 @@ public class Jarvis {
             throw new IncompleteCommandException(
                     "Error : Your command is missing certain parameters.\n"
                             + "Please re-enter your command in the format : todo <Task>\n"
-                            + borderLine
+                            + BORDER_LINE
             );
         }
 
@@ -167,21 +123,19 @@ public class Jarvis {
             throw new IncompleteCommandException(
                     "Error : Your command is missing certain parameters.\n"
                             + "Please re-enter your command in the format : todo <Task>\n"
-                            + borderLine
+                            + BORDER_LINE
             );
         }
 
         // Creates a new todo task instance from text extracted from user's input
         ToDo newToDoTask = new ToDo(task);
-        // Store the newly created todo task instance into toDoTasks
-        toDoTasks.add(newToDoTask);
-        // Saves the updated Task list to the local drive
-        Storage.saveTasks(toDoTasks);
+        // Store the newly created todo task instance in the task list
+        taskList.addTask(newToDoTask);
         // Print statement to show that user's input has been added
         System.out.printf("Very well Sir/Ma' am, I have added the following task below : \n"
                 + newToDoTask.toString() + "\n"
                 + "Please do note Sir/Ma' am, that you now currently have %d task(s) awaiting you \n"
-                + borderLine, toDoTasks.size());
+                + BORDER_LINE, taskList.size());
     }
 
 
@@ -212,7 +166,7 @@ public class Jarvis {
             throw new IncompleteCommandException(
                     "Error : Your command is missing certain parameters.\n"
                             + "Please re-enter your command in the format : deadline <Task> /by <deadline>\n"
-                            + borderLine
+                            + BORDER_LINE
             );
         }
 
@@ -222,21 +176,19 @@ public class Jarvis {
             throw new InvalidDateAndTimeException(
                     "Error : Your command is missing a deadline.\n"
                             + "Please re-enter your command in the format : deadline <Task> /by <deadline>\n"
-                            + borderLine
+                            + BORDER_LINE
             );
         }
 
         // Create a new deadline task from texts extracted from user's input
         Deadline newDeadlineTask = new Deadline(task, deadline);
-        // Store the newly created deadline task instance into toDoTasks
-        toDoTasks.add(newDeadlineTask);
-        // Saves the updated Task list to the local drive
-        Storage.saveTasks(toDoTasks);
+        // Store the newly created deadline task instance in the task list
+        taskList.addTask(newDeadlineTask);
         // Print statement to show that user's input has been added
         System.out.printf("Very well Sir/Ma' am, I have added the following task below : \n"
                 + newDeadlineTask.toString() + "\n"
                 + "Please do note Sir/Ma' am, that you now currently have %d task(s) awaiting you \n"
-                + borderLine, toDoTasks.size());
+                + BORDER_LINE, taskList.size());
     }
 
 
@@ -273,7 +225,7 @@ public class Jarvis {
                     "Error : Your command is missing certain parameters.\n"
                             + "Please re-enter your command in the format : event <Task> /from "
                             + "<startDateTime> /to <endDateTime>\n"
-                            + borderLine
+                            + BORDER_LINE
             );
         }
 
@@ -284,32 +236,25 @@ public class Jarvis {
                     "Error : Your command is missing a startDateTime and/or an endDateTime.\n"
                     + "Please re-enter your command in the format : event <Task> /from "
                     + "<startDateTime> /to <endDateTime>\n"
-                            + borderLine
+                            + BORDER_LINE
             );
         }
 
         // Create a new event task from texts extracted from user's input
         Event newEventTask = new Event(task, startDateTime, endDateTime);
-        // Store the newly created event task instance into toDoTasks
-        toDoTasks.add(newEventTask);
-        // Saves the updated Task list to the local drive
-        Storage.saveTasks(toDoTasks);
+        // Store the newly created event task instance in the task list
+        taskList.addTask(newEventTask);
         // Print statement to show that user's input has been added
         System.out.printf("Very well Sir/Ma' am, I have added the following task below : \n"
                 + newEventTask.toString() + "\n"
                 + "Please do note Sir/Ma' am, that you now currently have %d task(s) awaiting you \n"
-                + borderLine, toDoTasks.size());
+                + BORDER_LINE, taskList.size());
     }
 
 
     /** Prints the user's tasks, including each task's category and status. */
     public static void listAllTasks() {
-        System.out.println("\nHere are the list of things you had wished to do earlier Sir/Ma' am\n");
-        // For loop is to iterate through the toDoTasks and print out all the tasks
-        for (int i = 0; i < toDoTasks.size(); i++) {
-            System.out.printf("%d. %s\n", i + 1, toDoTasks.get(i).toString());
-        }
-        System.out.println(borderLine);
+        ui.listAllTasks(taskList.getTasks());
     }
 
 
@@ -341,29 +286,29 @@ public class Jarvis {
                             + " Please re-enter your command in the format : \n"
                             + " - mark <Task Number> for marking tasks as done\n"
                             + " - unmark <Task Number> for marking tasks as undone\n"
-                            + borderLine
+                            + BORDER_LINE
             );
         }
 
         // Checks if task number extracted from user's input is outside the valid range
         // If yes, throw an invalid task number error
-        if (taskNumber < 1 || taskNumber > toDoTasks.size()) {
+        if (taskNumber < 1 || taskNumber > taskList.size()) {
             // Throws an invalid task number error
             throw new InvalidTaskNumberException(
                     "Error : The task number you inputted is invalid.\n"
                             + String.format("Please re-enter with a valid number ranging "
-                                    + "from 1 to %d\n", toDoTasks.size())
-                            + borderLine
+                                    + "from 1 to %d\n", taskList.size())
+                            + BORDER_LINE
             );
         }
 
         // Change the status of the task
-        toDoTasks.get(toDoTaskListIndex).setCompletionStatus(status);
+        taskList.setCompletionStatus(toDoTaskListIndex, status);
 
         // Print statement showing the user selected task has been marked done and display the task's status
         System.out.println("\nVery well Sir/Ma' am, I have marked the following task as : \n"
-                + toDoTasks.get(toDoTaskListIndex).toString() + "\n"
-                + borderLine);
+                + taskList.getTask(toDoTaskListIndex).toString() + "\n"
+                + BORDER_LINE);
     }
 
     /** Deletes the task selected by the user's command.
@@ -391,32 +336,30 @@ public class Jarvis {
             throw new IncompleteCommandException(
                     "Error : Your command is missing certain parameters.\n"
                             + " Please re-enter your command in the format : delete <Task Number>\n"
-                            + borderLine
+                            + BORDER_LINE
             );
         }
 
         // Checks if task number extracted from user's input is outside the valid range
         // If yes, throw an invalid task number error
-        if (taskNumber < 1 || taskNumber > toDoTasks.size()) {
+        if (taskNumber < 1 || taskNumber > taskList.size()) {
             // Throws an invalid task number error
             throw new InvalidTaskNumberException(
                     "Error : The task number you inputted is invalid.\n"
                             + String.format("Please re-enter with a valid number ranging "
-                                    + "from 1 to %d\n", toDoTasks.size())
-                            + borderLine
+                                    + "from 1 to %d\n", taskList.size())
+                            + BORDER_LINE
             );
         }
 
         // Print statement showing the user selected task has been deleted
         // and display the deleted task one more time
         System.out.printf("\nVery good Sir/Ma' am, I have removed the following task from your list of tasks-to-do : \n"
-                + toDoTasks.get(toDoListIndexNo).toString()+"\n"
+                + taskList.getTask(toDoListIndexNo).toString() + "\n"
                 + "Please do note Sir/Ma' am, now you have %d task(s) awaiting you \n"
-                + borderLine, toDoTasks.size() - 1);
+                + BORDER_LINE, taskList.size() - 1);
 
-        // Delete the corresponding task in the toDoTasks array list
-        toDoTasks.remove(toDoListIndexNo);
-        // Saves the updated Task list to the local drive
-        Storage.saveTasks(toDoTasks);
+        // Delete the corresponding task in the task list
+        taskList.deleteTask(toDoListIndexNo);
     }
 }
