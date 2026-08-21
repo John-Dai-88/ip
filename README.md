@@ -1,4 +1,4 @@
-# jarvis.Jarvis project
+# Jarvis project
 
 jarvis.Jarvis is a Java chatbot project. Given below are instructions on how to set it up and run it.
 
