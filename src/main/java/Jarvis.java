@@ -2,9 +2,16 @@ import Exceptions.InvalidDateAndTimeException;
 import Exceptions.JarvisException;
 import Exceptions.IncompleteCommandException;
 import Exceptions.InvalidTaskNumberException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+import Classes.Task;
+import Classes.ToDo;
+import Classes.Event;
+import Classes.Deadline;
+
 
 public class Jarvis {
     // Declaring String variables for specific String messages
@@ -20,12 +27,12 @@ public class Jarvis {
 
         // String banner art of Jarvis
         banner =
-                  "     ██╗ █████╗ ██████╗ ██╗   ██╗██╗███████╗\n"
-                + "     ██║██╔══██╗██╔══██╗██║   ██║██║██╔════╝\n"
-                + "     ██║███████║██████╔╝██║   ██║██║███████╗\n"
-                + "██   ██║██╔══██║██╔══██╗╚██╗ ██╔╝██║╚════██║\n"
-                + "╚█████╔╝██║  ██║██║  ██║ ╚████╔╝ ██║███████║\n"
-                + " ╚════╝ ╚═╝  ╚═╝╚═╝  ╚═╝  ╚═══╝  ╚═╝╚══════╝\n";
+                "     ██╗ █████╗ ██████╗ ██╗   ██╗██╗███████╗\n"
+                        + "     ██║██╔══██╗██╔══██╗██║   ██║██║██╔════╝\n"
+                        + "     ██║███████║██████╔╝██║   ██║██║███████╗\n"
+                        + "██   ██║██╔══██║██╔══██╗╚██╗ ██╔╝██║╚════██║\n"
+                        + "╚█████╔╝██║  ██║██║  ██║ ╚████╔╝ ██║███████║\n"
+                        + " ╚════╝ ╚═╝  ╚═╝╚═╝  ╚═╝  ╚═══╝  ╚═╝╚══════╝\n";
 
         // String message that creates a border
         borderLine = "---------------------------------------------------------------------\n";
@@ -43,12 +50,12 @@ public class Jarvis {
 
         // Preset String message in reference to a famous Jarvis meme
         clipThatMsg = "Clipped and Ready to ship Sir\n"
-                    + borderLine;
+                + borderLine;
 
         // Preset String message in response to any unknown commands that user inputs
         unknownCMDMsg = "Apologies Sir/Ma' am.\n"
-                      + "I do not understand your command, please retry with a valid command\n"
-                      + borderLine;
+                + "I do not understand your command, please retry with a valid command\n"
+                + borderLine;
 
         // Print the greeting message when program is first run
         System.out.println(initialMsg);
@@ -62,23 +69,23 @@ public class Jarvis {
             // Processes the user's input and executes accordingly, based on the if loops below
             try {
                 // Print a special response when the phrase below is detected
-                if(userInput.equals("Jarvis, clip that")) {
+                if (userInput.equals("Jarvis, clip that")) {
                     System.out.println(clipThatMsg);
                 }
 
                 // Run list() when user input is "list"
-                else if(userInput.equals("list")) {
+                else if (userInput.equals("list")) {
                     listAllTasks();
                 }
 
                 // Run markDone(...) when user input starts with "mark"
-                else if(userInput.startsWith("mark")) {
-                    markDoneOrUndone(userInput,"Done");
+                else if (userInput.startsWith("mark")) {
+                    markTaskAs(userInput, Task.CompletionStatus.DONE);
                 }
 
-                // Run markDoneOrUndone(...) when user input starts with "unmark"
-                else if(userInput.startsWith("unmark")) {
-                    markDoneOrUndone(userInput,"Undone");
+                // Run markTaskAs(...) when user input starts with "unmark"
+                else if (userInput.startsWith("unmark")) {
+                    markTaskAs(userInput, Task.CompletionStatus.UNDONE);
                 }
 
                 // Run createToDoTask(...) when user input starts with "todo";
@@ -102,7 +109,7 @@ public class Jarvis {
                 }
 
                 // Prints exit message and exit the while loop, when 'bye' is detected
-                else if(userInput.equals("bye")) {
+                else if (userInput.equals("bye")) {
                     System.out.println(exitMsg);
                     break;
                 }
@@ -121,7 +128,6 @@ public class Jarvis {
     }
 
 
-
     // Creates a new To_Do Task from user's input and stores them into the Task ArrayList, toDoTasks
     public static void createToDoTask(String userInput) throws JarvisException {
         // Temp String variable to store task substring from user's input
@@ -138,18 +144,18 @@ public class Jarvis {
             // Throw an incomplete command error
             throw new IncompleteCommandException(
                     "Error : Your command is missing certain parameters.\n"
-                    + "Please re-enter your command in the format : todo <Task>\n"
-                    + borderLine
+                            + "Please re-enter your command in the format : todo <Task>\n"
+                            + borderLine
             );
         }
 
         // Checks if task string is empty, if so throw an error
-        if(task.isEmpty()) {
+        if (task.isEmpty()) {
             // Throw an incomplete command error
             throw new IncompleteCommandException(
                     "Error : Your command is missing certain parameters.\n"
-                    + "Please re-enter your command in the format : todo <Task>\n"
-                    + borderLine
+                            + "Please re-enter your command in the format : todo <Task>\n"
+                            + borderLine
             );
         }
 
@@ -159,15 +165,14 @@ public class Jarvis {
         toDoTasks.add(newToDoTask);
         // Print statement to show that user's input has been added
         System.out.printf("Very well Sir/Ma' am, I have added the following task below : \n"
-                + newToDoTask.toString()+"\n"
+                + newToDoTask.toString() + "\n"
                 + "Please do note Sir/Ma' am, that you now currently have %d task(s) awaiting you \n"
                 + borderLine, toDoTasks.size());
     }
 
 
-
     // Creates a new deadline task from user's input and stores them into the Task ArrayList, toDoTasks
-    public static void createDeadlineTask(String userInput) throws JarvisException{
+    public static void createDeadlineTask(String userInput) throws JarvisException {
         // int variable to store starting index position of "/by" in user's input
         int positionOfBy;
         // String variables to store the extracted deadline and task from user's input
@@ -184,40 +189,39 @@ public class Jarvis {
         }
 
         // Catches errors resulting from incomplete user command input
-        catch (StringIndexOutOfBoundsException error){
+        catch (StringIndexOutOfBoundsException error) {
             // Throws an incomplete command error
             throw new IncompleteCommandException(
                     "Error : Your command is missing certain parameters.\n"
-                    + "Please re-enter your command in the format : deadline <Task> /by <deadline>\n"
-                    + borderLine
-                    );
+                            + "Please re-enter your command in the format : deadline <Task> /by <deadline>\n"
+                            + borderLine
+            );
         }
 
         // Checks if deadline provided is empty. If yes, throw an error
-        if(deadline.trim().isEmpty()) {
+        if (deadline.trim().isEmpty()) {
             // Throws an invalid deadline error
             throw new InvalidDateAndTimeException(
                     "Error : Your command is missing a deadline.\n"
-                    + "Please re-enter your command in the format : deadline <Task> /by <deadline>\n"
-                    + borderLine
+                            + "Please re-enter your command in the format : deadline <Task> /by <deadline>\n"
+                            + borderLine
             );
         }
 
         // Create a new deadline task from texts extracted from user's input
-        Deadline newDeadlineTask = new Deadline(task,deadline);
+        Deadline newDeadlineTask = new Deadline(task, deadline);
         // Store the newly created deadline task instance into toDoTasks
         toDoTasks.add(newDeadlineTask);
         // Print statement to show that user's input has been added
         System.out.printf("Very well Sir/Ma' am, I have added the following task below : \n"
-                + newDeadlineTask.toString()+"\n"
+                + newDeadlineTask.toString() + "\n"
                 + "Please do note Sir/Ma' am, that you now currently have %d task(s) awaiting you \n"
                 + borderLine, toDoTasks.size());
     }
 
 
-
     // Creates a new event task from user's input and stores them into the Task ArrayList, toDoTasks
-    public static void createEventTask(String userInput) throws JarvisException{
+    public static void createEventTask(String userInput) throws JarvisException {
         // int variables to store the starting index position of "/from" and "/to" from user's input
         int positionOfFrom, positionOfTo;
         // String variables to store the start, end date & time (DAT) and task from user's input
@@ -239,62 +243,61 @@ public class Jarvis {
         }
 
         // Catches errors resulting from incomplete user command input
-        catch(StringIndexOutOfBoundsException error) {
+        catch (StringIndexOutOfBoundsException error) {
             // Throw an incomplete command error
             throw new IncompleteCommandException(
                     "Error : Your command is missing certain parameters.\n"
-                    + "Please re-enter your command in the format : event <Task> /from <startDAT> /to <endDAT>\n"
-                    + borderLine
+                            + "Please re-enter your command in the format : event <Task> /from <startDAT> /to <endDAT>\n"
+                            + borderLine
             );
         }
 
         // Checks if startDAT and/or endDAT string is empty. If yes, throw an error
-        if(startDAT.trim().isEmpty() || endDAT.trim().isEmpty()) {
+        if (startDAT.trim().isEmpty() || endDAT.trim().isEmpty()) {
             // Throw an invalid date and time error
             throw new InvalidDateAndTimeException(
                     "Error : Your command is missing a startDAT and/or an endDAT.\n"
-                    + "Please re-enter your command in the format : event <Task> /from <startDAT> /to <endDAT>\n"
-                    + borderLine
+                            + "Please re-enter your command in the format : event <Task> /from <startDAT> /to <endDAT>\n"
+                            + borderLine
             );
         }
 
         // Create a new event task from texts extracted from user's input
-        Event newEventTask = new Event(task,startDAT,endDAT);
+        Event newEventTask = new Event(task, startDAT, endDAT);
         // Store the newly created event task instance into toDoTasks
         toDoTasks.add(newEventTask);
         // Print statement to show that user's input has been added
         System.out.printf("Very well Sir/Ma' am, I have added the following task below : \n"
-                + newEventTask.toString()+"\n"
+                + newEventTask.toString() + "\n"
                 + "Please do note Sir/Ma' am, that you now currently have %d task(s) awaiting you \n"
                 + borderLine, toDoTasks.size());
     }
-
 
 
     // Print and display a list of the user's previous inputted tasks, their category and status
     public static void listAllTasks() {
         System.out.println("\nHere are the list of things you had wished to do earlier Sir/Ma' am\n");
         // For loop is to iterate through the toDoTasks and print out all the tasks
-        for(int i = 0; i< toDoTasks.size(); i++) {
-            System.out.printf("%d. %s\n",i+1, toDoTasks.get(i).toString());
+        for (int i = 0; i < toDoTasks.size(); i++) {
+            System.out.printf("%d. %s\n", i + 1, toDoTasks.get(i).toString());
         }
         System.out.println(borderLine);
     }
 
 
-
     // Marks/Unmarks the corresponding task in the toDoTasks ArrayList as being done and reprint its
     // updated status for the user
-    public static void markDoneOrUndone(String userInput, String completionStatus) throws JarvisException {
+    public static void markTaskAs(String userInput, Task.CompletionStatus status) throws JarvisException {
         // Splits the user input's into two separate strings and store them in an array
         String[] splitUserInput = userInput.split(" ");
         // int variable to store task number inputted by user
-        int taskNumber;
+        int taskNumber, toDoTaskListIndex;
 
         // Attempt to acquire task number from user's string input
         try {
             // Acquire task number inputted by user
             taskNumber = Integer.parseInt(splitUserInput[1]);
+            toDoTaskListIndex = taskNumber - 1;
         }
 
         // Catches errors resulting from incomplete user command input
@@ -311,7 +314,7 @@ public class Jarvis {
 
         // Checks if task number extracted from user's input is outside the valid range
         // If yes, throw an invalid task number error
-        if(taskNumber < 1 || taskNumber > toDoTasks.size()) {
+        if (taskNumber < 1 || taskNumber > toDoTasks.size()) {
             // Throws an invalid task number error
             throw new InvalidTaskNumberException(
                     "Error : The task number you inputted is invalid.\n"
@@ -320,28 +323,13 @@ public class Jarvis {
             );
         }
 
-        // Modify the task number to match its corresponding index number in toDoTasks
-        int toDoListIndexNo = taskNumber - 1;
+        // Change the status of the task
+        toDoTasks.get(toDoTaskListIndex).setCompletionStatus(status);
 
-        if(completionStatus.equals("Done")) {
-            // Set done status of user selected task to be true
-            toDoTasks.get(toDoListIndexNo).markAsDone();
-
-            // Print statement showing the user selected task has been marked done and display the task's status
-            System.out.println("\nVery well Sir/Ma' am, I have marked the following task as done : \n"
-                    + toDoTasks.get(toDoListIndexNo).toString()+"\n"
-                    +borderLine);
-        }
-
-        else if(completionStatus.equals("Undone")) {
-            // Set done status of user selected task to be false
-            toDoTasks.get(toDoListIndexNo).markAsUndone();
-
-            // Print statement showing the user selected task has been marked undone and display the task's status
-            System.out.println("\nVery well Sir/Ma' am, I have marked the following task as undone : \n"
-                    + toDoTasks.get(toDoListIndexNo).toString()+"\n"
-                    + borderLine);
-        }
+        // Print statement showing the user selected task has been marked done and display the task's status
+        System.out.println("\nVery well Sir/Ma' am, I have marked the following task as : \n"
+                + toDoTasks.get(toDoTaskListIndex).toString() + "\n"
+                + borderLine);
     }
 
     public static void deleteTask(String userInput) throws JarvisException{
