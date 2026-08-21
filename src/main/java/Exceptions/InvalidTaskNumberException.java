@@ -1,4 +1,4 @@
-package Exceptions;
+package exceptions;
 
 /** Represents a task number that is outside the valid task-list range. */
 public class InvalidTaskNumberException extends JarvisException {

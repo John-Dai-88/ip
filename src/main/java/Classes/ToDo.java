@@ -1,4 +1,4 @@
-package Classes;
+package classes;
 
 /** Represents a task without a deadline or event time. */
 public class ToDo extends Task {

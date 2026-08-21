@@ -1,4 +1,4 @@
-package Classes;
+package classes;
 
 /** Represents a task that occurs between a start and end time. */
 public class Event extends Task {

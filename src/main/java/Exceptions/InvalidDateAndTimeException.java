@@ -1,4 +1,4 @@
-package Exceptions;
+package exceptions;
 
 /** Represents an invalid or missing date/time value. */
 public class InvalidDateAndTimeException extends JarvisException {

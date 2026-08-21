@@ -1,6 +1,6 @@
-package Exceptions;
+package exceptions;
 
-/** Represents an error raised while processing a Jarvis command. */
+/** Represents an error raised while processing a jarvis.Jarvis command. */
 public class JarvisException extends Exception {
 
     /** Creates an exception with the specified message.

@@ -1,4 +1,4 @@
-package Classes;
+package classes;
 
 /** Represents a task that must be completed by a specified deadline. */
 public class Deadline extends Task {

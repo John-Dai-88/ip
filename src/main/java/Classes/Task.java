@@ -1,4 +1,4 @@
-package Classes;
+package classes;
 
 /** Represents a task that can be marked as done or undone. */
 public class Task {

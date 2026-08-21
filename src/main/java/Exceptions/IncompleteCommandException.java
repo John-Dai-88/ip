@@ -1,4 +1,4 @@
-package Exceptions;
+package exceptions;
 
 /** Represents a command that is missing required parameters. */
 public class IncompleteCommandException extends JarvisException {

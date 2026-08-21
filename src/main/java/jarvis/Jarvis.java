@@ -1,18 +1,20 @@
+package jarvis;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import Classes.Deadline;
-import Classes.Event;
-import Classes.Task;
-import Classes.ToDo;
+import classes.Deadline;
+import classes.Event;
+import classes.Task;
+import classes.ToDo;
 
-import Exceptions.IncompleteCommandException;
-import Exceptions.InvalidDateAndTimeException;
-import Exceptions.InvalidTaskNumberException;
-import Exceptions.JarvisException;
+import exceptions.IncompleteCommandException;
+import exceptions.InvalidDateAndTimeException;
+import exceptions.InvalidTaskNumberException;
+import exceptions.JarvisException;
 
-/** Runs the Jarvis chatbot and processes task-management commands. */
+/** Runs the jarvis.Jarvis chatbot and processes task-management commands. */
 public class Jarvis {
     // Declaring String variables for specific String messages
     private static String banner, borderLine, initialMessage, exitMessage, clipThatMessage,
@@ -26,7 +28,7 @@ public class Jarvis {
         // Creates a new Scanner instance to allow program to read user input from the terminal
         Scanner scanner = new Scanner(System.in);
 
-        // String banner art of Jarvis
+        // String banner art of jarvis.Jarvis
         banner =
                 "     ██╗ █████╗ ██████╗ ██╗   ██╗██╗███████╗\n"
                         + "     ██║██╔══██╗██╔══██╗██║   ██║██║██╔════╝\n"
@@ -41,7 +43,7 @@ public class Jarvis {
         // Preset String message to greet the user when program is first executed
         initialMessage = borderLine
                 + banner
-                + "Good day Sir/Ma' am, I am Jarvis, your friendly AI assistant\n"
+                + "Good day Sir/Ma' am, I am jarvis.Jarvis, your friendly AI assistant\n"
                 + "How may I be of service to you today ?\n"
                 + borderLine;
 
@@ -49,7 +51,7 @@ public class Jarvis {
         exitMessage = "Goodbye Sir/Ma' am. I hope to be of service to you again next time\n"
                 + borderLine;
 
-        // Preset String message in reference to a famous Jarvis meme
+        // Preset String message in reference to a famous jarvis.Jarvis meme
         clipThatMessage = "Clipped and Ready to ship Sir\n"
                 + borderLine;
 
@@ -70,7 +72,7 @@ public class Jarvis {
             // Processes the user's input and executes accordingly, based on the if loops below
             try {
                 // Print a special response when the phrase below is detected
-                if (userInput.equals("Jarvis, clip that")) {
+                if (userInput.equals("jarvis.Jarvis, clip that")) {
                     System.out.println(clipThatMessage);
                 }
 
