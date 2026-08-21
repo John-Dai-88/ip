@@ -1,11 +1,15 @@
 package classes;
 
+import java.io.Serializable;
+
 /** Represents a task that can be marked as done or undone. */
-public class Task {
+public class Task implements  Serializable {
     /** Stores the task description. */
     private String taskName;
     /** Stores the task's completion status. */
     private CompletionStatus completedStatus;
+    /** Declares the version identifier for Java serialization to verify class compatibility. */
+    private static final long serialVersionUID = 1l;
 
     /** Represents the possible completion states of a task. */
     public enum CompletionStatus {
