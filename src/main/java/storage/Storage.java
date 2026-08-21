@@ -14,6 +14,7 @@ import java.util.List;
 /** Handles saving and loading Jarvis tasks from the hard disk. */
 public class Storage {
 
+    // File location of where the tasks list data will be stored
     private static final String FILE_PATH = "./data/jarvis.dat";
 
     /** Saves all tasks to the hard disk.
@@ -21,17 +22,19 @@ public class Storage {
      * @param tasks List of tasks to save.
      */
     public static void saveTasks(List<Task> tasks) {
+        // Create a file object where tasks will be written into
         File file = new File(FILE_PATH);
 
         try {
             // Create the data directory if it does not already exist
             File parentDirectory = file.getParentFile();
 
+            // Checks if the data directory exists in user's directory
             if (parentDirectory != null && !parentDirectory.exists()) {
                 parentDirectory.mkdirs();
             }
 
-            // Write the task list to the file
+            // Write the tasks list to the file
             ObjectOutputStream outputStream =
                     new ObjectOutputStream(new FileOutputStream(file));
 
@@ -49,6 +52,7 @@ public class Storage {
      */
     @SuppressWarnings("unchecked")
     public static List<Task> loadTasks() {
+        // Create a file object where tasks will be written into
         File file = new File(FILE_PATH);
 
         // If there is no save file, start with an empty task list
@@ -57,6 +61,7 @@ public class Storage {
         }
 
         try {
+            // Reads and fetch the tasks list from the file
             ObjectInputStream inputStream =
                     new ObjectInputStream(new FileInputStream(file));
 
