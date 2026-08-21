@@ -9,6 +9,8 @@ import classes.Event;
 import classes.Task;
 import classes.ToDo;
 
+import storage.Storage;
+
 import exceptions.IncompleteCommandException;
 import exceptions.InvalidDateAndTimeException;
 import exceptions.InvalidTaskNumberException;
@@ -28,9 +30,12 @@ public class Jarvis {
         // Creates a new Scanner instance to allow program to read user input from the terminal
         Scanner scanner = new Scanner(System.in);
 
+        // Load previously saved tasks from the hard disk
+        toDoTasks = Storage.loadTasks();
+
         // String banner art of jarvis.Jarvis
         banner =
-                "     ██╗ █████╗ ██████╗ ██╗   ██╗██╗███████╗\n"
+                          "     ██╗ █████╗ ██████╗ ██╗   ██╗██╗███████╗\n"
                         + "     ██║██╔══██╗██╔══██╗██║   ██║██║██╔════╝\n"
                         + "     ██║███████║██████╔╝██║   ██║██║███████╗\n"
                         + "██   ██║██╔══██║██╔══██╗╚██╗ ██╔╝██║╚════██║\n"
@@ -170,6 +175,8 @@ public class Jarvis {
         ToDo newToDoTask = new ToDo(task);
         // Store the newly created todo task instance into toDoTasks
         toDoTasks.add(newToDoTask);
+        // Saves the updated Task list to the local drive
+        Storage.saveTasks(toDoTasks);
         // Print statement to show that user's input has been added
         System.out.printf("Very well Sir/Ma' am, I have added the following task below : \n"
                 + newToDoTask.toString() + "\n"
@@ -223,6 +230,8 @@ public class Jarvis {
         Deadline newDeadlineTask = new Deadline(task, deadline);
         // Store the newly created deadline task instance into toDoTasks
         toDoTasks.add(newDeadlineTask);
+        // Saves the updated Task list to the local drive
+        Storage.saveTasks(toDoTasks);
         // Print statement to show that user's input has been added
         System.out.printf("Very well Sir/Ma' am, I have added the following task below : \n"
                 + newDeadlineTask.toString() + "\n"
@@ -283,6 +292,8 @@ public class Jarvis {
         Event newEventTask = new Event(task, startDateTime, endDateTime);
         // Store the newly created event task instance into toDoTasks
         toDoTasks.add(newEventTask);
+        // Saves the updated Task list to the local drive
+        Storage.saveTasks(toDoTasks);
         // Print statement to show that user's input has been added
         System.out.printf("Very well Sir/Ma' am, I have added the following task below : \n"
                 + newEventTask.toString() + "\n"
@@ -311,18 +322,19 @@ public class Jarvis {
     public static void markTaskAs(String userInput, Task.CompletionStatus status) throws JarvisException {
         // Splits the user input's into two separate strings and store them in an array
         String[] splitUserInput = userInput.split(" ");
-        // int variable to store task number inputted by user
+        // int variable to store task number and its corresponding index number
         int taskNumber, toDoTaskListIndex;
 
         // Attempt to acquire task number from user's string input
         try {
             // Acquire task number inputted by user
             taskNumber = Integer.parseInt(splitUserInput[1]);
+            // Modify the task number to match its corresponding index number in toDoTasks
             toDoTaskListIndex = taskNumber - 1;
         }
 
-        // Catches errors resulting from incomplete user command input
-        catch (ArrayIndexOutOfBoundsException error) {
+        // Catches errors resulting from incomplete user command or non-numerical input
+        catch (ArrayIndexOutOfBoundsException | NumberFormatException error) {
             // Throws an incomplete command error
             throw new IncompleteCommandException(
                     "Error : Your command is missing certain parameters.\n"
@@ -362,17 +374,19 @@ public class Jarvis {
     public static void deleteTask(String userInput) throws JarvisException {
         // Splits the user input's into two separate strings and store them in an array
         String[] splitUserInput = userInput.split(" ");
-        // int variable to store task number inputted by user
-        int taskNumber;
+        // int variable to store task number and its corresponding index number
+        int taskNumber, toDoListIndexNo;
 
         // Attempt to acquire task number from user's string input
         try {
             // Acquire task number inputted by user
             taskNumber = Integer.parseInt(splitUserInput[1]);
+            // Modify the task number to match its corresponding index number in toDoTasks
+            toDoListIndexNo = taskNumber - 1;
         }
 
-        // Catches errors resulting from incomplete user command input
-        catch (ArrayIndexOutOfBoundsException error) {
+        // Catches errors resulting from incomplete user command or non-numerical input
+        catch (ArrayIndexOutOfBoundsException | NumberFormatException error) {
             // Throws an incomplete command error
             throw new IncompleteCommandException(
                     "Error : Your command is missing certain parameters.\n"
@@ -393,9 +407,6 @@ public class Jarvis {
             );
         }
 
-        // Modify the task number to match its corresponding index number in toDoTasks
-        int toDoListIndexNo = taskNumber - 1;
-
         // Print statement showing the user selected task has been deleted
         // and display the deleted task one more time
         System.out.printf("\nVery good Sir/Ma' am, I have removed the following task from your list of tasks-to-do : \n"
@@ -405,5 +416,7 @@ public class Jarvis {
 
         // Delete the corresponding task in the toDoTasks array list
         toDoTasks.remove(toDoListIndexNo);
+        // Saves the updated Task list to the local drive
+        Storage.saveTasks(toDoTasks);
     }
 }
