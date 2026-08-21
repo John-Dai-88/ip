@@ -1,4 +1,4 @@
-package exceptions;
+package jarvis.exceptions;
 
 /** Represents an error raised while processing a jarvis.Jarvis command. */
 public class JarvisException extends Exception {

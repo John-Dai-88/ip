@@ -1,6 +1,6 @@
-package storage;
+package jarvis.storage;
 
-import classes.Task;
+import jarvis.classes.Task;
 
 import java.io.File;
 import java.io.FileInputStream;
