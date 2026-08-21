@@ -1,17 +1,22 @@
 package Classes;
 
+/** Represents a task without a deadline or event time. */
 public class ToDo extends Task {
 
-    // Constructor to make new todo task instances
+    /** Creates a to-do task.
+     *
+     * @param taskName Description of the task.
+     */
     public ToDo(String taskName) {
-        // Uses the parent constructor as ToDo is a subclass of Task
         super(taskName);
     }
 
-    // Override toString() so that String format resembles
-    // that of Level-4's sample output for todo tasks
+    /** Returns the to-do task in its display format.
+     *
+     * @return Formatted to-do task.
+     */
     @Override
     public String toString() {
-        return "[T]"+super.toString();
+        return "[T]" + super.toString();
     }
- }
+}

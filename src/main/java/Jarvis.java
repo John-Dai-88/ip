@@ -1,25 +1,26 @@
-import Exceptions.InvalidDateAndTimeException;
-import Exceptions.JarvisException;
-import Exceptions.IncompleteCommandException;
-import Exceptions.InvalidTaskNumberException;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import Classes.Deadline;
+import Classes.Event;
 import Classes.Task;
 import Classes.ToDo;
-import Classes.Event;
-import Classes.Deadline;
 
+import Exceptions.IncompleteCommandException;
+import Exceptions.InvalidDateAndTimeException;
+import Exceptions.InvalidTaskNumberException;
+import Exceptions.JarvisException;
 
+/** Runs the Jarvis chatbot and processes task-management commands. */
 public class Jarvis {
     // Declaring String variables for specific String messages
-    private static String banner, borderLine, initialMsg, exitMsg, clipThatMsg, unknownCMDMsg;
+    private static String banner, borderLine, initialMessage, exitMessage, clipThatMessage,
+            unknownCommandMessage;
     // Declaring an ArrayList to store Tasks
-    private static List<Task> toDoTasks = new ArrayList<Task>();
+    private static List<Task> toDoTasks = new ArrayList<>();
 
-    // Static void main(...) is the entry point function where the Java program begins execution
+    /** Starts the chatbot and reads commands until the user enters {@code bye}. */
     public static void main(String[] args) {
 
         // Creates a new Scanner instance to allow program to read user input from the terminal
@@ -38,27 +39,27 @@ public class Jarvis {
         borderLine = "---------------------------------------------------------------------\n";
 
         // Preset String message to greet the user when program is first executed
-        initialMsg = borderLine
+        initialMessage = borderLine
                 + banner
                 + "Good day Sir/Ma' am, I am Jarvis, your friendly AI assistant\n"
                 + "How may I be of service to you today ?\n"
                 + borderLine;
 
         // Preset String message to say goodbye to the user when 'bye' is inputted into terminal
-        exitMsg = "Goodbye Sir/Ma' am. I hope to be of service to you again next time\n"
+        exitMessage = "Goodbye Sir/Ma' am. I hope to be of service to you again next time\n"
                 + borderLine;
 
         // Preset String message in reference to a famous Jarvis meme
-        clipThatMsg = "Clipped and Ready to ship Sir\n"
+        clipThatMessage = "Clipped and Ready to ship Sir\n"
                 + borderLine;
 
         // Preset String message in response to any unknown commands that user inputs
-        unknownCMDMsg = "Apologies Sir/Ma' am.\n"
+        unknownCommandMessage = "Apologies Sir/Ma' am.\n"
                 + "I do not understand your command, please retry with a valid command\n"
                 + borderLine;
 
         // Print the greeting message when program is first run
-        System.out.println(initialMsg);
+        System.out.println(initialMessage);
 
         // Purpose : To read user's terminal input and respond accordingly
         // While() is used as program is to run indefinitely until user quits it via entering 'bye'
@@ -70,7 +71,7 @@ public class Jarvis {
             try {
                 // Print a special response when the phrase below is detected
                 if (userInput.equals("Jarvis, clip that")) {
-                    System.out.println(clipThatMsg);
+                    System.out.println(clipThatMessage);
                 }
 
                 // Run list() when user input is "list"
@@ -110,13 +111,13 @@ public class Jarvis {
 
                 // Prints exit message and exit the while loop, when 'bye' is detected
                 else if (userInput.equals("bye")) {
-                    System.out.println(exitMsg);
+                    System.out.println(exitMessage);
                     break;
                 }
 
                 // If no valid command is inputted, print default unknown command message
                 else {
-                    System.out.println(unknownCMDMsg);
+                    System.out.println(unknownCommandMessage);
                 }
             }
 
@@ -128,7 +129,11 @@ public class Jarvis {
     }
 
 
-    // Creates a new To_Do Task from user's input and stores them into the Task ArrayList, toDoTasks
+    /** Creates and stores a to-do task from the user's command.
+     *
+     * @param userInput User command containing the task description.
+     * @throws JarvisException If the command is incomplete.
+     */
     public static void createToDoTask(String userInput) throws JarvisException {
         // Temp String variable to store task substring from user's input
         String task;
@@ -171,7 +176,11 @@ public class Jarvis {
     }
 
 
-    // Creates a new deadline task from user's input and stores them into the Task ArrayList, toDoTasks
+    /** Creates and stores a deadline task from the user's command.
+     *
+     * @param userInput User command containing the task and deadline.
+     * @throws JarvisException If the command is invalid.
+     */
     public static void createDeadlineTask(String userInput) throws JarvisException {
         // int variable to store starting index position of "/by" in user's input
         int positionOfBy;
@@ -220,14 +229,18 @@ public class Jarvis {
     }
 
 
-    // Creates a new event task from user's input and stores them into the Task ArrayList, toDoTasks
+    /** Creates and stores an event task from the user's command.
+     *
+     * @param userInput User command containing the task and event times.
+     * @throws JarvisException If the command is invalid.
+     */
     public static void createEventTask(String userInput) throws JarvisException {
         // int variables to store the starting index position of "/from" and "/to" from user's input
         int positionOfFrom, positionOfTo;
-        // String variables to store the start, end date & time (DAT) and task from user's input
-        String startDAT, endDAT, task;
+        // String variables to store the start/end date and time and task from user's input
+        String startDateTime, endDateTime, task;
 
-        // Attempt to acquire start, end DAT and task from user's string input
+        // Attempt to acquire start/end date and time and task from user's string input
         try {
             // Extract starting index position of "/from" from user's input
             positionOfFrom = userInput.indexOf("/from");
@@ -235,9 +248,9 @@ public class Jarvis {
             positionOfTo = userInput.indexOf("/to");
 
             // Extract the start date and time substring from user's string input
-            startDAT = userInput.substring(positionOfFrom + 6, positionOfTo);
+            startDateTime = userInput.substring(positionOfFrom + 6, positionOfTo);
             // Extract the end date and time substring from user's string input
-            endDAT = userInput.substring(positionOfTo + 4);
+            endDateTime = userInput.substring(positionOfTo + 4);
             // Extract the task substring from user's string input
             task = userInput.substring(6, positionOfFrom).trim();
         }
@@ -247,23 +260,25 @@ public class Jarvis {
             // Throw an incomplete command error
             throw new IncompleteCommandException(
                     "Error : Your command is missing certain parameters.\n"
-                            + "Please re-enter your command in the format : event <Task> /from <startDAT> /to <endDAT>\n"
+                            + "Please re-enter your command in the format : event <Task> /from "
+                            + "<startDateTime> /to <endDateTime>\n"
                             + borderLine
             );
         }
 
-        // Checks if startDAT and/or endDAT string is empty. If yes, throw an error
-        if (startDAT.trim().isEmpty() || endDAT.trim().isEmpty()) {
+        // Checks if startDateTime and/or endDateTime is empty. If yes, throw an error
+        if (startDateTime.trim().isEmpty() || endDateTime.trim().isEmpty()) {
             // Throw an invalid date and time error
             throw new InvalidDateAndTimeException(
-                    "Error : Your command is missing a startDAT and/or an endDAT.\n"
-                            + "Please re-enter your command in the format : event <Task> /from <startDAT> /to <endDAT>\n"
+                    "Error : Your command is missing a startDateTime and/or an endDateTime.\n"
+                    + "Please re-enter your command in the format : event <Task> /from "
+                    + "<startDateTime> /to <endDateTime>\n"
                             + borderLine
             );
         }
 
         // Create a new event task from texts extracted from user's input
-        Event newEventTask = new Event(task, startDAT, endDAT);
+        Event newEventTask = new Event(task, startDateTime, endDateTime);
         // Store the newly created event task instance into toDoTasks
         toDoTasks.add(newEventTask);
         // Print statement to show that user's input has been added
@@ -274,7 +289,7 @@ public class Jarvis {
     }
 
 
-    // Print and display a list of the user's previous inputted tasks, their category and status
+    /** Prints the user's tasks, including each task's category and status. */
     public static void listAllTasks() {
         System.out.println("\nHere are the list of things you had wished to do earlier Sir/Ma' am\n");
         // For loop is to iterate through the toDoTasks and print out all the tasks
@@ -285,8 +300,12 @@ public class Jarvis {
     }
 
 
-    // Marks/Unmarks the corresponding task in the toDoTasks ArrayList as being done and reprint its
-    // updated status for the user
+    /** Sets the completion status of the task selected by the user's command.
+     *
+     * @param userInput User command containing a task number.
+     * @param status New completion status.
+     * @throws JarvisException If the command or task number is invalid.
+     */
     public static void markTaskAs(String userInput, Task.CompletionStatus status) throws JarvisException {
         // Splits the user input's into two separate strings and store them in an array
         String[] splitUserInput = userInput.split(" ");
@@ -318,7 +337,8 @@ public class Jarvis {
             // Throws an invalid task number error
             throw new InvalidTaskNumberException(
                     "Error : The task number you inputted is invalid.\n"
-                            + String.format("Please re-enter with a valid number ranging from 1 to %d\n", toDoTasks.size())
+                            + String.format("Please re-enter with a valid number ranging "
+                                    + "from 1 to %d\n", toDoTasks.size())
                             + borderLine
             );
         }
@@ -332,7 +352,12 @@ public class Jarvis {
                 + borderLine);
     }
 
-    public static void deleteTask(String userInput) throws JarvisException{
+    /** Deletes the task selected by the user's command.
+     *
+     * @param userInput User command containing a task number.
+     * @throws JarvisException If the command or task number is invalid.
+     */
+    public static void deleteTask(String userInput) throws JarvisException {
         // Splits the user input's into two separate strings and store them in an array
         String[] splitUserInput = userInput.split(" ");
         // int variable to store task number inputted by user
@@ -356,11 +381,12 @@ public class Jarvis {
 
         // Checks if task number extracted from user's input is outside the valid range
         // If yes, throw an invalid task number error
-        if(taskNumber < 1 || taskNumber > toDoTasks.size()) {
+        if (taskNumber < 1 || taskNumber > toDoTasks.size()) {
             // Throws an invalid task number error
             throw new InvalidTaskNumberException(
                     "Error : The task number you inputted is invalid.\n"
-                            + String.format("Please re-enter with a valid number ranging from 1 to %d\n", toDoTasks.size())
+                            + String.format("Please re-enter with a valid number ranging "
+                                    + "from 1 to %d\n", toDoTasks.size())
                             + borderLine
             );
         }

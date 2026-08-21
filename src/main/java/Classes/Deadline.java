@@ -1,22 +1,27 @@
 package Classes;
 
-public class Deadline extends Task{
-    // String variable to store the deadline for the task
+/** Represents a task that must be completed by a specified deadline. */
+public class Deadline extends Task {
+    /** Stores the deadline text. */
     private String deadline;
 
-    // Constructor to make new deadline task instances
+    /** Creates a deadline task.
+     *
+     * @param taskName Description of the task.
+     * @param deadline Deadline text.
+     */
     public Deadline(String taskName, String deadline) {
-        // Uses the parent constructor as Deadline is a subclass of Task
         super(taskName);
-        // Stores the inputted deadline
         this.deadline = deadline;
     }
 
-    // Override toString() so that String format resembles
-    // that of Level-4's sample output for deadline tasks
+    /** Returns the deadline task in its display format.
+     *
+     * @return Formatted deadline task.
+     */
     @Override
     public String toString() {
-        String dateAndTime = String.format(" (by: %s)", this.deadline);
-        return "[D]"+super.toString()+dateAndTime;
+        String dateAndTime = String.format(" (by: %s)", deadline);
+        return "[D]" + super.toString() + dateAndTime;
     }
- }
+}

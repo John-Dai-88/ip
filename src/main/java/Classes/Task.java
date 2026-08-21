@@ -1,40 +1,48 @@
 package Classes;
 
+/** Represents a task that can be marked as done or undone. */
 public class Task {
-    // String variable to store the name of task (aka user input)
+    /** Stores the task description. */
     private String taskName;
+    /** Stores the task's completion status. */
     private CompletionStatus completedStatus;
 
+    /** Represents the possible completion states of a task. */
     public enum CompletionStatus {
         DONE,
         UNDONE
     }
 
 
-    // Constructor to make new Task objects
+    /** Creates a task with an initially undone status.
+     *
+     * @param taskName Description of the task.
+     */
     public Task(String taskName) {
-        // Store user input as task name
         this.taskName = taskName;
-        // Set done status of task to be false (by default)
         this.completedStatus = CompletionStatus.UNDONE;
     }
 
-    // Function to set status of task to be true
+    /** Sets the completion status of this task.
+     *
+     * @param status New completion status.
+     */
     public void setCompletionStatus(CompletionStatus status) {
         this.completedStatus = status;
     }
 
-    // Override toString() so that String format resembles
-    // that of Level-3's sample output
+    /** Returns the task in the format used by the task list.
+     *
+     * @return Formatted task description and completion marker.
+     */
     @Override
     public String toString() {
         // Checks if task is done, if so print status of task with [X]
         // Else print status of task with []
-        if(completedStatus.equals(CompletionStatus.DONE)) {
-            return "[X] "+this.taskName;
-        }
-        else {
-            return "[] "+this.taskName;
+        if (completedStatus == CompletionStatus.DONE) {
+            return "[X] " + taskName;
+        } else {
+            return "[] " + taskName;
         }
     }
 }

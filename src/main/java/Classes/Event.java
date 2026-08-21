@@ -1,26 +1,31 @@
 package Classes;
 
+/** Represents a task that occurs between a start and end time. */
 public class Event extends Task {
-    // String variable to store the start time for the task
+    /** Stores the event start time text. */
     private String startTime;
-    // String variable to store the end time for the task
+    /** Stores the event end time text. */
     private String endTime;
 
-    // Constructor to make new event task instances
+    /** Creates an event task.
+     *
+     * @param taskName Description of the task.
+     * @param startTime Event start time text.
+     * @param endTime Event end time text.
+     */
     public Event(String taskName, String startTime, String endTime) {
-        // Uses the parent constructor as Event is a subclass of Task
         super(taskName);
-        // Stores the inputted start time for the event
         this.startTime = startTime;
-        // Stores the inputted end time for the event
         this.endTime = endTime;
     }
 
-    // Override toString() so that String format resembles
-    // that of Level-4's sample output for event tasks
+    /** Returns the event task in its display format.
+     *
+     * @return Formatted event task.
+     */
     @Override
     public String toString() {
-        String dateAndTime = String.format(" (from: %s to: %s)", this.startTime, this.endTime);
-        return "[E]"+super.toString()+dateAndTime;
+        String dateAndTime = String.format(" (from: %s to: %s)", startTime, endTime);
+        return "[E]" + super.toString() + dateAndTime;
     }
 }
