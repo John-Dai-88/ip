@@ -1,5 +1,9 @@
 package jarvis.ui;
 
+import jarvis.classes.Deadline;
+import jarvis.classes.Event;
+import jarvis.classes.ToDo;
+
 import jarvis.exceptions.IncompleteCommandException;
 
 import java.time.LocalDate;
@@ -23,7 +27,7 @@ public class Parser {
      * @return The todo task description.
      * @throws IncompleteCommandException If the command is incomplete.
      */
-    public static String parseToDo(String userInput)
+    public static ToDo parseToDo(String userInput)
             throws IncompleteCommandException {
 
         String task = userInput.substring(5).trim();
@@ -36,7 +40,7 @@ public class Parser {
             );
         }
 
-        return task;
+        return new ToDo(task);
     }
 
     /**
@@ -46,7 +50,7 @@ public class Parser {
      * @return An array containing task and deadline.
      * @throws IncompleteCommandException If the command is incomplete.
      */
-    public static DateTimeTaskData parseDeadline(String userInput)
+    public static Deadline parseDeadline(String userInput)
             throws IncompleteCommandException {
 
         int positionOfBy = userInput.indexOf("/by");
@@ -97,7 +101,7 @@ public class Parser {
             );
         }
 
-        return new DateTimeTaskData(task, deadlineDateAndTime);
+        return new Deadline(task, deadlineDateAndTime);
     }
 
     /**
@@ -107,7 +111,7 @@ public class Parser {
      * @return An array containing task, start date/time and end date/time.
      * @throws IncompleteCommandException If the command is incomplete.
      */
-    public static DateTimeTaskData parseEvent(String userInput)
+    public static Event parseEvent(String userInput)
             throws IncompleteCommandException {
 
         int positionOfFrom = userInput.indexOf("/from");
@@ -174,7 +178,7 @@ public class Parser {
             }
         }
 
-        return new DateTimeTaskData(task, eventStartDateAndTime, eventEndDateAndTime);
+        return new Event(task, eventStartDateAndTime, eventEndDateAndTime);
     }
 
     /**
@@ -194,7 +198,8 @@ public class Parser {
         } catch (ArrayIndexOutOfBoundsException | NumberFormatException error) {
             throw new IncompleteCommandException(
                     "Error : Your command is missing certain parameters.\n"
-                            + "Please re-enter your command with a valid task number.\n"
+                            + "Please re-enter your command with a valid task number in the form.\n"
+                            + "mark 1 / unmark 2 / delete 3\n"
                             + BORDER_LINE
             );
         }
