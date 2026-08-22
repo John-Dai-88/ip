@@ -126,7 +126,7 @@ public class Parser {
      * Extracts the task, start date/time and end date/time from an event command.
      *
      * @param userInput User's command.
-     * @return A Event containing the task, start date or/and time and end date or/and time.
+     * @return An Event containing the task, start date or/and time and end date or/and time.
      * @throws IncompleteCommandException If the command is incomplete.
      * @throws InvalidDateAndTimeException If the date/time is incomplete
      * @throws InvalidStartAndEndTimeException If the end datetime is before the start date/time
