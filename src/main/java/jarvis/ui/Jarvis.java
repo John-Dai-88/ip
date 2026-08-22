@@ -60,10 +60,9 @@ public class Jarvis {
      * @throws JarvisException If the command is incomplete.
      */
     public static void createToDoTask(String userInput) throws JarvisException {
-        String taskDescription = Parser.parseToDo(userInput);
-        ToDo task = new ToDo(taskDescription);
-        taskList.addTask(task);
-        printAddedTask(task);
+        ToDo toDoTask = Parser.parseToDo(userInput);
+        taskList.addTask(toDoTask);
+        printAddedTask(toDoTask);
     }
 
     /** Creates and stores a deadline task from the user's command.
@@ -72,10 +71,9 @@ public class Jarvis {
      * @throws JarvisException If the command is invalid.
      */
     public static void createDeadlineTask(String userInput) throws JarvisException {
-        DateTimeTaskData parsedDeadline = Parser.parseDeadline(userInput);
-        Deadline task = new Deadline(parsedDeadline.getTask(), parsedDeadline.getEndDateTime().toString());
-        taskList.addTask(task);
-        printAddedTask(task);
+        Deadline deadlineTask = Parser.parseDeadline(userInput);
+        taskList.addTask(deadlineTask);
+        printAddedTask(deadlineTask);
     }
 
     /** Creates and stores an event task from the user's command.
@@ -84,10 +82,9 @@ public class Jarvis {
      * @throws JarvisException If the command is invalid.
      */
     public static void createEventTask(String userInput) throws JarvisException {
-        DateTimeTaskData parsedEvent = Parser.parseEvent(userInput);
-        Event task = new Event(parsedEvent.getTask(), parsedEvent.getStartDateTime().toString(), parsedEvent.getEndDateTime().toString());
-        taskList.addTask(task);
-        printAddedTask(task);
+        Event eventTask = Parser.parseEvent(userInput);
+        taskList.addTask(eventTask);
+        printAddedTask(eventTask);
     }
 
     /** Sets the completion status of the selected task.
