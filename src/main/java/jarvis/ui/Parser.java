@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
+/** Parses user commands and converts them into tasks or command parameters. */
 public class Parser {
 
     private static final String BORDER_LINE =
