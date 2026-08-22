@@ -2,8 +2,8 @@ package jarvis.ui;
 
 import java.time.LocalDateTime;
 
-/** Format user inputted date and time. */
-public class DateTimeData {
+/** Format user inputted Task and deadline into a single class. */
+public class DateTimeTaskData {
 
     private final String task;
     private final LocalDateTime startDateTime;
@@ -15,7 +15,7 @@ public class DateTimeData {
      * @param task
      * @param endDateTime
      */
-    public DateTimeData(String task, LocalDateTime endDateTime) {
+    public DateTimeTaskData(String task, LocalDateTime endDateTime) {
         this.task = task;
         this.startDateTime = null;
         this.endDateTime = endDateTime;
@@ -29,7 +29,7 @@ public class DateTimeData {
      * @param startDateTime
      * @param endDateTime
      */
-    public DateTimeData(String task, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+    public DateTimeTaskData(String task, LocalDateTime startDateTime, LocalDateTime endDateTime) {
         this.task = task;
         this.startDateTime = startDateTime;
         this.endDateTime = endDateTime;
