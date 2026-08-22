@@ -46,7 +46,7 @@ public class Parser {
      * @return An array containing task and deadline.
      * @throws IncompleteCommandException If the command is incomplete.
      */
-    public static DateTimeData parseDeadline(String userInput)
+    public static DateTimeTaskData parseDeadline(String userInput)
             throws IncompleteCommandException {
 
         int positionOfBy = userInput.indexOf("/by");
@@ -80,8 +80,8 @@ public class Parser {
                 throw new IncompleteCommandException(
                         "Error : Invalid date/ date & time format.\n"
                                 + "Please use either one of the format below : \n"
-                                + "For date only : yyyy-MM-dd \n"
-                                + "For date and time : yy-MM-dd HH:mm\n"
+                                + "For date only : deadline <Task> /by yyyy-MM-dd \n"
+                                + "For date and time : deadline <Task> /by yyyy-MM-dd HH:mm\n"
                                 + "Ex : deadline <Task> /by 2026-08-22 18:00\n"
                                 + BORDER_LINE
                 );
@@ -97,7 +97,7 @@ public class Parser {
             );
         }
 
-        return new DateTimeData(task, deadlineDateAndTime);
+        return new DateTimeTaskData(task, deadlineDateAndTime);
     }
 
     /**
@@ -107,7 +107,7 @@ public class Parser {
      * @return An array containing task, start date/time and end date/time.
      * @throws IncompleteCommandException If the command is incomplete.
      */
-    public static String[] parseEvent(String userInput)
+    public static DateTimeTaskData parseEvent(String userInput)
             throws IncompleteCommandException {
 
         int positionOfFrom = userInput.indexOf("/from");
@@ -145,7 +145,36 @@ public class Parser {
             );
         }
 
-        return new String[]{task, startDateTime, endDateTime};
+        LocalDateTime eventStartDateAndTime, eventEndDateAndTime;
+
+        try {
+            // Attempt parsing date and time first
+            eventStartDateAndTime = LocalDateTime.parse(startDateTime, DATE_TIME_FORMATTER);
+            eventEndDateAndTime = LocalDateTime.parse(endDateTime, DATE_TIME_FORMATTER);
+        } catch (DateTimeParseException error1) {
+
+            try {
+                // Retry to see user only inputted date
+                LocalDate eventStartDate, eventEndDate;
+                eventStartDate = LocalDate.parse(startDateTime, DATE_FORMATTER);
+                eventEndDate = LocalDate.parse(endDateTime, DATE_FORMATTER);
+
+                // Convert date only deadline to date and time deadline
+                eventStartDateAndTime = eventStartDate.atStartOfDay();
+                eventEndDateAndTime = eventEndDate.atStartOfDay();
+            } catch (DateTimeParseException error2) {
+                throw new IncompleteCommandException(
+                        "Error : Invalid date/date & time format.\n"
+                                + "Please use either one of the format below : \n"
+                                + "For date only : event <Task> /from yyyy-MM-dd /to yyyy-MM-dd\n"
+                                + "For date and time : event <Task> /from yyyy-MM-dd HH:mm /to yyyy-MM-dd HH:mm\n"
+                                + "Ex : event <Task> /from 2026-08-27 12:00 /to 2026-08-28 12:00\n"
+                                + BORDER_LINE
+                );
+            }
+        }
+
+        return new DateTimeTaskData(task, eventStartDateAndTime, eventEndDateAndTime);
     }
 
     /**

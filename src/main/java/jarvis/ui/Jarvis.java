@@ -72,7 +72,7 @@ public class Jarvis {
      * @throws JarvisException If the command is invalid.
      */
     public static void createDeadlineTask(String userInput) throws JarvisException {
-        DateTimeData parsedDeadline = Parser.parseDeadline(userInput);
+        DateTimeTaskData parsedDeadline = Parser.parseDeadline(userInput);
         Deadline task = new Deadline(parsedDeadline.getTask(), parsedDeadline.getEndDateTime().toString());
         taskList.addTask(task);
         printAddedTask(task);
@@ -84,8 +84,8 @@ public class Jarvis {
      * @throws JarvisException If the command is invalid.
      */
     public static void createEventTask(String userInput) throws JarvisException {
-        String[] parsedEvent = Parser.parseEvent(userInput);
-        Event task = new Event(parsedEvent[0], parsedEvent[1], parsedEvent[2]);
+        DateTimeTaskData parsedEvent = Parser.parseEvent(userInput);
+        Event task = new Event(parsedEvent.getTask(), parsedEvent.getStartDateTime().toString(), parsedEvent.getEndDateTime().toString());
         taskList.addTask(task);
         printAddedTask(task);
     }
