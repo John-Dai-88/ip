@@ -35,6 +35,15 @@ public class Task implements  Serializable {
         this.completedStatus = status;
     }
 
+    /**
+     * Return the name of task.
+     *
+     * @return Name of task.
+     */
+    public String getTask() {
+        return taskName;
+    }
+
     /** Returns the task in the format used by the task list.
      *
      * @return Formatted task description and completion marker.
