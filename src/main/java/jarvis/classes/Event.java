@@ -26,24 +26,6 @@ public class Event extends Task {
         this.endTime = endTime;
     }
 
-    /**
-     * Return the start of the deadline.
-     *
-     * @return The date/date and time of the start of the deadline.
-     */
-    public LocalDateTime getStartDateTime() {
-        return startTime;
-    }
-
-    /**
-     * Return the end of the deadline.
-     *
-     * @return The date/date and time of the end of the deadline.
-     */
-    public LocalDateTime getEndDateTime() {
-        return endTime;
-    }
-
     /** Formats and returns the event task in its display format.
      *
      * @return Formatted event task.
@@ -59,6 +41,6 @@ public class Event extends Task {
         }
 
         String dateAndTime = String.format(" (from: %s to: %s)", startTime.format(formatter), endTime.format(formatter));
-        return "[D]" + super.toString() + dateAndTime;
+        return "[E]" + super.toString() + dateAndTime;
     }
 }

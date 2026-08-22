@@ -35,14 +35,14 @@ public class Task implements  Serializable {
         this.completedStatus = status;
     }
 
-    /**
-     * Return the name of task.
+    /** Get the status of this task.
      *
-     * @return Name of task.
+     * @return Current completion status of this task
      */
-    public String getTask() {
-        return taskName;
+    public CompletionStatus getStatus() {
+        return completedStatus;
     }
+
 
     /** Returns the task in the format used by the task list.
      *
