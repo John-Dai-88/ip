@@ -2,10 +2,19 @@ package jarvis.ui;
 
 import jarvis.exceptions.IncompleteCommandException;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
 public class Parser {
 
     private static final String BORDER_LINE =
             "---------------------------------------------------------------------\n";
+
+    // To format date&Time based on the example in Level-8
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     /**
      * Extracts the description of a todo task.
@@ -37,7 +46,7 @@ public class Parser {
      * @return An array containing task and deadline.
      * @throws IncompleteCommandException If the command is incomplete.
      */
-    public static String[] parseDeadline(String userInput)
+    public static DateTimeData parseDeadline(String userInput)
             throws IncompleteCommandException {
 
         int positionOfBy = userInput.indexOf("/by");
@@ -46,7 +55,7 @@ public class Parser {
             throw new IncompleteCommandException(
                     "Error : Your command is missing certain parameters.\n"
                             + "Please re-enter your command in the format : "
-                            + "deadline <Task> /by <deadline>\n"
+                            + "deadline <Task> /by <yyyy-MM-DD [HH:mm]>\n"
                             + BORDER_LINE
             );
         }
@@ -54,16 +63,41 @@ public class Parser {
         String task = userInput.substring(9, positionOfBy).trim();
         String deadline = userInput.substring(positionOfBy + 3).trim();
 
+        LocalDateTime deadlineDateAndTime;
+
+        try {
+            // Attempt parsing date and time first
+            deadlineDateAndTime = LocalDateTime.parse(deadline, DATE_TIME_FORMATTER);
+        } catch (DateTimeParseException error1) {
+
+            try {
+                // Retry to see user only inputted date
+                LocalDate deadlineDate = LocalDate.parse(deadline, DATE_FORMATTER);
+
+                // Convert date only deadline to date and time deadline
+                deadlineDateAndTime = deadlineDate.atStartOfDay();
+            } catch (DateTimeParseException error2) {
+                throw new IncompleteCommandException(
+                        "Error : Invalid date/ date & time format.\n"
+                                + "Please use either one of the format below : \n"
+                                + "For date only : yyyy-MM-dd \n"
+                                + "For date and time : yy-MM-dd HH:mm\n"
+                                + "Ex : deadline <Task> /by 2026-08-22 18:00\n"
+                                + BORDER_LINE
+                );
+            }
+        }
+
         if (task.isEmpty() || deadline.isEmpty()) {
             throw new IncompleteCommandException(
                     "Error : Your command is missing certain parameters.\n"
                             + "Please re-enter your command in the format : "
-                            + "deadline <Task> /by <deadline>\n"
+                            + "deadline <Task> /by <yyyy-MM-DD [HH:mm]>\n"
                             + BORDER_LINE
             );
         }
 
-        return new String[]{task, deadline};
+        return new DateTimeData(task, deadlineDateAndTime);
     }
 
     /**
@@ -86,7 +120,7 @@ public class Parser {
             throw new IncompleteCommandException(
                     "Error : Your command is missing certain parameters.\n"
                             + "Please re-enter your command in the format : "
-                            + "event <Task> /from <startDateTime> /to <endDateTime>\n"
+                            + "event <Task> /from <yyyy-MM-DD [HH:mm]> /to <yyyy-MM-DD [HH:mm]>\n"
                             + BORDER_LINE
             );
         }
@@ -106,7 +140,7 @@ public class Parser {
             throw new IncompleteCommandException(
                     "Error : Your command is missing certain parameters.\n"
                             + "Please re-enter your command in the format : "
-                            + "event <Task> /from <startDateTime> /to <endDateTime>\n"
+                            + "event <Task> /from <yyyy-MM-DD [HH:mm]> /to <yyyy-MM-DD [HH:mm]>\n"
                             + BORDER_LINE
             );
         }

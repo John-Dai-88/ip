@@ -72,8 +72,8 @@ public class Jarvis {
      * @throws JarvisException If the command is invalid.
      */
     public static void createDeadlineTask(String userInput) throws JarvisException {
-        String[] parsedDeadline = Parser.parseDeadline(userInput);
-        Deadline task = new Deadline(parsedDeadline[0], parsedDeadline[1]);
+        DateTimeData parsedDeadline = Parser.parseDeadline(userInput);
+        Deadline task = new Deadline(parsedDeadline.getTask(), parsedDeadline.getEndDateTime().toString());
         taskList.addTask(task);
         printAddedTask(task);
     }
