@@ -30,6 +30,14 @@ public class Parser {
     public static ToDo parseToDo(String userInput)
             throws IncompleteCommandException {
 
+        if(userInput.length() < 5) {
+            throw new IncompleteCommandException(
+                    "Error : Your command is missing certain parameters.\n"
+                            + "Please re-enter your command in the format : todo <Task>\n"
+                            + BORDER_LINE
+            );
+        }
+
         String task = userInput.substring(5).trim();
 
         if (task.isEmpty()) {
