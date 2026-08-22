@@ -9,6 +9,7 @@ import jarvis.classes.Task;
 import jarvis.classes.ToDo;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 /** Tests task-list operations. */
 public class TaskListTest {
@@ -59,8 +60,12 @@ public class TaskListTest {
     /** Verifies that completion status updates are applied to the selected task. */
     @Test
     public void setCompletionStatus_taskStatusIsUpdated() {
-        TaskList taskList = new TaskList(java.util.List.of(new ToDo("Read book")));
+        TaskList taskList = new TaskList();
+
+        ToDo todoTask = new ToDo("Read book");
         Deadline deadlineTask = new Deadline("Return book", LocalDateTime.of(2026, 8, 22, 23, 45));
+
+        taskList.addTask(todoTask);
         taskList.addTask(deadlineTask);
 
         taskList.setCompletionStatus(0, Task.CompletionStatus.DONE);
