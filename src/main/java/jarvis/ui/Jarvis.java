@@ -63,7 +63,6 @@ public class Jarvis {
         ToDo toDoTask = Parser.parseToDo(userInput);
         taskList.addTask(toDoTask);
         printAddedTask(toDoTask);
-        Storage.saveTasks(taskList.getTasks());
     }
 
     /** Creates and stores a deadline task from the user's command.
@@ -75,7 +74,6 @@ public class Jarvis {
         Deadline deadlineTask = Parser.parseDeadline(userInput);
         taskList.addTask(deadlineTask);
         printAddedTask(deadlineTask);
-        Storage.saveTasks(taskList.getTasks());
     }
 
     /** Creates and stores an event task from the user's command.
@@ -87,7 +85,6 @@ public class Jarvis {
         Event eventTask = Parser.parseEvent(userInput);
         taskList.addTask(eventTask);
         printAddedTask(eventTask);
-        Storage.saveTasks(taskList.getTasks());
     }
 
     /** Sets the completion status of the selected task.
@@ -106,8 +103,6 @@ public class Jarvis {
         System.out.println("\nVery well Sir/Ma' am, I have marked the following task as: \n"
                 + taskList.getTask(taskIndex) + "\n"
                 + BORDER_LINE);
-
-        Storage.saveTasks(taskList.getTasks());
     }
 
     /** Deletes the task selected by the user's command.
@@ -125,8 +120,6 @@ public class Jarvis {
                 + "from your list of tasks-to-do: \n%s\n"
                 + "Please do note Sir/Ma' am, now you have %d task(s) awaiting you \n"
                 + BORDER_LINE, deletedTask, taskList.size());
-
-        Storage.saveTasks(taskList.getTasks());
     }
 
     /** Prints a confirmation after adding a task.
