@@ -1,46 +1,50 @@
 package jarvis.storage;
 
-import jarvis.classes.Task;
-
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
+import jarvis.classes.Deadline;
+import jarvis.classes.Event;
+import jarvis.classes.Task;
+import jarvis.classes.ToDo;
+
 /** Handles saving and loading Jarvis tasks from the hard disk. */
 public class Storage {
-
-    // File location of where the tasks list data will be stored
-    private static final String FILE_PATH = "./data/jarvis.dat";
+    private static final String FILE_PATH = "./data/jarvis.txt";
+    private static final DateTimeFormatter DATE_TIME_FORMATTER =
+            DateTimeFormatter.ofPattern("MM dd uuuu HH:mm");
+    private static final DateTimeFormatter DATE_FORMATTER =
+            DateTimeFormatter.ofPattern("MM dd uuuu");
 
     /** Saves all tasks to the hard disk.
      *
-     * @param tasks List of tasks to save.
+     * @param tasks Tasks to save.
      */
     public static void saveTasks(List<Task> tasks) {
-        // Create a file object where tasks will be written into
         File file = new File(FILE_PATH);
 
         try {
-            // Create the data directory if it does not already exist
             File parentDirectory = file.getParentFile();
-
-            // Checks if the data directory exists in user's directory
             if (parentDirectory != null && !parentDirectory.exists()) {
                 parentDirectory.mkdirs();
             }
 
-            // Write the tasks list to the file
-            ObjectOutputStream outputStream =
-                    new ObjectOutputStream(new FileOutputStream(file));
-
-            outputStream.writeObject(tasks);
-            outputStream.close();
-
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+                for (Task task : tasks) {
+                    writer.write(task.toString());
+                    writer.newLine();
+                }
+            }
         } catch (IOException error) {
             System.err.println("Error: Unable to save tasks to the hard disk.");
         }
@@ -50,29 +54,95 @@ public class Storage {
      *
      * @return Previously saved tasks, or an empty list if no save file exists.
      */
-    @SuppressWarnings("unchecked")
     public static List<Task> loadTasks() {
-        // Create a file object where tasks will be written into
         File file = new File(FILE_PATH);
+        List<Task> tasks = new ArrayList<>();
 
-        // If there is no save file, start with an empty task list
         if (!file.exists()) {
+            return tasks;
+        }
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (!line.trim().isEmpty()) {
+                    addTaskFromLine(tasks, line);
+                }
+            }
+        } catch (IOException | DateTimeParseException error) {
+            System.err.println("Error: Unable to load saved tasks.");
             return new ArrayList<>();
         }
 
+        return tasks;
+    }
+
+    /** Adds a task reconstructed from one storage line.
+     *
+     * @param tasks Destination task list.
+     * @param line Serialized task line.
+     */
+    private static void addTaskFromLine(List<Task> tasks, String line) {
+        if (line.startsWith("[T]")) {
+            boolean isDone = line.startsWith("[T][X]");
+            String prefix = isDone ? "[T][X]" : "[T][]";
+            ToDo task = new ToDo(line.substring(prefix.length()).trim());
+            setDoneIfNeeded(task, isDone);
+            tasks.add(task);
+        } else if (line.startsWith("[D]")) {
+            boolean isDone = line.startsWith("[D][X]");
+            String prefix = isDone ? "[D][X]" : "[D][]";
+            int byPosition = line.indexOf("(by:");
+            String description = line.substring(prefix.length(), byPosition).trim();
+            String dateText = removeClosingParenthesis(
+                    line.substring(byPosition + "(by:".length()).trim());
+            Deadline task = new Deadline(description, parseDateTime(dateText));
+            setDoneIfNeeded(task, isDone);
+            tasks.add(task);
+        } else if (line.startsWith("[E]")) {
+            boolean isDone = line.startsWith("[E][X]");
+            String prefix = isDone ? "[E][X]" : "[E][]";
+            int fromPosition = line.indexOf("(from:");
+            int toPosition = line.indexOf(" to:");
+            String description = line.substring(prefix.length(), fromPosition).trim();
+            String startText = line.substring(fromPosition + "(from:".length(), toPosition).trim();
+            String endText = removeClosingParenthesis(line.substring(toPosition + " to:".length()).trim());
+            Event task = new Event(description, parseDateTime(startText), parseDateTime(endText));
+            setDoneIfNeeded(task, isDone);
+            tasks.add(task);
+        }
+    }
+
+    /** Sets a task's completed state when it was saved as completed.
+     *
+     * @param task Task to update.
+     * @param isDone Whether the stored task was completed.
+     */
+    private static void setDoneIfNeeded(Task task, boolean isDone) {
+        if (isDone) {
+            task.setCompletionStatus(Task.CompletionStatus.DONE);
+        }
+    }
+
+    /** Removes the closing parenthesis from a stored date/time field.
+     *
+     * @param value Stored field.
+     * @return Field without its closing parenthesis.
+     */
+    private static String removeClosingParenthesis(String value) {
+        return value.endsWith(")") ? value.substring(0, value.length() - 1).trim() : value;
+    }
+
+    /** Parses either a date-time or date-only value.
+     *
+     * @param value Stored date/time text.
+     * @return Parsed date/time, using midnight for date-only values.
+     */
+    private static LocalDateTime parseDateTime(String value) {
         try {
-            // Reads and fetch the tasks list from the file
-            ObjectInputStream inputStream =
-                    new ObjectInputStream(new FileInputStream(file));
-
-            List<Task> tasks = (List<Task>) inputStream.readObject();
-            inputStream.close();
-
-            return tasks;
-
-        } catch (IOException | ClassNotFoundException error) {
-            System.err.println("Error: Unable to load saved tasks.");
-            return new ArrayList<>();
+            return LocalDateTime.parse(value, DATE_TIME_FORMATTER);
+        } catch (DateTimeParseException error) {
+            return LocalDate.parse(value, DATE_FORMATTER).atStartOfDay();
         }
     }
 }
