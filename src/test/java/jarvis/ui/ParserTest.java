@@ -128,6 +128,8 @@ public class ParserTest {
     public void parseKeyWord_validCommand_returnsKeyWord() throws Exception {
         assertEquals("book", Parser.parseTaskKeyWord("find book"));
         assertEquals("read", Parser.parseTaskKeyWord("find read"));
+        assertEquals("book", Parser.parseTaskKeyWord("find BOOK"));
+        assertEquals("read", Parser.parseTaskKeyWord("find READ"));
         assertEquals("a", Parser.parseTaskKeyWord("find a"));
         assertEquals("8", Parser.parseTaskKeyWord("find 8"));
     }

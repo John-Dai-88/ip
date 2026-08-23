@@ -247,7 +247,7 @@ public class Parser {
      * @return The keyword to filter tasks by.
      */
     public static String parseTaskKeyWord(String userInput) throws IncompleteCommandException {
-        String taskKeyWord = userInput.substring(FIND_COMMAND.length()).trim();
+        String taskKeyWord = userInput.substring(FIND_COMMAND.length()).trim().toLowerCase();
 
         if (taskKeyWord.isEmpty()) {
             throw new IncompleteCommandException(
