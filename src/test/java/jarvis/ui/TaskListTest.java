@@ -102,13 +102,12 @@ public class TaskListTest {
         testCase1TaskList.add(deadlineTask);
         testCase2TaskList.add(todoTask);
 
-        assertEquals(testCase1TaskList, taskList.filterTasks("Do"));
         assertEquals(testCase1TaskList, taskList.filterTasks("do"));
-        assertEquals(testCase1TaskList, taskList.filterTasks("Coding"));
         assertEquals(testCase1TaskList, taskList.filterTasks("coding"));
+        assertEquals(testCase1TaskList, taskList.filterTasks("cod"));
 
         assertEquals(testCase2TaskList, taskList.filterTasks("book"));
-        assertEquals(testCase2TaskList, taskList.filterTasks("Book"));
+        assertEquals(testCase2TaskList, taskList.filterTasks("boo"));
 
         Event eventTask = new Event("Return book",
                 LocalDateTime.of(2026, 8, 21, 9, 45),
@@ -121,11 +120,11 @@ public class TaskListTest {
 
         testCase4TaskList.add(eventTask);
 
+        assertEquals(testCase3TaskList, taskList.filterTasks("boo"));
         assertEquals(testCase3TaskList, taskList.filterTasks("book"));
-        assertEquals(testCase3TaskList, taskList.filterTasks("Book"));
 
 
-        assertEquals(testCase4TaskList, taskList.filterTasks("Return"));
         assertEquals(testCase4TaskList, taskList.filterTasks("return"));
+        assertEquals(testCase4TaskList, taskList.filterTasks("turn"));
     }
 }
