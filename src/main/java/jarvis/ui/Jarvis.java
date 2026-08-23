@@ -10,6 +10,8 @@ import jarvis.exceptions.JarvisException;
 
 import jarvis.storage.Storage;
 
+import java.util.List;
+
 /** Runs the Jarvis chatbot and processes task-management commands. */
 public class Jarvis {
     private static final String BORDER_LINE = "---------------------------------------------------------------------\n";
@@ -30,6 +32,8 @@ public class Jarvis {
                     ui.showClipThat();
                 } else if (userInput.equals("list")) {
                     ui.listAllTasks(taskList.getTasks());
+                } else if (userInput.startsWith("find")) {
+                    ui.listAllTasks(filterTasks(userInput));
                 } else if (userInput.startsWith("mark")) {
                     markTaskAs(userInput, Task.CompletionStatus.DONE);
                 } else if (userInput.startsWith("unmark")) {
@@ -146,5 +150,17 @@ public class Jarvis {
                             + "1 to %d\n", taskList.size())
                             + BORDER_LINE);
         }
+    }
+
+    /** Find task(s) based on a key word
+     *
+     * @param userInput
+     * @return filteredList
+     * @throws JarvisException
+     */
+    public static List<Task> filterTasks(String userInput) throws JarvisException {
+        String taskKeyWord = Parser.parseTaskKeyWord(userInput);
+        List<Task> filteredList = taskList.filterTasks(taskKeyWord);
+        return filteredList;
     }
 }
