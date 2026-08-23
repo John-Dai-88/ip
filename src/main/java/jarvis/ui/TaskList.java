@@ -94,7 +94,7 @@ public class TaskList {
         List<Task> filteredTasks = new ArrayList<>();
 
         for(Task task : tasks) {
-            if(task.getTaskName().toLowerCase().equals(filterKeyWord)) {
+            if(task.getTaskName().toLowerCase().contains(filterKeyWord)) {
                 filteredTasks.add(task);
             }
         }
