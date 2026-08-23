@@ -122,4 +122,21 @@ public class ParserTest {
         assertThrows(IncompleteCommandException.class, () -> Parser.parseTaskNumber("unmark"));
         assertThrows(IncompleteCommandException.class, () -> Parser.parseTaskNumber("unmark "));
     }
+
+    /** Verifies that key words are parsed from commands. */
+    @Test
+    public void parseKeyWord_validCommand_returnsKeyWord() throws Exception {
+        assertEquals("book", Parser.parseTaskKeyWord("find book"));
+        assertEquals("read", Parser.parseTaskKeyWord("find read"));
+        assertEquals("a", Parser.parseTaskKeyWord("find a"));
+        assertEquals("8", Parser.parseTaskKeyWord("find 8"));
+    }
+
+    /** Verifies that an incomplete find command is rejected. */
+    @Test
+    public void parseKeyWord_missingDescription_throwsException() {
+        assertThrows(IncompleteCommandException.class, () -> Parser.parseTaskKeyWord("find"));
+        assertThrows(IncompleteCommandException.class, () -> Parser.parseTaskKeyWord("find "));
+        assertThrows(IncompleteCommandException.class, () -> Parser.parseTaskKeyWord("find    "));
+    }
 }
