@@ -28,6 +28,7 @@ public class Parser {
     private static final String TODO_COMMAND = "todo ";
     private static final String DEADLINE_COMMAND = "deadline ";
     private static final String EVENT_COMMAND = "event ";
+    private static final String FIND_COMMAND = "find";
 
     /**
      * Extracts the description of a todo task.
@@ -238,4 +239,25 @@ public class Parser {
             );
         }
     }
+
+    /**
+     * Extracts the keyword from a find command.
+     *
+     * @param userInput User's command containing the keyword.
+     * @return The keyword to filter tasks by.
+     */
+    public static String parseTaskKeyWord(String userInput) throws IncompleteCommandException {
+        String taskKeyWord = userInput.substring(FIND_COMMAND.length()).trim();
+
+        if (taskKeyWord.isEmpty()) {
+            throw new IncompleteCommandException(
+                    "Error : Your command is missing certain parameters.\n"
+                            + "Please re-enter your command with a key word in the format : find <key word>.\n"
+                            + BORDER_LINE
+            );
+        }
+
+        return taskKeyWord;
+    }
+
 }
