@@ -154,9 +154,9 @@ public class Jarvis {
 
     /** Find task(s) based on a key word
      *
-     * @param userInput
-     * @return filteredList
-     * @throws JarvisException
+     * @param userInput User's command containing the key word
+     * @return A list of tasks filtered by key word
+     * @throws JarvisException If the find command is incomplete
      */
     public static List<Task> filterTasks(String userInput) throws JarvisException {
         String taskKeyWord = Parser.parseTaskKeyWord(userInput);
