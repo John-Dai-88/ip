@@ -3,6 +3,7 @@ package jarvis.ui;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import jarvis.exceptions.TooSimpleArgumentException;
 import org.junit.jupiter.api.Test;
 
 import jarvis.classes.Deadline;
@@ -130,8 +131,6 @@ public class ParserTest {
         assertEquals("read", Parser.parseTaskKeyWord("find read"));
         assertEquals("book", Parser.parseTaskKeyWord("find BOOK"));
         assertEquals("read", Parser.parseTaskKeyWord("find READ"));
-        assertEquals("a", Parser.parseTaskKeyWord("find a"));
-        assertEquals("8", Parser.parseTaskKeyWord("find 8"));
     }
 
     /** Verifies that an incomplete find command is rejected. */
@@ -140,5 +139,13 @@ public class ParserTest {
         assertThrows(IncompleteCommandException.class, () -> Parser.parseTaskKeyWord("find"));
         assertThrows(IncompleteCommandException.class, () -> Parser.parseTaskKeyWord("find "));
         assertThrows(IncompleteCommandException.class, () -> Parser.parseTaskKeyWord("find    "));
+    }
+
+    /** Verifies that a simple find key word is rejected. */
+    @Test
+    public void parseKeyWord_simpleKeyWord_throwsException() {
+        assertThrows(TooSimpleArgumentException.class, () -> Parser.parseTaskKeyWord("find a"));
+        assertThrows(TooSimpleArgumentException.class, () -> Parser.parseTaskKeyWord("find A"));
+        assertThrows(TooSimpleArgumentException.class, () -> Parser.parseTaskKeyWord("find 1"));
     }
 }

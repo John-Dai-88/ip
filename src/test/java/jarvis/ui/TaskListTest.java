@@ -93,17 +93,22 @@ public class TaskListTest {
         List<Task> testCase3TaskList = new ArrayList<>();
         List<Task> testCase4TaskList = new ArrayList<>();
 
-        ToDo todoTask = new ToDo("Read book");
+        ToDo todoTask1 = new ToDo("Read book");
         Deadline deadlineTask = new Deadline("Do Coding", LocalDateTime.of(2026, 8, 22, 23, 45));
+        ToDo todoTask2 = new ToDo("Check Code");
 
-        taskList.addTask(todoTask);
+        taskList.addTask(todoTask1);
         taskList.addTask(deadlineTask);
+        taskList.addTask(todoTask2);
 
         testCase1TaskList.add(deadlineTask);
-        testCase2TaskList.add(todoTask);
+        testCase2TaskList.add(todoTask1);
 
         assertEquals(testCase1TaskList, taskList.filterTasks("do"));
         assertEquals(testCase1TaskList, taskList.filterTasks("coding"));
+
+        testCase1TaskList.add(todoTask2);
+
         assertEquals(testCase1TaskList, taskList.filterTasks("cod"));
 
         assertEquals(testCase2TaskList, taskList.filterTasks("book"));
@@ -115,7 +120,7 @@ public class TaskListTest {
 
         taskList.addTask(eventTask);
 
-        testCase3TaskList.add(todoTask);
+        testCase3TaskList.add(todoTask1);
         testCase3TaskList.add(eventTask);
 
         testCase4TaskList.add(eventTask);
