@@ -47,9 +47,7 @@ public class Task implements  Serializable {
      *
      * @return Description of this task
      */
-    public String getTaskName() {
-        return taskName;
-    }
+    public String getTaskName() { return taskName; }
 
 
     /** Returns the task in the format used by the task list.
