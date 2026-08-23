@@ -83,4 +83,22 @@ public class TaskList {
     public void saveTasks() {
         Storage.saveTasks(tasks);
     }
+
+    /** Return tasks whose description contain the given key word.
+     *
+     * @param taskKeyWord The key word to filter tasks by
+     * @return List of tasks matching the keyword.
+     */
+    public List<Task> filterTasks(String taskKeyWord) {
+        String filterKeyWord = taskKeyWord.toLowerCase();
+        List<Task> filteredTasks = new ArrayList<>();
+
+        for(Task task : tasks) {
+            if(task.getTaskName().toLowerCase().equals(filterKeyWord)) {
+                filteredTasks.add(task);
+            }
+        }
+
+        return filteredTasks;
+    }
 }
