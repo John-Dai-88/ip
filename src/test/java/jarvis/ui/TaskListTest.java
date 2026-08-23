@@ -3,6 +3,8 @@ package jarvis.ui;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import jarvis.classes.Deadline;
+import jarvis.classes.Event;
+
 import org.junit.jupiter.api.Test;
 
 import jarvis.classes.Task;
@@ -10,6 +12,7 @@ import jarvis.classes.ToDo;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 /** Tests task-list operations. */
 public class TaskListTest {
@@ -79,5 +82,50 @@ public class TaskListTest {
 
         assertEquals(Task.CompletionStatus.UNDONE, taskList.getTask(0).getStatus());
         assertEquals(Task.CompletionStatus.UNDONE, taskList.getTask(1).getStatus());
+    }
+
+    /** Verifies that tasks are filtered correctly based on key word. */
+    @Test
+    public void filterTasks_tasksAreFilteredCorrectly() {
+        TaskList taskList = new TaskList();
+        List<Task> testCase1TaskList = new ArrayList<>();
+        List<Task> testCase2TaskList = new ArrayList<>();
+        List<Task> testCase3TaskList = new ArrayList<>();
+        List<Task> testCase4TaskList = new ArrayList<>();
+
+        ToDo todoTask = new ToDo("Read book");
+        Deadline deadlineTask = new Deadline("Do Coding", LocalDateTime.of(2026, 8, 22, 23, 45));
+
+        taskList.addTask(todoTask);
+        taskList.addTask(deadlineTask);
+
+        testCase1TaskList.add(deadlineTask);
+        testCase2TaskList.add(todoTask);
+
+        assertEquals(testCase1TaskList, taskList.filterTasks("Do"));
+        assertEquals(testCase1TaskList, taskList.filterTasks("do"));
+        assertEquals(testCase1TaskList, taskList.filterTasks("Coding"));
+        assertEquals(testCase1TaskList, taskList.filterTasks("coding"));
+
+        assertEquals(testCase2TaskList, taskList.filterTasks("book"));
+        assertEquals(testCase2TaskList, taskList.filterTasks("Book"));
+
+        Event eventTask = new Event("Return book",
+                LocalDateTime.of(2026, 8, 21, 9, 45),
+                LocalDateTime.of(2026, 8, 22, 16, 45));
+
+        taskList.addTask(eventTask);
+
+        testCase3TaskList.add(todoTask);
+        testCase3TaskList.add(eventTask);
+
+        testCase4TaskList.add(eventTask);
+
+        assertEquals(testCase3TaskList, taskList.filterTasks("book"));
+        assertEquals(testCase3TaskList, taskList.filterTasks("Book"));
+
+
+        assertEquals(testCase4TaskList, taskList.filterTasks("Return"));
+        assertEquals(testCase4TaskList, taskList.filterTasks("return"));
     }
 }
