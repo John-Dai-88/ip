@@ -61,10 +61,7 @@ public class UI {
 
     /** Print the goodbye message. */
     public void sayGoodbye() {
-        System.out.println(
-                "Goodbye Sir/Ma' am. I hope to be of service to you again next time\n"
-                + BORDER_LINE
-        );
+        System.out.println(EXIT_MESSAGE);
     }
 
     /** Print all tasks. */
