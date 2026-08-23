@@ -7,6 +7,7 @@ import jarvis.classes.ToDo;
 import jarvis.exceptions.IncompleteCommandException;
 import jarvis.exceptions.InvalidDateAndTimeException;
 import jarvis.exceptions.InvalidStartAndEndTimeException;
+import jarvis.exceptions.TooSimpleArgumentException;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -240,19 +241,26 @@ public class Parser {
         }
     }
 
-    /**
-     * Extracts the keyword from a find command.
+    /** Extracts the keyword from a find command.
      *
      * @param userInput User's command containing the keyword.
      * @return The keyword to filter tasks by.
+     * @throws IncompleteCommandException If no key words are inputted by user
+     * @throws TooSimpleArgumentException If the key words are too general
      */
-    public static String parseTaskKeyWord(String userInput) throws IncompleteCommandException {
+    public static String parseTaskKeyWord(String userInput) throws IncompleteCommandException, TooSimpleArgumentException {
         String taskKeyWord = userInput.substring(FIND_COMMAND.length()).trim().toLowerCase();
 
         if (taskKeyWord.isEmpty()) {
             throw new IncompleteCommandException(
                     "Error : Your command is missing certain parameters.\n"
                             + "Please re-enter your command with a key word in the format : find <key word>.\n"
+                            + BORDER_LINE
+            );
+        } else if(taskKeyWord.length() == 1) {
+            throw new TooSimpleArgumentException(
+                    "Error : Your <Key Word> is too general.\n"
+                            + "Please re-enter your command with a key word of minimum 2 characters.\n"
                             + BORDER_LINE
             );
         }
