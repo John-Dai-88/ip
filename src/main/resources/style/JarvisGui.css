@@ -1,0 +1,196 @@
+.root {
+/* JARVIS / Stark-tech color palette */
+main-color: #071017;
+accent-color: #00e5ff;
+glow-color: #00bcd4;
+panel-color: #0d1b24;
+text-color: #d8faff;
+
+-fx-background-color: main-color;
+
+
+}
+
+/* =========================
+TEXT FIELD
+========================= */
+
+.text-field {
+-fx-background-color: #0d1b24;
+-fx-text-fill: text-color;
+-fx-prompt-text-fill: #63808a;
+
+-fx-font: 15px "Arial";
+
+-fx-border-color: accent-color;
+-fx-border-width: 1px;
+-fx-border-radius: 2px;
+
+-fx-background-radius: 2px;
+
+-fx-effect: dropshadow(
+    gaussian,
+    rgba(0, 229, 255, 0.35),
+    8,
+    0.2,
+    0,
+    0
+);
+
+
+}
+
+.text-field:focused {
+-fx-border-color: #ffffff;
+
+-fx-effect: dropshadow(
+    gaussian,
+    rgba(0, 229, 255, 0.75),
+    12,
+    0.35,
+    0,
+    0
+);
+
+
+}
+
+/* =========================
+BUTTON
+========================= */
+
+.button {
+-fx-background-color: transparent;
+-fx-text-fill: accent-color;
+
+-fx-font: bold 15px "Arial";
+
+-fx-border-color: accent-color;
+-fx-border-width: 1px;
+-fx-border-radius: 2px;
+
+-fx-background-radius: 2px;
+
+-fx-cursor: hand;
+
+-fx-effect: dropshadow(
+    gaussian,
+    rgba(0, 229, 255, 0.35),
+    6,
+    0.15,
+    0,
+    0
+);
+
+
+}
+
+.button:hover {
+-fx-background-color: rgba(0, 229, 255, 0.12);
+-fx-text-fill: #ffffff;
+
+-fx-font-size: 16px;
+
+-fx-border-color: #ffffff;
+
+-fx-effect: dropshadow(
+    gaussian,
+    rgba(0, 229, 255, 0.9),
+    14,
+    0.3,
+    0,
+    0
+);
+
+
+}
+
+.button:pressed {
+-fx-background-color: rgba(0, 229, 255, 0.3);
+-fx-text-fill: #ffffff;
+
+-fx-font-size: 16px;
+
+-fx-border-color: accent-color;
+
+-fx-effect: dropshadow(
+    gaussian,
+    rgba(0, 229, 255, 1.0),
+    18,
+    0.45,
+    0,
+    0
+);
+
+
+}
+
+/* =========================
+SCROLL PANE
+========================= */
+
+.scroll-pane,
+.scroll-pane .viewport {
+-fx-background-color: transparent;
+}
+
+.scroll-bar {
+-fx-font-size: 8px;
+-fx-background-color: main-color;
+}
+
+.scroll-bar .thumb {
+-fx-background-color: accent-color;
+-fx-background-radius: 0.5em;
+
+-fx-effect: dropshadow(
+    gaussian,
+    rgba(0, 229, 255, 0.6),
+    6,
+    0.2,
+    0,
+    0
+);
+
+
+}
+
+.scroll-bar .thumb:hover {
+-fx-background-color: #ffffff;
+}
+
+/* Hides increment/decrement buttons */
+.scroll-bar .increment-button,
+.scroll-bar .decrement-button {
+-fx-pref-height: 0;
+-fx-opacity: 0;
+}
+
+/* =========================
+JARVIS CHAT REPLY
+========================= */
+
+.reply-label {
+-fx-background-color: #0d1b24;
+
+-fx-text-fill: text-color;
+
+-fx-background-radius: 1em 1em 1em 0;
+-fx-border-radius: 1em 1em 1em 0;
+
+-fx-border-color: #00bcd4;
+-fx-border-width: 1px;
+
+-fx-padding: 10px 14px;
+
+-fx-effect: dropshadow(
+    gaussian,
+    rgba(0, 229, 255, 0.35),
+    10,
+    0.2,
+    0,
+    0
+);
+
+
+}
