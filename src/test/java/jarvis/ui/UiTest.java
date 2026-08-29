@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 import jarvis.classes.ToDo;
 
 /** Tests user-interface input and output behavior. */
-public class UITest {
+public class UiTest {
     /** Verifies that commands are read from standard input. */
     @Test
     public void readCommand_returnsNextInputLine() {
@@ -22,7 +22,7 @@ public class UITest {
         java.io.InputStream originalInput = System.in;
         try {
             System.setIn(new ByteArrayInputStream("todo Read book\n".getBytes(StandardCharsets.UTF_8)));
-            assertEquals("todo Read book", new UI().readCommand());
+            assertEquals("todo Read book", new Ui().readCommand());
         } finally {
             System.setIn(originalInput);
             System.setOut(originalOutput);
@@ -36,7 +36,7 @@ public class UITest {
         PrintStream originalOutput = System.out;
         try {
             System.setOut(new PrintStream(output, true, StandardCharsets.UTF_8));
-            new UI().showWelcome();
+            new Ui().showWelcome();
             assertTrue(output.toString(StandardCharsets.UTF_8).contains("I am Jarvis"));
         } finally {
             System.setOut(originalOutput);
@@ -50,7 +50,7 @@ public class UITest {
         PrintStream originalOutput = System.out;
         try {
             System.setOut(new PrintStream(output, true, StandardCharsets.UTF_8));
-            new UI().listAllTasks(List.of(new ToDo("Read book")));
+            new Ui().listAllTasks(List.of(new ToDo("Read book")));
             String displayedTasks = output.toString(StandardCharsets.UTF_8);
             assertTrue(displayedTasks.contains("1. [T][] Read book"));
         } finally {

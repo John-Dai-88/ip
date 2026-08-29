@@ -3,7 +3,6 @@ package jarvis.ui;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import jarvis.exceptions.TooSimpleArgumentException;
 import org.junit.jupiter.api.Test;
 
 import jarvis.classes.Deadline;
@@ -11,6 +10,7 @@ import jarvis.classes.Event;
 import jarvis.exceptions.IncompleteCommandException;
 import jarvis.exceptions.InvalidDateAndTimeException;
 import jarvis.exceptions.InvalidStartAndEndTimeException;
+import jarvis.exceptions.TooSimpleArgumentException;
 
 /** Tests command parsing behavior. */
 public class ParserTest {
@@ -49,20 +49,21 @@ public class ParserTest {
     /** Verifies that invalid deadline dates are rejected. */
     @Test
     public void parseDeadline_invalidDate_throwsException() {
-        assertThrows(InvalidDateAndTimeException.class,
-                () -> Parser.parseDeadline("deadline Submit report /by tomorrow"));
-        assertThrows(InvalidDateAndTimeException.class,
-                () -> Parser.parseDeadline("deadline Submit report /by 2026"));
-        assertThrows(InvalidDateAndTimeException.class,
-                () -> Parser.parseDeadline("deadline Submit report /by 2026-08"));
-        assertThrows(InvalidDateAndTimeException.class,
-                () -> Parser.parseDeadline("deadline Submit report /by 2026-08-7"));
-        assertThrows(InvalidDateAndTimeException.class,
-                () -> Parser.parseDeadline("deadline Submit report /by 2026-08-07 00:"));
-        assertThrows(InvalidDateAndTimeException.class,
-                () -> Parser.parseDeadline("deadline Submit report /by 2026-08-08 00:0"));
+        String tomorrow = "deadline Submit report /by tomorrow";
+        String yearOnly = "deadline Submit report /by 2026";
+        String monthOnly = "deadline Submit report /by 2026-08";
+        String shortDay = "deadline Submit report /by 2026-08-7";
+        String shortMinute = "deadline Submit report /by 2026-08-07 00:";
+        String incompleteMinute = "deadline Submit report /by 2026-08-08 00:0";
 
+        assertThrows(InvalidDateAndTimeException.class, () -> Parser.parseDeadline(tomorrow));
+        assertThrows(InvalidDateAndTimeException.class, () -> Parser.parseDeadline(yearOnly));
+        assertThrows(InvalidDateAndTimeException.class, () -> Parser.parseDeadline(monthOnly));
+        assertThrows(InvalidDateAndTimeException.class, () -> Parser.parseDeadline(shortDay));
+        assertThrows(InvalidDateAndTimeException.class, () -> Parser.parseDeadline(shortMinute));
+        assertThrows(InvalidDateAndTimeException.class, () -> Parser.parseDeadline(incompleteMinute));
     }
+
 
     /** Verifies that events parse their start and end times. */
     @Test
@@ -86,23 +87,26 @@ public class ParserTest {
     /** Verifies that invalid event dates are rejected. */
     @Test
     public void parseEvent_invalidDate_throwsException() {
-        assertThrows(InvalidDateAndTimeException.class,
-                () -> Parser.parseEvent("event Meeting /from 2026-08-99 /to 2026-08-99"));
-        assertThrows(InvalidDateAndTimeException.class,
-                () -> Parser.parseEvent("event Meeting /from 2026-99-27 /to 2026-99-28"));
-        assertThrows(InvalidDateAndTimeException.class,
-                () -> Parser.parseEvent("event Meeting /from 2026-08-27 99:99 /to 2026-08-28 00:00"));
-        assertThrows(InvalidDateAndTimeException.class,
-                () -> Parser.parseEvent("event Meeting /from 2026-08-27 00:00 /to 2026-08-28 99:99"));
+        String invalidDay = "event Meeting /from 2026-08-99 /to 2026-08-99";
+        String invalidMonth = "event Meeting /from 2026-99-27 /to 2026-99-28";
+        String invalidStartTime = "event Meeting /from 2026-08-27 99:99 /to 2026-08-28 00:00";
+        String invalidEndTime = "event Meeting /from 2026-08-27 00:00 /to 2026-08-28 99:99";
+
+        assertThrows(InvalidDateAndTimeException.class, () -> Parser.parseEvent(invalidDay));
+        assertThrows(InvalidDateAndTimeException.class, () -> Parser.parseEvent(invalidMonth));
+        assertThrows(InvalidDateAndTimeException.class, () -> Parser.parseEvent(invalidStartTime));
+        assertThrows(InvalidDateAndTimeException.class, () -> Parser.parseEvent(invalidEndTime));
     }
 
     /** Verifies that an event ending before it starts is rejected. */
     @Test
     public void parseEvent_endBeforeStart_throwsException() {
-        assertThrows(InvalidStartAndEndTimeException.class,
-                () -> Parser.parseEvent("event Meeting /from 2026-08-23 /to 2026-08-22"));
-        assertThrows(InvalidStartAndEndTimeException.class,
-                () -> Parser.parseEvent("event Meeting /from 2026-08-22 10:00 /to 2026-08-22 09:00"));
+        String endBeforeStart = "event Meeting /from 2026-08-23 /to 2026-08-22";
+        String endBeforeStartWithTime =
+                "event Meeting /from 2026-08-22 10:00 /to 2026-08-22 09:00";
+
+        assertThrows(InvalidStartAndEndTimeException.class, () -> Parser.parseEvent(endBeforeStart));
+        assertThrows(InvalidStartAndEndTimeException.class, () -> Parser.parseEvent(endBeforeStartWithTime));
     }
 
     /** Verifies that task numbers are parsed from commands. */

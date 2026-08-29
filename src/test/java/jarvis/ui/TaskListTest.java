@@ -2,17 +2,16 @@ package jarvis.ui;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import jarvis.classes.Deadline;
-import jarvis.classes.Event;
-
-import org.junit.jupiter.api.Test;
-
-import jarvis.classes.Task;
-import jarvis.classes.ToDo;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.junit.jupiter.api.Test;
+
+import jarvis.classes.Deadline;
+import jarvis.classes.Event;
+import jarvis.classes.Task;
+import jarvis.classes.ToDo;
 
 /** Tests task-list operations. */
 public class TaskListTest {
