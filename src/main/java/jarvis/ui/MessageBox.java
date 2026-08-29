@@ -75,5 +75,7 @@ public class MessageBox extends HBox {
         getChildren().setAll(children);
 
         setAlignment(Pos.CENTER_LEFT);
+
+        textLabel.getStyleClass().add("reply-label");
     }
 }
