@@ -28,6 +28,7 @@ public class JarvisGuiApplication extends Application {
 
         // Create the scene
         Scene scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("/style/MessageBox.css").toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.setTitle("Jarvis - Task Manager");
         primaryStage.setMinWidth(670);

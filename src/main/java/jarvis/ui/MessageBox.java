@@ -1,16 +1,22 @@
 package jarvis.ui;
 
 import java.io.IOException;
+import java.util.Collections;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
 /**
- * Test
+ * Represents a message box consisting of an ImageView
+ * and a Label containing the message text.
  */
 public class MessageBox extends HBox {
 
@@ -21,37 +27,53 @@ public class MessageBox extends HBox {
     private ImageView displayPicture;
 
     /**
-     * Test
+     * Creates a message box.
      *
-     * @param message
-     * @param image
-     * @param isUser
+     * @param message message text
+     * @param image speaker image
+     * @param isUser whether this message belongs to the user
      */
     public MessageBox(String message, Image image, boolean isUser) {
-        // Load FXML
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/MessageBox.fxml"));
+
+        FXMLLoader loader = new FXMLLoader(
+                MessageBox.class.getResource("/view/MessageBox.fxml")
+        );
+
         loader.setRoot(this);
         loader.setController(this);
 
         try {
             loader.load();
         } catch (IOException e) {
-            throw new RuntimeException("Failed to load MessageBox FXML", e);
+            throw new RuntimeException(
+                    "Failed to load MessageBox.fxml", e
+            );
         }
 
-        // Set data
         textLabel.setText(message);
         displayPicture.setImage(image);
 
-        // Apply styles based on user type
-        if (isUser) {
-            this.getStyleClass().add("user-message");
-            // User: text first, then image (reorder)
-            this.getChildren().setAll(textLabel, displayPicture);
+        if (!isUser) {
+            getStyleClass().add("jarvis-message");
+            flip();
         } else {
-            this.getStyleClass().add("jarvis-message");
-            // Jarvis: image first, then text (reorder)
-            this.getChildren().setAll(displayPicture, textLabel);
+            getStyleClass().add("user-message");
         }
+    }
+
+    /**
+     * Flips the message box so that the image is on the left
+     * and the message is on the right.
+     */
+    private void flip() {
+
+        ObservableList<Node> children =
+                FXCollections.observableArrayList(getChildren());
+
+        Collections.reverse(children);
+
+        getChildren().setAll(children);
+
+        setAlignment(Pos.CENTER_LEFT);
     }
 }
