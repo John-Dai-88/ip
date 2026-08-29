@@ -13,7 +13,7 @@ import jarvis.storage.Storage;
 /**
  * Main controller for the Jarvis graphical user interface.
  */
-public class JarvisGui {
+public class JarvisController {
 
     private static final String BORDER_LINE =
             "---------------------------------------------------------------------\n";
@@ -23,7 +23,7 @@ public class JarvisGui {
     /**
      * Creates a Jarvis GUI controller and loads saved tasks.
      */
-    public JarvisGui() {
+    public JarvisController() {
         taskList = new TaskList(Storage.loadTasks());
     }
 
