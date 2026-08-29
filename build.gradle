@@ -53,7 +53,7 @@ test {
 }
 
 application {
-    mainClass = 'jarvis.ui.Jarvis'
+    mainClass.set("jarvis.ui.GuiLauncher")
 }
 
 jar {
