@@ -9,24 +9,23 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="655.0" prefWidth="670.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <ScrollPane layoutX="11.0" layoutY="10.0" prefHeight="582.0" prefWidth="647.0">
-         <content>
-            <VBox prefHeight="493.0" prefWidth="645.0">
-               <children>
-                  <HBox prefHeight="100.0" prefWidth="483.0">
-                     <children>
-                        <ImageView fitHeight="101.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
-                        <Label prefHeight="101.0" prefWidth="545.0" text="Label" />
-                     </children>
-                  </HBox>
-               </children>
-            </VBox>
-         </content>
-      </ScrollPane>
-      <Button layoutX="540.0" layoutY="606.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="115.0" text="Send" />
-      <TextField layoutX="14.0" layoutY="598.0" prefHeight="42.0" prefWidth="518.0" />
-   </children>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="655.0" prefWidth="670.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="jarvis.ui.JarvisGuiController">
+    <children>
+        <ScrollPane fx:id="scrollPane" layoutX="11.0" layoutY="10.0" prefHeight="582.0" prefWidth="647.0">
+            <content>
+                <VBox fx:id="dialogContainer" prefHeight="493.0" prefWidth="645.0">
+                    <children>
+                        <HBox prefHeight="100.0" prefWidth="483.0">
+                            <children>
+                                <ImageView fitHeight="101.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
+                                <Label prefHeight="101.0" prefWidth="545.0" text="Label" />
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
+            </content>
+        </ScrollPane>
+        <Button fx:id="sendButton" layoutX="540.0" layoutY="606.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="115.0" text="Send" />
+        <TextField fx:id="userInput" layoutX="14.0" layoutY="598.0" prefHeight="42.0" prefWidth="518.0" />
+    </children>
 </AnchorPane>
