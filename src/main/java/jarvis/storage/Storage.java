@@ -20,11 +20,20 @@ import jarvis.classes.ToDo;
 
 /** Handles saving and loading Jarvis tasks from the hard disk. */
 public class Storage {
-    private static final String FILE_PATH = "./data/jarvis.txt";
+    private static String filePath;
     private static final DateTimeFormatter DATE_TIME_FORMATTER =
             DateTimeFormatter.ofPattern("MM dd uuuu HH:mm");
     private static final DateTimeFormatter DATE_FORMATTER =
             DateTimeFormatter.ofPattern("MM dd uuuu");
+
+    /**
+     * Creates a storage instance using the given file path.
+     *
+     * @param filePath Path to the file used for storing tasks.
+     */
+    public Storage(String filePath) {
+        this.filePath = filePath;
+    }
 
     /**
      * Saves all tasks to the hard disk.
@@ -32,7 +41,7 @@ public class Storage {
      * @param tasks Tasks to save.
      */
     public static void saveTasks(List<Task> tasks) {
-        File file = new File(FILE_PATH);
+        File file = new File(filePath);
 
         try {
             File parentDirectory = file.getParentFile();
@@ -57,7 +66,7 @@ public class Storage {
      * @return Previously saved tasks, or an empty list if no save file exists.
      */
     public static List<Task> loadTasks() {
-        File file = new File(FILE_PATH);
+        File file = new File(filePath);
         List<Task> tasks = new ArrayList<>();
 
         if (!file.exists()) {
