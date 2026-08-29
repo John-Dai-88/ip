@@ -1,18 +1,18 @@
 package jarvis.ui;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
 import jarvis.classes.Deadline;
 import jarvis.classes.Event;
 import jarvis.classes.ToDo;
-
 import jarvis.exceptions.IncompleteCommandException;
 import jarvis.exceptions.InvalidDateAndTimeException;
 import jarvis.exceptions.InvalidStartAndEndTimeException;
 import jarvis.exceptions.TooSimpleArgumentException;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 
 /** Parses user commands and converts them into tasks or command parameters. */
 public class Parser {
@@ -20,8 +20,8 @@ public class Parser {
     private static final String BORDER_LINE =
             "---------------------------------------------------------------------\n";
 
-    // Formats date and time based on the Level-8 example.
-    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+    private static final DateTimeFormatter DATE_TIME_FORMATTER =
+            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private static final String FROM_COMMAND = "/from";
     private static final String TO_COMMAND = "/to";
@@ -41,7 +41,7 @@ public class Parser {
     public static ToDo parseToDo(String userInput)
             throws IncompleteCommandException {
 
-        if(userInput.length() < 5) {
+        if (userInput.length() < 5) {
             throw new IncompleteCommandException(
                     "Error : Your command is missing certain parameters.\n"
                             + "Please re-enter your command in the format : todo <Task>\n"
@@ -205,7 +205,7 @@ public class Parser {
             }
         }
 
-        if(eventEndDateAndTime.isBefore(eventStartDateAndTime)) {
+        if (eventEndDateAndTime.isBefore(eventStartDateAndTime)) {
             throw new InvalidStartAndEndTimeException(
                     "Error : Invalid start/end date/date & time. \n"
                             + "Please ensure that the start date is before the end date \n"
@@ -241,14 +241,16 @@ public class Parser {
         }
     }
 
-    /** Extracts the keyword from a find command.
+    /**
+     * Extracts the keyword from a find command.
      *
      * @param userInput User's command containing the keyword.
      * @return The keyword to filter tasks by.
      * @throws IncompleteCommandException If no key words are inputted by user
      * @throws TooSimpleArgumentException If the key words are too general
      */
-    public static String parseTaskKeyWord(String userInput) throws IncompleteCommandException, TooSimpleArgumentException {
+    public static String parseTaskKeyWord(String userInput)
+            throws IncompleteCommandException, TooSimpleArgumentException {
         String taskKeyWord = userInput.substring(FIND_COMMAND.length()).trim().toLowerCase();
 
         if (taskKeyWord.isEmpty()) {
@@ -257,7 +259,7 @@ public class Parser {
                             + "Please re-enter your command with a key word in the format : find <key word>.\n"
                             + BORDER_LINE
             );
-        } else if(taskKeyWord.length() == 1) {
+        } else if (taskKeyWord.length() == 1) {
             throw new TooSimpleArgumentException(
                     "Error : Your <Key Word> is too general.\n"
                             + "Please re-enter your command with a key word of minimum 2 characters.\n"

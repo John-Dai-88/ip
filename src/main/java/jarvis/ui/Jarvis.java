@@ -1,21 +1,20 @@
 package jarvis.ui;
 
+import java.util.List;
+
 import jarvis.classes.Deadline;
 import jarvis.classes.Event;
 import jarvis.classes.Task;
 import jarvis.classes.ToDo;
-
 import jarvis.exceptions.InvalidTaskNumberException;
 import jarvis.exceptions.JarvisException;
-
 import jarvis.storage.Storage;
-
-import java.util.List;
 
 /** Runs the Jarvis chatbot and processes task-management commands. */
 public class Jarvis {
-    private static final String BORDER_LINE = "---------------------------------------------------------------------\n";
-    private static final UI ui = new UI();
+    private static final String BORDER_LINE =
+            "---------------------------------------------------------------------\n";
+    private static final Ui ui = new Ui();
     private static TaskList taskList;
 
     /** Starts the chatbot and reads commands until the user enters {@code bye}. */
@@ -24,7 +23,6 @@ public class Jarvis {
         ui.showWelcome();
 
         while (true) {
-            // Read and store user's terminal input
             String userInput = ui.readCommand();
 
             try {
@@ -58,7 +56,8 @@ public class Jarvis {
         }
     }
 
-    /** Creates and stores a to-do task from the user's command.
+    /**
+     * Creates and stores a to-do task from the user's command.
      *
      * @param userInput User command containing the task description.
      * @throws JarvisException If the command is incomplete.
@@ -69,7 +68,8 @@ public class Jarvis {
         printAddedTask(toDoTask);
     }
 
-    /** Creates and stores a deadline task from the user's command.
+    /**
+     * Creates and stores a deadline task from the user's command.
      *
      * @param userInput User command containing the task and deadline.
      * @throws JarvisException If the command is invalid.
@@ -80,7 +80,8 @@ public class Jarvis {
         printAddedTask(deadlineTask);
     }
 
-    /** Creates and stores an event task from the user's command.
+    /**
+     * Creates and stores an event task from the user's command.
      *
      * @param userInput User command containing the task and event times.
      * @throws JarvisException If the command is invalid.
@@ -91,7 +92,8 @@ public class Jarvis {
         printAddedTask(eventTask);
     }
 
-    /** Sets the completion status of the selected task.
+    /**
+     * Sets the completion status of the selected task.
      *
      * @param userInput User command containing a task number.
      * @param status New completion status.
@@ -109,7 +111,8 @@ public class Jarvis {
                 + BORDER_LINE);
     }
 
-    /** Deletes the task selected by the user's command.
+    /**
+     * Deletes the task selected by the user's command.
      *
      * @param userInput User command containing a task number.
      * @throws JarvisException If the command or task number is invalid.
@@ -126,7 +129,8 @@ public class Jarvis {
                 + BORDER_LINE, deletedTask, taskList.size());
     }
 
-    /** Prints a confirmation after adding a task.
+    /**
+     * Prints a confirmation after adding a task.
      *
      * @param task Newly added task.
      */
@@ -136,7 +140,8 @@ public class Jarvis {
                 + "awaiting you \n%s", task, taskList.size(), BORDER_LINE);
     }
 
-    /** Validates a one-based task number.
+    /**
+     * Validates a one-based task number.
      *
      * @param taskNumber One-based task number.
      * @throws InvalidTaskNumberException If the number is outside the task-list range.
@@ -152,15 +157,15 @@ public class Jarvis {
         }
     }
 
-    /** Find task(s) based on a key word
+    /**
+     * Finds tasks based on a key word.
      *
-     * @param userInput User's command containing the key word
-     * @return A list of tasks filtered by key word
-     * @throws JarvisException If the find command is incomplete
+     * @param userInput User's command containing the key word.
+     * @return A list of tasks filtered by key word.
+     * @throws JarvisException If the find command is incomplete.
      */
     public static List<Task> filterTasks(String userInput) throws JarvisException {
         String taskKeyWord = Parser.parseTaskKeyWord(userInput);
-        List<Task> filteredList = taskList.filterTasks(taskKeyWord);
-        return filteredList;
+        return taskList.filterTasks(taskKeyWord);
     }
 }
