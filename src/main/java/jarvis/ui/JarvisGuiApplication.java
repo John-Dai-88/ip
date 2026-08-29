@@ -1,12 +1,12 @@
 package jarvis.ui;
 
+import java.net.URL;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-
-import java.net.URL;
 
 /**
  * Main application class for launching the Jarvis GUI.
