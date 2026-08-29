@@ -1,12 +1,31 @@
-/* Base styles for both message types */
-.message-text {
-    -fx-font-size: 13px;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 2, 0, 0, 1);
+/* Message Box */
+
+.message-box {
+    -fx-padding: 5 10 5 10;
+    -fx-spacing: 10;
+    -fx-max-width: Infinity;
 }
 
-/* User message styles */
+
+/* Message Text */
+
+.message-text {
+    -fx-font-size: 13px;
+    -fx-effect: dropshadow(
+        three-pass-box,
+        rgba(0, 0, 0, 0.1),
+        2,
+        0,
+        0,
+        1
+    );
+}
+
+
+/* User Message */
+
 .user-message {
-    -fx-alignment: center-right;
+    -fx-alignment: CENTER_RIGHT;
 }
 
 .user-message .message-text {
@@ -14,9 +33,11 @@
     -fx-background-radius: 15px;
 }
 
-/* Jarvis message styles */
+
+/* Jarvis Message */
+
 .jarvis-message {
-    -fx-alignment: center-left;
+    -fx-alignment: CENTER_LEFT;
 }
 
 .jarvis-message .message-text {
