@@ -6,9 +6,9 @@ import jarvis.exceptions.JarvisException;
 /**
  * Runs the Jarvis command-line chatbot and handles user commands.
  *
- * <p>This class is responsible for reading commands from the user,
+ * This class is responsible for reading commands from the user,
  * delegating task-related operations to {@link JarvisController}, and displaying
- * the appropriate responses through {@link Ui}.</p>
+ * the appropriate responses through {@link Ui}.
  */
 public class JarvisCli {
     /** Handles input and output for the command-line interface. */
@@ -21,7 +21,7 @@ public class JarvisCli {
      * @param args Command-line arguments.
      */
     public static void main(String[] args) {
-        JarvisController jarvisGui = new JarvisController();
+        JarvisController jarvisController = new JarvisController();
 
         ui.showWelcome();
 
@@ -32,25 +32,25 @@ public class JarvisCli {
                 if (userInput.equals("Jarvis, clip that")) {
                     ui.showClipThat();
                 } else if (userInput.equals("list")) {
-                    ui.listAllTasks(jarvisGui.getTasks());
+                    ui.listAllTasks(jarvisController.getTasks());
                 } else if (userInput.startsWith("find")) {
-                    ui.listAllTasks(jarvisGui.filterTasks(userInput));
+                    ui.listAllTasks(jarvisController.filterTasks(userInput));
                 } else if (userInput.startsWith("mark")) {
-                    jarvisGui.markTaskAs(
+                    jarvisController.markTaskAs(
                             userInput,
                             Task.CompletionStatus.DONE);
                 } else if (userInput.startsWith("unmark")) {
-                    jarvisGui.markTaskAs(
+                    jarvisController.markTaskAs(
                             userInput,
                             Task.CompletionStatus.UNDONE);
                 } else if (userInput.startsWith("todo")) {
-                    jarvisGui.createToDoTask(userInput);
+                    jarvisController.createToDoTask(userInput);
                 } else if (userInput.startsWith("deadline")) {
-                    jarvisGui.createDeadlineTask(userInput);
+                    jarvisController.createDeadlineTask(userInput);
                 } else if (userInput.startsWith("event")) {
-                    jarvisGui.createEventTask(userInput);
+                    jarvisController.createEventTask(userInput);
                 } else if (userInput.startsWith("delete")) {
-                    jarvisGui.deleteTask(userInput);
+                    jarvisController.deleteTask(userInput);
                 } else if (userInput.equals("bye")) {
                     ui.sayGoodbye();
                     break;
