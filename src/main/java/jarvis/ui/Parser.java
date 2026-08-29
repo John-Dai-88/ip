@@ -17,9 +17,6 @@ import jarvis.exceptions.TooSimpleArgumentException;
 /** Parses user commands and converts them into tasks or command parameters. */
 public class Parser {
 
-    private static final String BORDER_LINE =
-            "---------------------------------------------------------------------\n";
-
     private static final DateTimeFormatter DATE_TIME_FORMATTER =
             DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -45,7 +42,6 @@ public class Parser {
             throw new IncompleteCommandException(
                     "Error : Your command is missing certain parameters.\n"
                             + "Please re-enter your command in the format : todo <Task>\n"
-                            + BORDER_LINE
             );
         }
 
@@ -55,7 +51,6 @@ public class Parser {
             throw new IncompleteCommandException(
                     "Error : Your command is missing certain parameters.\n"
                             + "Please re-enter your command in the format : todo <Task>\n"
-                            + BORDER_LINE
             );
         }
 
@@ -80,7 +75,6 @@ public class Parser {
                     "Error : Your command is missing certain parameters.\n"
                             + "Please re-enter your command in the format : "
                             + "deadline <Task> /by <yyyy-MM-DD [HH:mm]>\n"
-                            + BORDER_LINE
             );
         }
 
@@ -92,7 +86,6 @@ public class Parser {
                     "Error : Your command is missing certain parameters.\n"
                             + "Please re-enter your command in the format : "
                             + "deadline <Task> /by <yyyy-MM-DD [HH:mm]>\n"
-                            + BORDER_LINE
             );
         }
 
@@ -116,7 +109,6 @@ public class Parser {
                                 + "For date only : deadline <Task> /by yyyy-MM-dd \n"
                                 + "For date and time : deadline <Task> /by yyyy-MM-dd HH:mm\n"
                                 + "Ex : deadline <Task> /by 2026-08-22 18:00\n"
-                                + BORDER_LINE
                 );
             }
         }
@@ -149,7 +141,6 @@ public class Parser {
                     "Error : Your command is missing certain parameters.\n"
                             + "Please re-enter your command in the format : "
                             + "event <Task> /from <yyyy-MM-DD [HH:mm]> /to <yyyy-MM-DD [HH:mm]>\n"
-                            + BORDER_LINE
             );
         }
 
@@ -169,7 +160,6 @@ public class Parser {
                     "Error : Your command is missing certain parameters.\n"
                             + "Please re-enter your command in the format : "
                             + "event <Task> /from <yyyy-MM-DD [HH:mm]> /to <yyyy-MM-DD [HH:mm]>\n"
-                            + BORDER_LINE
             );
         }
 
@@ -200,7 +190,6 @@ public class Parser {
                                 + "For date only : event <Task> /from yyyy-MM-dd /to yyyy-MM-dd\n"
                                 + "For date and time : event <Task> /from yyyy-MM-dd HH:mm /to yyyy-MM-dd HH:mm\n"
                                 + "Ex : event <Task> /from 2026-08-27 12:00 /to 2026-08-28 12:00\n"
-                                + BORDER_LINE
                 );
             }
         }
@@ -210,7 +199,6 @@ public class Parser {
                     "Error : Invalid start/end date/date & time. \n"
                             + "Please ensure that the start date is before the end date \n"
                             + "and the end date is after the start date, respectively. \n"
-                            + BORDER_LINE
             );
         }
 
@@ -236,7 +224,6 @@ public class Parser {
                     "Error : Your command is missing certain parameters.\n"
                             + "Please re-enter your command with a valid task number in the form.\n"
                             + "mark 1 / unmark 2 / delete 3\n"
-                            + BORDER_LINE
             );
         }
     }
@@ -257,13 +244,11 @@ public class Parser {
             throw new IncompleteCommandException(
                     "Error : Your command is missing certain parameters.\n"
                             + "Please re-enter your command with a key word in the format : find <key word>.\n"
-                            + BORDER_LINE
             );
         } else if (taskKeyWord.length() == 1) {
             throw new TooSimpleArgumentException(
                     "Error : Your <Key Word> is too general.\n"
                             + "Please re-enter your command with a key word of minimum 2 characters.\n"
-                            + BORDER_LINE
             );
         }
 
