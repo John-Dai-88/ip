@@ -13,6 +13,7 @@ Jarvis is a *fast and intuitive task scheduler that helps you to keep track of y
 *When completed
 
 ![Screenshot of an internet meme of Tony Stark telling his AI assistant, Jarvis, to capture the moment using lingo.](https://media1.tenor.com/m/KoEBx4a31-gAAAAd/jarvis.gif)
+
 (Image Source : [Source](https://tenor.com/en-GB/view/jarvis-gif-3062731178058962920))
 
 ---
