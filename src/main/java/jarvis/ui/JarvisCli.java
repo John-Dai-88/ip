@@ -10,7 +10,7 @@ import jarvis.exceptions.JarvisException;
  * delegating task-related operations to {@link JarvisController}, and displaying
  * the appropriate responses through {@link Ui}.</p>
  */
-public class Jarvis {
+public class JarvisCli {
     /** Handles input and output for the command-line interface. */
     private static final Ui ui = new Ui();
 
