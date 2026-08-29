@@ -11,7 +11,7 @@ import jarvis.exceptions.JarvisException;
 import jarvis.storage.Storage;
 
 /**
- * Main controller for the Jarvis graphical user interface.
+ * Main controller for the Jarvis graphical user and CLI interface.
  */
 public class JarvisController {
 
@@ -21,7 +21,7 @@ public class JarvisController {
     private final TaskList taskList;
 
     /**
-     * Creates a Jarvis GUI controller and loads saved tasks.
+     * Creates a Jarvis controller and loads saved tasks.
      */
     public JarvisController() {
         taskList = new TaskList(Storage.loadTasks());
