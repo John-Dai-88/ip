@@ -1,25 +1,28 @@
 package jarvis.ui;
 
-import java.util.List;
-
-import jarvis.classes.Deadline;
-import jarvis.classes.Event;
 import jarvis.classes.Task;
-import jarvis.classes.ToDo;
-import jarvis.exceptions.InvalidTaskNumberException;
 import jarvis.exceptions.JarvisException;
-import jarvis.storage.Storage;
 
-/** Runs the Jarvis chatbot and processes task-management commands. */
+/**
+ * Runs the Jarvis command-line chatbot and handles user commands.
+ *
+ * <p>This class is responsible for reading commands from the user,
+ * delegating task-related operations to {@link JarvisGui}, and displaying
+ * the appropriate responses through {@link Ui}.</p>
+ */
 public class Jarvis {
-    private static final String BORDER_LINE =
-            "---------------------------------------------------------------------\n";
+    /** Handles input and output for the command-line interface. */
     private static final Ui ui = new Ui();
-    private static TaskList taskList;
 
-    /** Starts the chatbot and reads commands until the user enters {@code bye}. */
+    /**
+     * Starts the Jarvis chatbot and continuously processes user commands
+     * until the user enters {@code bye}.
+     *
+     * @param args Command-line arguments.
+     */
     public static void main(String[] args) {
-        taskList = new TaskList(Storage.loadTasks());
+        JarvisGui jarvisGui = new JarvisGui();
+
         ui.showWelcome();
 
         while (true) {
@@ -29,21 +32,25 @@ public class Jarvis {
                 if (userInput.equals("Jarvis, clip that")) {
                     ui.showClipThat();
                 } else if (userInput.equals("list")) {
-                    ui.listAllTasks(taskList.getTasks());
+                    ui.listAllTasks(jarvisGui.getTasks());
                 } else if (userInput.startsWith("find")) {
-                    ui.listAllTasks(filterTasks(userInput));
+                    ui.listAllTasks(jarvisGui.filterTasks(userInput));
                 } else if (userInput.startsWith("mark")) {
-                    markTaskAs(userInput, Task.CompletionStatus.DONE);
+                    jarvisGui.markTaskAs(
+                            userInput,
+                            Task.CompletionStatus.DONE);
                 } else if (userInput.startsWith("unmark")) {
-                    markTaskAs(userInput, Task.CompletionStatus.UNDONE);
+                    jarvisGui.markTaskAs(
+                            userInput,
+                            Task.CompletionStatus.UNDONE);
                 } else if (userInput.startsWith("todo")) {
-                    createToDoTask(userInput);
+                    jarvisGui.createToDoTask(userInput);
                 } else if (userInput.startsWith("deadline")) {
-                    createDeadlineTask(userInput);
+                    jarvisGui.createDeadlineTask(userInput);
                 } else if (userInput.startsWith("event")) {
-                    createEventTask(userInput);
+                    jarvisGui.createEventTask(userInput);
                 } else if (userInput.startsWith("delete")) {
-                    deleteTask(userInput);
+                    jarvisGui.deleteTask(userInput);
                 } else if (userInput.equals("bye")) {
                     ui.sayGoodbye();
                     break;
@@ -54,118 +61,5 @@ public class Jarvis {
                 ui.showError(error.getMessage());
             }
         }
-    }
-
-    /**
-     * Creates and stores a to-do task from the user's command.
-     *
-     * @param userInput User command containing the task description.
-     * @throws JarvisException If the command is incomplete.
-     */
-    public static void createToDoTask(String userInput) throws JarvisException {
-        ToDo toDoTask = Parser.parseToDo(userInput);
-        taskList.addTask(toDoTask);
-        printAddedTask(toDoTask);
-    }
-
-    /**
-     * Creates and stores a deadline task from the user's command.
-     *
-     * @param userInput User command containing the task and deadline.
-     * @throws JarvisException If the command is invalid.
-     */
-    public static void createDeadlineTask(String userInput) throws JarvisException {
-        Deadline deadlineTask = Parser.parseDeadline(userInput);
-        taskList.addTask(deadlineTask);
-        printAddedTask(deadlineTask);
-    }
-
-    /**
-     * Creates and stores an event task from the user's command.
-     *
-     * @param userInput User command containing the task and event times.
-     * @throws JarvisException If the command is invalid.
-     */
-    public static void createEventTask(String userInput) throws JarvisException {
-        Event eventTask = Parser.parseEvent(userInput);
-        taskList.addTask(eventTask);
-        printAddedTask(eventTask);
-    }
-
-    /**
-     * Sets the completion status of the selected task.
-     *
-     * @param userInput User command containing a task number.
-     * @param status New completion status.
-     * @throws JarvisException If the command or task number is invalid.
-     */
-    public static void markTaskAs(String userInput, Task.CompletionStatus status)
-            throws JarvisException {
-        int taskNumber = Parser.parseTaskNumber(userInput);
-        int taskIndex = taskNumber - 1;
-        validateTaskNumber(taskNumber);
-        taskList.setCompletionStatus(taskIndex, status);
-
-        System.out.println("\nVery well Sir/Ma' am, I have marked the following task as: \n"
-                + taskList.getTask(taskIndex) + "\n"
-                + BORDER_LINE);
-    }
-
-    /**
-     * Deletes the task selected by the user's command.
-     *
-     * @param userInput User command containing a task number.
-     * @throws JarvisException If the command or task number is invalid.
-     */
-    public static void deleteTask(String userInput) throws JarvisException {
-        int taskNumber = Parser.parseTaskNumber(userInput);
-        int taskIndex = taskNumber - 1;
-        validateTaskNumber(taskNumber);
-        Task deletedTask = taskList.deleteTask(taskIndex);
-
-        System.out.printf("\nVery good Sir/Ma' am, I have removed the following task "
-                + "from your list of tasks-to-do: \n%s\n"
-                + "Please do note Sir/Ma' am, now you have %d task(s) awaiting you \n"
-                + BORDER_LINE, deletedTask, taskList.size());
-    }
-
-    /**
-     * Prints a confirmation after adding a task.
-     *
-     * @param task Newly added task.
-     */
-    private static void printAddedTask(Task task) {
-        System.out.printf("Very well Sir/Ma' am, I have added the following task below: \n"
-                + "%s\nPlease do note Sir/Ma' am, that you now currently have %d task(s) "
-                + "awaiting you \n%s", task, taskList.size(), BORDER_LINE);
-    }
-
-    /**
-     * Validates a one-based task number.
-     *
-     * @param taskNumber One-based task number.
-     * @throws InvalidTaskNumberException If the number is outside the task-list range.
-     */
-    private static void validateTaskNumber(int taskNumber)
-            throws InvalidTaskNumberException {
-        if (taskNumber < 1 || taskNumber > taskList.size()) {
-            throw new InvalidTaskNumberException(
-                    "Error: The task number you inputted is invalid.\n"
-                            + String.format("Please re-enter with a valid number ranging from "
-                            + "1 to %d\n", taskList.size())
-                            + BORDER_LINE);
-        }
-    }
-
-    /**
-     * Finds tasks based on a key word.
-     *
-     * @param userInput User's command containing the key word.
-     * @return A list of tasks filtered by key word.
-     * @throws JarvisException If the find command is incomplete.
-     */
-    public static List<Task> filterTasks(String userInput) throws JarvisException {
-        String taskKeyWord = Parser.parseTaskKeyWord(userInput);
-        return taskList.filterTasks(taskKeyWord);
     }
 }
