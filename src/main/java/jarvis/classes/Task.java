@@ -3,13 +3,13 @@ package jarvis.classes;
 import java.io.Serializable;
 
 /** Represents a task that can be marked as done or undone. */
-public class Task implements  Serializable {
+public class Task implements Serializable {
+    /** Declares the version identifier for Java serialization to verify class compatibility. */
+    private static final long serialVersionUID = 1L;
     /** Stores the task description. */
     private String taskName;
     /** Stores the task's completion status. */
     private CompletionStatus completedStatus;
-    /** Declares the version identifier for Java serialization to verify class compatibility. */
-    private static final long serialVersionUID = 1l;
 
     /** Represents the possible completion states of a task. */
     public enum CompletionStatus {
@@ -18,7 +18,8 @@ public class Task implements  Serializable {
     }
 
 
-    /** Creates a task with an initially undone status.
+    /**
+     * Creates a task with an initially undone status.
      *
      * @param taskName Description of the task.
      */
@@ -27,7 +28,8 @@ public class Task implements  Serializable {
         this.completedStatus = CompletionStatus.UNDONE;
     }
 
-    /** Sets the completion status of this task.
+    /**
+     * Sets the completion status of this task.
      *
      * @param status New completion status.
      */
@@ -35,29 +37,32 @@ public class Task implements  Serializable {
         this.completedStatus = status;
     }
 
-    /** Get the status of this task.
+    /**
+     * Returns the completion status of this task.
      *
-     * @return Current completion status of this task
+     * @return Current completion status of this task.
      */
     public CompletionStatus getStatus() {
         return completedStatus;
     }
 
-    /** Get the description of this task.
+    /**
+     * Returns the description of this task.
      *
-     * @return Description of this task
+     * @return Description of this task.
      */
-    public String getTaskName() { return taskName; }
+    public String getTaskName() {
+        return taskName;
+    }
 
 
-    /** Returns the task in the format used by the task list.
+    /**
+     * Returns the task in the format used by the task list.
      *
      * @return Formatted task description and completion marker.
      */
     @Override
     public String toString() {
-        // Checks if task is done, if so print status of task with [X]
-        // Else print status of task with []
         if (completedStatus == CompletionStatus.DONE) {
             return "[X] " + taskName;
         } else {

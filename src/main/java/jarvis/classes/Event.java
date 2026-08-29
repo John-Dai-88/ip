@@ -6,15 +6,16 @@ import java.time.format.DateTimeFormatter;
 
 /** Represents a task that occurs between a start and end time. */
 public class Event extends Task {
+    /** Deadline format for toString() to follow. */
+    private static final String DATE_TIME_FORMATTER = "MM dd yyyy HH:mm";
+    private static final String DATE_FORMATTER = "MM dd yyyy";
     /** Stores the event start time text. */
     private LocalDateTime startTime;
     /** Stores the event end time text. */
     private LocalDateTime endTime;
-    /** Deadline format for toString() to follow. */
-    private static final String DATE_TIME_FORMATTER = "MM dd yyyy HH:mm";
-    private static final String DATE_FORMATTER = "MM dd yyyy";
 
-    /** Creates an event task.
+    /**
+     * Creates an event task.
      *
      * @param taskName Description of the task.
      * @param startTime Event start time text.
@@ -26,7 +27,8 @@ public class Event extends Task {
         this.endTime = endTime;
     }
 
-    /** Formats and returns the event task in its display format.
+    /**
+     * Formats and returns the event task in its display format.
      *
      * @return Formatted event task.
      */
@@ -34,13 +36,15 @@ public class Event extends Task {
     public String toString() {
         DateTimeFormatter formatter;
 
-        if(startTime.toLocalTime().equals(LocalTime.MIDNIGHT) && endTime.toLocalTime().equals(LocalTime.MIDNIGHT)) {
+        if (startTime.toLocalTime().equals(LocalTime.MIDNIGHT)
+                && endTime.toLocalTime().equals(LocalTime.MIDNIGHT)) {
             formatter = DateTimeFormatter.ofPattern(DATE_FORMATTER);
         } else {
             formatter = DateTimeFormatter.ofPattern(DATE_TIME_FORMATTER);
         }
 
-        String dateAndTime = String.format(" (from: %s to: %s)", startTime.format(formatter), endTime.format(formatter));
+        String dateAndTime = String.format(" (from: %s to: %s)",
+                startTime.format(formatter), endTime.format(formatter));
         return "[E]" + super.toString() + dateAndTime;
     }
 }

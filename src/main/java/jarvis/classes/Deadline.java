@@ -6,13 +6,14 @@ import java.time.format.DateTimeFormatter;
 
 /** Represents a task that must be completed by a specified deadline. */
 public class Deadline extends Task {
-    /** Stores the deadline text. */
-    private LocalDateTime deadline;
     /** Deadline format for toString() to follow. */
     private static final String DATE_TIME_FORMATTER = "MM dd yyyy HH:mm";
     private static final String DATE_FORMATTER = "MM dd yyyy";
+    /** Stores the deadline text. */
+    private LocalDateTime deadline;
 
-    /** Creates a deadline task.
+    /**
+     * Creates a deadline task.
      *
      * @param taskName Description of the task.
      * @param deadline Deadline text.
@@ -23,7 +24,8 @@ public class Deadline extends Task {
     }
 
 
-/** Formats and returns the deadline task in its display format.
+    /**
+     * Formats and returns the deadline task in its display format.
      *
      * @return Formatted deadline task.
      */
@@ -31,7 +33,7 @@ public class Deadline extends Task {
     public String toString() {
         DateTimeFormatter formatter;
 
-        if(deadline.toLocalTime().equals(LocalTime.MIDNIGHT)) {
+        if (deadline.toLocalTime().equals(LocalTime.MIDNIGHT)) {
             formatter = DateTimeFormatter.ofPattern(DATE_FORMATTER);
         } else {
             formatter = DateTimeFormatter.ofPattern(DATE_TIME_FORMATTER);
