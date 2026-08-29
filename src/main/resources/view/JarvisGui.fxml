@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="655.0" prefWidth="670.0" styleClass="chat-root" stylesheets="@../style/JarvisGui.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="jarvis.ui.JarvisGuiController">
+<AnchorPane prefHeight="655.0" prefWidth="800.0" styleClass="chat-root" stylesheets="@../style/JarvisGui.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="jarvis.ui.JarvisGuiController">
 
     <children>
 
