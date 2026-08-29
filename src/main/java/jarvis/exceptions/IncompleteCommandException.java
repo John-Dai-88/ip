@@ -1,9 +1,12 @@
 package jarvis.exceptions;
 
-/** Represents a command that is missing required parameters. */
+/**
+ * Represents a command that is missing required parameters.
+ */
 public class IncompleteCommandException extends JarvisException {
 
-    /** Creates an exception with the specified message.
+    /**
+     * Creates an exception with the specified message.
      *
      * @param message Error message to display.
      */

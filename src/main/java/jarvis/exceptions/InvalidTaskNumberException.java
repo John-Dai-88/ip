@@ -1,9 +1,12 @@
 package jarvis.exceptions;
 
-/** Represents a task number that is outside the valid task-list range. */
+/**
+ * Represents a task number that is outside the valid task-list range.
+ */
 public class InvalidTaskNumberException extends JarvisException {
 
-    /** Creates an exception with the specified message.
+    /**
+     * Creates an exception with the specified message.
      *
      * @param message Error message to display.
      */

@@ -1,9 +1,12 @@
 package jarvis.exceptions;
 
-/** Represents invalid pair of start and end date & time */
+/**
+ * Represents an invalid pair of start and end date and time values.
+ */
 public class InvalidStartAndEndTimeException extends JarvisException {
 
-    /** Creates an exception with the specified message.
+    /**
+     * Creates an exception with the specified message.
      *
      * @param message Error message to display.
      */
