@@ -1,4 +1,4 @@
-package jarvis.ui;
+package jarvis.backend;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
