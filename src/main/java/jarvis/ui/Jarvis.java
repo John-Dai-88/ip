@@ -7,7 +7,7 @@ import jarvis.exceptions.JarvisException;
  * Runs the Jarvis command-line chatbot and handles user commands.
  *
  * <p>This class is responsible for reading commands from the user,
- * delegating task-related operations to {@link JarvisGui}, and displaying
+ * delegating task-related operations to {@link JarvisController}, and displaying
  * the appropriate responses through {@link Ui}.</p>
  */
 public class Jarvis {
@@ -21,7 +21,7 @@ public class Jarvis {
      * @param args Command-line arguments.
      */
     public static void main(String[] args) {
-        JarvisGui jarvisGui = new JarvisGui();
+        JarvisController jarvisGui = new JarvisController();
 
         ui.showWelcome();
 
