@@ -1,46 +1,110 @@
-/* Message Box */
+/* =========================
+MESSAGE BOX
+========================= */
 
 .message-box {
-    -fx-padding: 5 10 5 10;
-    -fx-spacing: 10;
-    -fx-max-width: Infinity;
+-fx-padding: 6 12 6 12;
+-fx-spacing: 10;
+-fx-max-width: Infinity;
 }
 
-
-/* Message Text */
+/* =========================
+MESSAGE TEXT
+========================= */
 
 .message-text {
-    -fx-font-size: 13px;
-    -fx-effect: dropshadow(
-        three-pass-box,
-        rgba(0, 0, 0, 0.1),
-        2,
-        0,
-        0,
-        1
-    );
+-fx-font-size: 13px;
+-fx-text-fill: #d8faff;
+
+-fx-padding: 9px 14px;
+
+-fx-effect: dropshadow(
+    gaussian,
+    rgba(0, 229, 255, 0.18),
+    5,
+    0.15,
+    0,
+    1
+);
+
+
 }
 
-
-/* User Message */
+/* =========================
+USER MESSAGE
+========================= */
 
 .user-message {
-    -fx-alignment: CENTER_RIGHT;
+-fx-alignment: CENTER_RIGHT;
 }
 
 .user-message .message-text {
-    -fx-background-color: #DCF8C6;
-    -fx-background-radius: 15px;
+/* Dark Stark-tech blue */
+-fx-background-color: #102b3a;
+
+-fx-background-radius: 15px 15px 3px 15px;
+
+-fx-border-color: #007c91;
+-fx-border-width: 1px;
+-fx-border-radius: 15px 15px 3px 15px;
+
+-fx-text-fill: #c8f7ff;
+
+-fx-effect: dropshadow(
+    gaussian,
+    rgba(0, 188, 212, 0.25),
+    8,
+    0.2,
+    0,
+    0
+);
+
+
 }
 
-
-/* Jarvis Message */
+/* =========================
+JARVIS MESSAGE
+========================= */
 
 .jarvis-message {
-    -fx-alignment: CENTER_LEFT;
+-fx-alignment: CENTER_LEFT;
 }
 
 .jarvis-message .message-text {
-    -fx-background-color: #E8E8E8;
-    -fx-background-radius: 15px;
+/* Holographic JARVIS panel */
+-fx-background-color: #0b2029;
+
+-fx-background-radius: 15px 15px 15px 3px;
+
+-fx-border-color: #00e5ff;
+-fx-border-width: 1px;
+-fx-border-radius: 15px 15px 15px 3px;
+
+-fx-text-fill: #e0fbff;
+
+-fx-effect: dropshadow(
+    gaussian,
+    rgba(0, 229, 255, 0.55),
+    10,
+    0.25,
+    0,
+    0
+);
+
+
 }
+
+/* =========================
+JARVIS MESSAGE HOVER
+========================= */
+
+.jarvis-message .message-text:hover {
+-fx-background-color: #0d2b36;
+
+-fx-border-color: #ffffff;
+
+-fx-effect: dropshadow(
+    gaussian,
+    rgba(0, 229, 255, 0.8),
+    14,
+    0.
