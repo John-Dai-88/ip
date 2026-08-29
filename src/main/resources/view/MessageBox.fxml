@@ -9,7 +9,7 @@
 
     <children>
 
-        <Label fx:id="textLabel" maxWidth="350.0" minHeight="-Infinity" styleClass="message-text" wrapText="true">
+        <Label fx:id="textLabel" maxWidth="500.0" minHeight="-Infinity" styleClass="message-text" wrapText="true">
 
             <padding>
                 <Insets bottom="10.0" left="15.0" right="15.0" top="10.0" />
