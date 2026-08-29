@@ -1,0 +1,25 @@
+/* Base styles for both message types */
+.message-text {
+    -fx-font-size: 13px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 2, 0, 0, 1);
+}
+
+/* User message styles */
+.user-message {
+    -fx-alignment: center-right;
+}
+
+.user-message .message-text {
+    -fx-background-color: #DCF8C6;
+    -fx-background-radius: 15px;
+}
+
+/* Jarvis message styles */
+.jarvis-message {
+    -fx-alignment: center-left;
+}
+
+.jarvis-message .message-text {
+    -fx-background-color: #E8E8E8;
+    -fx-background-radius: 15px;
+}

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+
+<fx:root type="javafx.scene.layout.HBox"
+         xmlns:fx="http://javafx.com/fxml/1"
+         xmlns="http://javafx.com/javafx/17"
+         spacing="10"
+         alignment="CENTER"
+         fillHeight="true"
+         maxWidth="Infinity">
+
+    <padding>
+        <Insets top="5" right="10" bottom="5" left="10"/>
+    </padding>
+
+    <Label fx:id="textLabel"
+           wrapText="true"
+           maxWidth="350"
+           minHeight="40"
+           styleClass="message-text">
+        <padding>
+            <Insets top="10" right="15" bottom="10" left="15"/>
+        </padding>
+    </Label>
+
+    <ImageView fx:id="displayPicture"
+               fitHeight="50"
+               fitWidth="50"
+               preserveRatio="true"
+               smooth="true"
+               cache="true"/>
+</fx:root>
