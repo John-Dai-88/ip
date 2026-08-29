@@ -7,9 +7,9 @@ import jarvis.classes.Task;
 import jarvis.exceptions.JarvisException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 
 /**
@@ -29,6 +29,9 @@ public class JarvisGuiController {
 
     private JarvisController jarvisController;
     private Consumer<String> outputHandler;
+
+    private Image jarvisImage = new Image(this.getClass().getResourceAsStream("/images/jarvisPicture.png"));
+    private Image userImage = new Image(this.getClass().getResourceAsStream("/images/blankProfilePicture.png"));
 
     /**
      * Initializes the GUI controller.
@@ -189,12 +192,8 @@ public class JarvisGuiController {
      * @param message User message.
      */
     private void displayUserMessage(String message) {
-        Label userLabel = new Label(message);
-        userLabel.setStyle("-fx-background-color: #DCF8C6; "
-                + "-fx-padding: 10px; "
-                + "-fx-border-radius: 10px; "
-                + "-fx-background-radius: 10px;");
-        dialogContainer.getChildren().add(userLabel);
+        MessageBox userMessageBox = new MessageBox(message, userImage, true);
+        dialogContainer.getChildren().add(userMessageBox);
     }
 
     /**
@@ -203,14 +202,8 @@ public class JarvisGuiController {
      * @param message System message.
      */
     private void displayMessage(String message) {
-        Label jarvisLabel = new Label(message);
-        jarvisLabel.setStyle("-fx-background-color: #E8E8E8; "
-                + "-fx-padding: 10px; "
-                + "-fx-border-radius: 10px; "
-                + "-fx-background-radius: 10px; "
-                + "-fx-wrap-text: true;");
-        jarvisLabel.setMaxWidth(500);
-        dialogContainer.getChildren().add(jarvisLabel);
+        MessageBox jarvisMessageBox = new MessageBox(message, jarvisImage, false);
+        dialogContainer.getChildren().add(jarvisMessageBox);
     }
 
     /**
