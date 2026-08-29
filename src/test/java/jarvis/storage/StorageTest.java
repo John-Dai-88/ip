@@ -2,11 +2,14 @@ package jarvis.storage;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 import jarvis.classes.Deadline;
 import jarvis.classes.Event;
@@ -15,6 +18,23 @@ import jarvis.classes.ToDo;
 
 /** Tests persistence and reconstruction of saved tasks. */
 public class StorageTest {
+    /** Temporary directory used for test storage. */
+    @TempDir
+    Path tempDir;
+
+    /** Storage instance used by each test. */
+    private Storage storage;
+
+    /**
+     * Creates a storage instance using a temporary file before each test.
+     */
+    @BeforeEach
+    public void setUp() {
+        Path dataFile = tempDir.resolve("jarvis.txt");
+        storage = new Storage(dataFile.toString());
+    }
+
+
     /** Verifies that saved tasks can be loaded with their type, status, and dates intact. */
     @Test
     public void saveTasks_thenLoadTasks_restoresTasks() {

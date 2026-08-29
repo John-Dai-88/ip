@@ -2,19 +2,40 @@ package jarvis.ui;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 import jarvis.classes.Deadline;
 import jarvis.classes.Event;
 import jarvis.classes.Task;
 import jarvis.classes.ToDo;
+import jarvis.storage.Storage;
 
 /** Tests task-list operations. */
 public class TaskListTest {
+    /** Temporary directory used for test storage. */
+    @TempDir
+    Path tempDir;
+
+    /** Task list used by each test. */
+    private TaskList taskList;
+
+    /**
+     * Creates a task list using a temporary storage file before each test.
+     */
+    @BeforeEach
+    public void setUp() {
+        Path dataFile = tempDir.resolve("jarvis.txt");
+        Storage storage = new Storage(dataFile.toString());
+        taskList = new TaskList(Storage.loadTasks());
+    }
+
     /** Verifies that tasks can be added, retrieved, and counted. */
     @Test
     public void addTask_taskIsStored() {
