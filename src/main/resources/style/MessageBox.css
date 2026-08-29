@@ -105,6 +105,10 @@ JARVIS MESSAGE HOVER
 
 -fx-effect: dropshadow(
     gaussian,
-    rgba(0, 229, 255, 0.8),
-    14,
-    0.
+    rgba(0, 229, 255, 0.90),
+    16,
+    0.30,
+    0,
+    0
+    );
+}
