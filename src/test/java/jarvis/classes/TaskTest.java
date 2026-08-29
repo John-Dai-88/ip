@@ -1,8 +1,8 @@
 package jarvis.classes;
 
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
 
 /** Tests the behavior of {@link Task}. */
 public class TaskTest {
