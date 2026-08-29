@@ -12,7 +12,8 @@
         alignment="CENTER_RIGHT"
         maxWidth="-Infinity"
         prefWidth="0.0"
-        styleClass="message-box">
+        styleClass="message-box"
+        stylesheets="@../style/MessageBox.css">
 
     <children>
 
