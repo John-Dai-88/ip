@@ -51,7 +51,7 @@ public class StorageTest {
 
     /** */
     @Test
-    public void repeatedly_saveTasks_thenLoadTasks_restoreTasks() {
+    public void repeatedlySaveTasks_thenLoadTasks() {
         List<Task> firstLoad = new ArrayList<>();
         ToDo todoTask = new ToDo("Read book");
         Deadline deadlineTask = new Deadline("Submit report", LocalDateTime.of(2026, 8, 22, 0, 0));
