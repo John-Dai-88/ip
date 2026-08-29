@@ -1,26 +1,32 @@
-# Jarvis project
-
-jarvis.Jarvis is a Java chatbot project. Given below are instructions on how to set it up and run it.
-
-## Setting up in Intellij
-
-Prerequisites: JDK 25, update Intellij to the most recent version.
-
-1. Open Intellij (if you are not in the welcome screen, click `File` > `Close Project` to close the existing project first)
-1. Open the project into Intellij as follows:
-   1. Click `Open`.
-   1. Select the project directory, and click `OK`.
-   1. If there are any further prompts, accept the defaults.
-1. Configure the project to use **JDK 25** (not other versions) as explained in [here](https://www.jetbrains.com/help/idea/sdk.html#set-up-jdk).<br>
-   In the same dialog, set the **Project language level** field to the `SDK default` option.
-1. After that, locate the `src/main/java/jarvis/jarvis.Jarvis.java` file, right-click it, and choose `Run jarvis.Jarvis.main()` (if the code editor is showing compile errors, try restarting the IDE). If the setup is correct, you should see something like the below as the output:
-   ```
-        ██╗ █████╗ ██████╗ ██╗   ██╗██╗███████╗
+```text
+      ██╗ █████╗ ██████╗ ██╗   ██╗██╗███████╗
         ██║██╔══██╗██╔══██╗██║   ██║██║██╔════╝
         ██║███████║██████╔╝██║   ██║██║███████╗
    ██   ██║██╔══██║██╔══██╗╚██╗ ██╔╝██║╚════██║
    ╚█████╔╝██║  ██║██║  ██║ ╚████╔╝ ██║███████║
     ╚════╝ ╚═╝  ╚═╝╚═╝  ╚═╝  ╚═══╝  ╚═╝╚══════╝
-   ```
+```
+> "Jarvis, Clip that" - Tony Stark (A Real Movie Quote)
 
-**Warning:** Keep the `src\main\java` folder as the root folder for Java files (i.e., don't rename those folders or move Java files to another folder outside of this folder path), as this is the default location some tools (e.g., Gradle) expect to find Java files.
+---
+Jarvis is a *fast and intuitive task scheduler that helps you to keep track of your tasks and deadlines. So much so that you will be feeling like Tony Stark below.
+*When completed
+
+![Screenshot of an internet meme of Tony Stark telling his AI assistant, Jarvis, to capture the moment using lingo.](https://media1.tenor.com/m/KoEBx4a31-gAAAAd/jarvis.gif)
+(Image Source : [Source](https://tenor.com/en-GB/view/jarvis-gif-3062731178058962920))
+
+---
+## Current capabilities of Jarvis :
+- [x] Manage tasks of different types
+- [ ] Manage Reminders (Coming sometime in the far future)
+- [ ] Manage Images (Coming sometime in the far future)
+- [ ] Manage Contacts (Coming sometime in the far future)
+
+---
+## How to download and run Jarvis
+1. Download the java executable (.jar file) from [here](https://github.com/John-Dai-88/ip/releases/tag/A-Jar)
+2. Place it in the Documents folder
+3. Open a command prompt terminal and navigate to the file directory the java executable file is located in
+4. Run the command `java-jar jarvis.jar`
+
+***Above instructions will be updated once GUI has been implemented**
