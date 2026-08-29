@@ -26,7 +26,8 @@ public class Storage {
     private static final DateTimeFormatter DATE_FORMATTER =
             DateTimeFormatter.ofPattern("MM dd uuuu");
 
-    /** Saves all tasks to the hard disk.
+    /**
+     * Saves all tasks to the hard disk.
      *
      * @param tasks Tasks to save.
      */
@@ -50,7 +51,8 @@ public class Storage {
         }
     }
 
-    /** Loads all previously saved tasks from the hard disk.
+    /**
+     * Loads all previously saved tasks from the hard disk.
      *
      * @return Previously saved tasks, or an empty list if no save file exists.
      */
@@ -77,7 +79,8 @@ public class Storage {
         return tasks;
     }
 
-    /** Adds a task reconstructed from one storage line.
+    /**
+     * Adds a task reconstructed from one storage line.
      *
      * @param tasks Destination task list.
      * @param line Serialized task line.
@@ -106,14 +109,16 @@ public class Storage {
             int toPosition = line.indexOf(" to:");
             String description = line.substring(prefix.length(), fromPosition).trim();
             String startText = line.substring(fromPosition + "(from:".length(), toPosition).trim();
-            String endText = removeClosingParenthesis(line.substring(toPosition + " to:".length()).trim());
+            String endText = removeClosingParenthesis(
+                    line.substring(toPosition + " to:".length()).trim());
             Event task = new Event(description, parseDateTime(startText), parseDateTime(endText));
             setDoneIfNeeded(task, isDone);
             tasks.add(task);
         }
     }
 
-    /** Sets a task's completed state when it was saved as completed.
+    /**
+     * Sets a task's completed state when it was saved as completed.
      *
      * @param task Task to update.
      * @param isDone Whether the stored task was completed.
@@ -124,7 +129,8 @@ public class Storage {
         }
     }
 
-    /** Removes the closing parenthesis from a stored date/time field.
+    /**
+     * Removes the closing parenthesis from a stored date/time field.
      *
      * @param value Stored field.
      * @return Field without its closing parenthesis.
@@ -133,7 +139,8 @@ public class Storage {
         return value.endsWith(")") ? value.substring(0, value.length() - 1).trim() : value;
     }
 
-    /** Parses either a date-time or date-only value.
+    /**
+     * Parses either a date-time or date-only value.
      *
      * @param value Stored date/time text.
      * @return Parsed date/time, using midnight for date-only values.
