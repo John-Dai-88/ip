@@ -5,49 +5,92 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-            prefHeight="655.0" prefWidth="670.0"
-            style="-fx-background-color: #f0f0f0;"
-            xmlns="http://javafx.com/javafx/17"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="jarvis.ui.JarvisGuiController">
+<AnchorPane
+        xmlns="http://javafx.com/javafx/17"
+        xmlns:fx="http://javafx.com/fxml/1"
+        fx:controller="jarvis.ui.JarvisGuiController"
+        prefHeight="655.0"
+        prefWidth="670.0"
+        styleClass="chat-root">
 
     <children>
-        <!-- Chat Display Area -->
-        <ScrollPane fx:id="scrollPane"
-                    layoutX="11.0"
-                    layoutY="10.0"
-                    prefHeight="582.0"
-                    prefWidth="647.0"
-                    style="-fx-background: #f0f0f0; -fx-background-color: #f0f0f0; -fx-border-color: #d0d0d0; -fx-border-radius: 10; -fx-background-radius: 10;">
+
+        <!-- ========================= -->
+        <!-- Chat display area          -->
+        <!-- ========================= -->
+
+        <ScrollPane
+                fx:id="scrollPane"
+                hbarPolicy="NEVER"
+                fitToWidth="true"
+                fitToHeight="true"
+                AnchorPane.topAnchor="10.0"
+                AnchorPane.leftAnchor="10.0"
+                AnchorPane.rightAnchor="10.0"
+                AnchorPane.bottomAnchor="62.0"
+                styleClass="chat-scroll-pane">
+
             <content>
-                <VBox fx:id="dialogContainer"
-                      prefHeight="493.0"
-                      prefWidth="645.0"
-                      style="-fx-background-color: #f0f0f0; -fx-padding: 10;">
+
+                <VBox
+                        fx:id="dialogContainer"
+                        fillWidth="true"
+                        spacing="2.0"
+                        styleClass="dialog-container">
+
                     <padding>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                        <Insets
+                                top="10.0"
+                                right="10.0"
+                                bottom="10.0"
+                                left="10.0"/>
                     </padding>
+
                 </VBox>
+
             </content>
+
         </ScrollPane>
 
-        <!-- Input Area -->
-        <HBox layoutX="14.0" layoutY="598.0" spacing="10.0" prefHeight="42.0" prefWidth="644.0">
+
+        <!-- ========================= -->
+        <!-- Input area                -->
+        <!-- ========================= -->
+
+        <HBox
+                spacing="10.0"
+                alignment="CENTER"
+                AnchorPane.leftAnchor="10.0"
+                AnchorPane.rightAnchor="10.0"
+                AnchorPane.bottomAnchor="10.0"
+                prefHeight="42.0"
+                styleClass="input-container">
+
             <children>
-                <TextField fx:id="userInput"
-                           prefHeight="42.0"
-                           prefWidth="524.0"
-                           style="-fx-background-radius: 20; -fx-border-radius: 20; -fx-padding: 10; -fx-border-color: #d0d0d0; -fx-background-color: white; -fx-font-size: 13px;" />
-                <Button fx:id="sendButton"
+
+                <TextField
+                        fx:id="userInput"
+                        HBox.hgrow="ALWAYS"
                         prefHeight="42.0"
+                        promptText="Type a message..."
+                        onAction="#handleUserInput"
+                        styleClass="user-input"/>
+
+                <Button
+                        fx:id="sendButton"
                         prefWidth="115.0"
+                        prefHeight="42.0"
                         text="Send"
-                        style="-fx-background-color: #4a90e2; -fx-text-fill: white; -fx-background-radius: 20; -fx-font-size: 14px; -fx-font-weight: bold; -fx-cursor: hand;" />
+                        onAction="#handleUserInput"
+                        styleClass="send-button"/>
+
             </children>
+
         </HBox>
+
     </children>
+
 </AnchorPane>
