@@ -1,11 +1,11 @@
-package jarvis.ui;
+package jarvis.cli;
 
 import java.util.List;
 import java.util.Scanner;
 
 import jarvis.classes.Task;
 
-/** Handles terminal input and output for the Jarvis application. */
+/** Handles terminal input and output for the Jarvis cli. */
 public class Ui {
     // String BANNER art for Jarvis
     private static final String BANNER =

@@ -1,4 +1,4 @@
-package jarvis.ui;
+package jarvis.cli;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import jarvis.classes.ToDo;
 
-/** Tests user-interface input and output behavior. */
+/** Tests cli input and output behavior. */
 public class UiTest {
     /** Verifies that commands are read from standard input. */
     @Test
