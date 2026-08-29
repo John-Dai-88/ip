@@ -19,6 +19,7 @@ public class JarvisController {
             "---------------------------------------------------------------------\n";
 
     private final TaskList taskList;
+    private final Storage storage = new Storage("./data/jarvis.txt");
 
     /**
      * Creates a Jarvis controller and loads saved tasks.
