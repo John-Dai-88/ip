@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jarvis.classes.Task;
+import jarvis.exceptions.InvalidTaskNumberException;
 import jarvis.storage.Storage;
 
 /** Stores, updates, and persists the user's tasks. */
@@ -62,7 +63,8 @@ public class TaskList {
      * @param index Zero-based index of the task.
      * @return Task at the requested index.
      */
-    public Task getTask(int index) {
+    public Task getTask(int index) throws InvalidTaskNumberException {
+        validateTaskIndex(index);
         return tasks.get(index);
     }
 
@@ -108,5 +110,25 @@ public class TaskList {
         }
 
         return filteredTasks;
+    }
+
+    /**
+     * Validates a zero-based task number.
+     *
+     * @param index One-based task number.
+     * @throws InvalidTaskNumberException If the number is invalid.
+     */
+    private void validateTaskIndex(int index)
+            throws InvalidTaskNumberException {
+
+        if (index < 0 || index >= tasks.size()) {
+            throw new InvalidTaskNumberException(
+                    "Error: The task number you inputted is invalid.\n"
+                            + String.format(
+                            "Please re-enter with a valid number ranging from "
+                                    + "1 to %d",
+                            tasks.size())
+            );
+        }
     }
 }
