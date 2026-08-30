@@ -166,9 +166,9 @@ public class JarvisController {
                     "Error: The task number you inputted is invalid.\n"
                             + String.format(
                             "Please re-enter with a valid number ranging from "
-                                    + "1 to %d\n",
+                                    + "1 to %d",
                             taskList.size())
-                            + BORDER_LINE);
+            );
         }
     }
 

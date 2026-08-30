@@ -15,6 +15,9 @@ public class JarvisCli {
     /** Handles input and output for the command-line interface. */
     private static final Ui ui = new Ui();
 
+    private static final String BORDER_LINE =
+            "---------------------------------------------------------------------\n";
+
     /**
      * Starts the Jarvis chatbot and continuously processes user commands
      * until the user enters {@code bye}.
@@ -60,6 +63,7 @@ public class JarvisCli {
                 }
             } catch (JarvisException error) {
                 ui.showError(error.getMessage());
+                ui.showError(BORDER_LINE);
             }
         }
     }
