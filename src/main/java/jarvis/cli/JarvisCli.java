@@ -6,6 +6,7 @@ import java.util.Scanner;
 import jarvis.backend.JarvisController;
 import jarvis.backend.Parser;
 import jarvis.classes.Task;
+import jarvis.exceptions.InvalidTaskNumberException;
 import jarvis.exceptions.JarvisException;
 
 /**
@@ -126,8 +127,9 @@ public class JarvisCli {
      *
      * The message includes the newly added task and the current number
      * of tasks in the task list.
+     * @throws InvalidTaskNumberException If the number is invalid.
      */
-    private void printLastAddedTask() {
+    private void printLastAddedTask() throws InvalidTaskNumberException {
         Task task = jarvisController.getTask(
                 jarvisController.size() - 1);
 

@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import jarvis.backend.JarvisController;
+import jarvis.backend.Parser;
 import jarvis.classes.Task;
+import jarvis.exceptions.InvalidTaskNumberException;
 import jarvis.exceptions.JarvisException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -85,38 +87,38 @@ public class JarvisGuiController {
         String lowerInput = input.toLowerCase().trim();
 
         try {
-            if (lowerInput.startsWith("todo ")) {
+            if (lowerInput.startsWith("todo")) {
                 jarvisController.createToDoTask(input);
                 displayMessage("Got it. I've added this task:\n"
                         + "  " + getLastTask().toString());
                 displayTaskCount();
-            } else if (lowerInput.startsWith("deadline ")) {
+            } else if (lowerInput.startsWith("deadline")) {
                 jarvisController.createDeadlineTask(input);
                 displayMessage("Got it. I've added this task:\n"
                         + "  " + getLastTask().toString());
                 displayTaskCount();
-            } else if (lowerInput.startsWith("event ")) {
+            } else if (lowerInput.startsWith("event")) {
                 jarvisController.createEventTask(input);
                 displayMessage("Got it. I've added this task:\n"
                         + "  " + getLastTask().toString());
                 displayTaskCount();
             } else if (lowerInput.startsWith("list")) {
                 displayTasks();
-            } else if (lowerInput.startsWith("mark ")) {
+            } else if (lowerInput.startsWith("mark")) {
                 jarvisController.markTaskAs(input, Task.CompletionStatus.DONE);
                 displayMessage("Nice! I've marked this task as done:\n"
                         + "  " + getTaskFromCommand(input).toString());
-            } else if (lowerInput.startsWith("unmark ")) {
+            } else if (lowerInput.startsWith("unmark")) {
                 jarvisController.markTaskAs(input, Task.CompletionStatus.UNDONE);
                 displayMessage("OK, I've marked this task as not done yet:\n"
                         + "  " + getTaskFromCommand(input).toString());
-            } else if (lowerInput.startsWith("delete ")) {
+            } else if (lowerInput.startsWith("delete")) {
                 Task deletedTask = getTaskFromCommand(input);
                 jarvisController.deleteTask(input);
                 displayMessage("Noted. I've removed this task:\n"
                         + "  " + deletedTask.toString());
                 displayTaskCount();
-            } else if (lowerInput.startsWith("find ")) {
+            } else if (lowerInput.startsWith("find")) {
                 List<Task> matchingTasks = jarvisController.filterTasks(input);
                 displayFindResults(matchingTasks);
             } else if (lowerInput.equals("bye")) {
@@ -211,8 +213,9 @@ public class JarvisGuiController {
      * Gets the last task from the task list.
      *
      * @return Last task.
+     * @throws InvalidTaskNumberException If the number is invalid.
      */
-    private Task getLastTask() {
+    private Task getLastTask() throws InvalidTaskNumberException {
         return jarvisController.getTask(jarvisController.size() - 1);
     }
 
@@ -221,21 +224,10 @@ public class JarvisGuiController {
      *
      * @param input Command input.
      * @return Task at the specified index.
-     * @throws JarvisException If the task number is invalid.
      */
     private Task getTaskFromCommand(String input) throws JarvisException {
-        String[] parts = input.split(" ");
-        if (parts.length < 2) {
-            throw new JarvisException("Please specify a task number.");
-        }
-        try {
-            int taskNumber = Integer.parseInt(parts[1]);
-            return jarvisController.getTask(taskNumber - 1);
-        } catch (NumberFormatException e) {
-            throw new JarvisException("Invalid task number. Please enter a number.");
-        } catch (IndexOutOfBoundsException e) {
-            throw new JarvisException("Task number out of range.");
-        }
+        int taskNumber = Parser.parseTaskNumber(input);
+        return jarvisController.getTask(taskNumber - 1);
     }
 
     /**
