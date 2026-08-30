@@ -40,8 +40,10 @@ public class Parser {
 
         if (userInput.length() < 5) {
             throw new IncompleteCommandException(
-                    "Error : Your command is missing certain parameters.\n"
-                            + "Please re-enter your command in the format : todo <Task>\n"
+                    buildErrorMessage(
+                    "Error : Your command is missing certain parameters.",
+                            "Please re-enter your command in the format : todo <Task>"
+                    )
             );
         }
 
@@ -49,8 +51,10 @@ public class Parser {
 
         if (task.isEmpty()) {
             throw new IncompleteCommandException(
-                    "Error : Your command is missing certain parameters.\n"
-                            + "Please re-enter your command in the format : todo <Task>\n"
+                    buildErrorMessage(
+                    "Error : Your command is missing certain parameters.",
+                            "Please re-enter your command in the format : todo <Task>"
+                    )
             );
         }
 
@@ -72,9 +76,11 @@ public class Parser {
 
         if (positionOfBy == -1) {
             throw new IncompleteCommandException(
-                    "Error : Your command is missing certain parameters.\n"
-                            + "Please re-enter your command in the format : "
-                            + "deadline <Task> /by <yyyy-MM-DD [HH:mm]>\n"
+                    buildErrorMessage(
+                    "Error : Your command is missing certain parameters.",
+                            "Please re-enter your command in the format : ",
+                            "deadline <Task> /by <yyyy-MM-DD [HH:mm]>"
+                    )
             );
         }
 
@@ -83,9 +89,11 @@ public class Parser {
 
         if (task.isEmpty() || deadline.isEmpty()) {
             throw new IncompleteCommandException(
-                    "Error : Your command is missing certain parameters.\n"
-                            + "Please re-enter your command in the format : "
-                            + "deadline <Task> /by <yyyy-MM-DD [HH:mm]>\n"
+                    buildErrorMessage(
+                    "Error : Your command is missing certain parameters.",
+                            "Please re-enter your command in the format : ",
+                            "deadline <Task> /by <yyyy-MM-DD [HH:mm]>"
+                    )
             );
         }
 
@@ -104,11 +112,13 @@ public class Parser {
                 deadlineDateAndTime = deadlineDate.atStartOfDay();
             } catch (DateTimeParseException error2) {
                 throw new InvalidDateAndTimeException(
-                        "Error : Invalid date/ date & time format.\n"
-                                + "Please use either one of the format below : \n"
-                                + "For date only : deadline <Task> /by yyyy-MM-dd \n"
-                                + "For date and time : deadline <Task> /by yyyy-MM-dd HH:mm\n"
-                                + "Ex : deadline <Task> /by 2026-08-22 18:00\n"
+                        buildErrorMessage(
+                                "Error : Invalid date/ date & time format.",
+                                "Please use either one of the format below : ",
+                                "For date only : deadline <Task> /by yyyy-MM-dd ",
+                                "For date and time : deadline <Task> /by yyyy-MM-dd HH:mm",
+                                "Ex : deadline <Task> /by 2026-08-22 18:00"
+                        )
                 );
             }
         }
@@ -138,9 +148,11 @@ public class Parser {
                 || positionOfFrom >= positionOfTo) {
 
             throw new IncompleteCommandException(
-                    "Error : Your command is missing certain parameters.\n"
-                            + "Please re-enter your command in the format : "
-                            + "event <Task> /from <yyyy-MM-DD [HH:mm]> /to <yyyy-MM-DD [HH:mm]>\n"
+                    buildErrorMessage(
+                            "Error : Your command is missing certain parameters.",
+                            "Please re-enter your command in the format : ",
+                            "event <Task> /from <yyyy-MM-DD [HH:mm]> /to <yyyy-MM-DD [HH:mm]>"
+                    )
             );
         }
 
@@ -157,9 +169,11 @@ public class Parser {
                 || endDateTime.isEmpty()) {
 
             throw new IncompleteCommandException(
-                    "Error : Your command is missing certain parameters.\n"
-                            + "Please re-enter your command in the format : "
-                            + "event <Task> /from <yyyy-MM-DD [HH:mm]> /to <yyyy-MM-DD [HH:mm]>\n"
+                    buildErrorMessage(
+                            "Error : Your command is missing certain parameters.",
+                            "Please re-enter your command in the format : ",
+                            "event <Task> /from <yyyy-MM-DD [HH:mm]> /to <yyyy-MM-DD [HH:mm]>"
+                    )
             );
         }
 
@@ -185,20 +199,24 @@ public class Parser {
                 eventEndDateAndTime = eventEndDate.atStartOfDay();
             } catch (DateTimeParseException error2) {
                 throw new InvalidDateAndTimeException(
-                        "Error : Invalid date/date & time format.\n"
-                                + "Please use either one of the format below : \n"
-                                + "For date only : event <Task> /from yyyy-MM-dd /to yyyy-MM-dd\n"
-                                + "For date and time : event <Task> /from yyyy-MM-dd HH:mm /to yyyy-MM-dd HH:mm\n"
-                                + "Ex : event <Task> /from 2026-08-27 12:00 /to 2026-08-28 12:00\n"
+                        buildErrorMessage(
+                                "Error : Invalid date/date & time format.",
+                                "Please use either one of the format below : ",
+                                "For date only : event <Task> /from yyyy-MM-dd /to yyyy-MM-dd",
+                                "For date and time : event <Task> /from yyyy-MM-dd HH:mm /to yyyy-MM-dd HH:mm",
+                                "Ex : event <Task> /from 2026-08-27 12:00 /to 2026-08-28 12:00"
+                        )
                 );
             }
         }
 
         if (eventEndDateAndTime.isBefore(eventStartDateAndTime)) {
             throw new InvalidStartAndEndTimeException(
-                    "Error : Invalid start/end date/date & time. \n"
-                            + "Please ensure that the start date is before the end date \n"
-                            + "and the end date is after the start date, respectively. \n"
+                    buildErrorMessage(
+                            "Error : Invalid start/end date/date & time.",
+                            "Please ensure that the start date is before the end date",
+                            "and the end date is after the start date, respectively."
+                    )
             );
         }
 
@@ -221,9 +239,11 @@ public class Parser {
             return Integer.parseInt(splitUserInput[1]);
         } catch (ArrayIndexOutOfBoundsException | NumberFormatException error) {
             throw new IncompleteCommandException(
-                    "Error : Your command is missing certain parameters.\n"
-                            + "Please re-enter your command with a valid task number in the form.\n"
-                            + "mark 1 / unmark 2 / delete 3\n"
+                    buildErrorMessage(
+                            "Error : Your command is missing certain parameters.",
+                            "Please re-enter your command with a valid task number in the form.",
+                            "mark 1 / unmark 2 / delete 3"
+                    )
             );
         }
     }
@@ -242,18 +262,32 @@ public class Parser {
 
         if (taskKeyWord.isEmpty()) {
             throw new IncompleteCommandException(
-                    "Error : Your command is missing certain parameters.\n"
-                            + "Please re-enter your command with a key word in the format : find <key word>.\n"
+                    buildErrorMessage(
+                            "Error : Your command is missing certain parameters.",
+                            "Please re-enter your command with a key word in the format : find <key word>."
+                    )
+
             );
         } else if (taskKeyWord.length() == 1) {
             throw new TooSimpleArgumentException(
-                    "Error : Your <Key Word> is too general.\n"
-                            + "Please re-enter your command with a key word of minimum 2 characters.\n"
+                    buildErrorMessage(
+                            "Error : Your <Key Word> is too general.",
+                            "Please re-enter your command with a key word of minimum 2 characters."
+                    )
             );
         }
 
         return taskKeyWord;
     }
 
+    /**
+     * Builds a formatted error message from multiple lines.
+     *
+     * @param messages The lines of the error message.
+     * @return A formatted error message.
+     */
+    private static String buildErrorMessage(String... messages) {
+        return String.join("\n", messages) + "\n";
+    }
 
 }
