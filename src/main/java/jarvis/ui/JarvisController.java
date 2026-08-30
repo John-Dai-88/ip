@@ -39,7 +39,6 @@ public class JarvisController {
     public void createToDoTask(String userInput) throws JarvisException {
         ToDo toDoTask = Parser.parseToDo(userInput);
         taskList.addTask(toDoTask);
-        printAddedTask(toDoTask);
     }
 
     /**
@@ -51,7 +50,6 @@ public class JarvisController {
     public void createDeadlineTask(String userInput) throws JarvisException {
         Deadline deadlineTask = Parser.parseDeadline(userInput);
         taskList.addTask(deadlineTask);
-        printAddedTask(deadlineTask);
     }
 
     /**
@@ -63,7 +61,6 @@ public class JarvisController {
     public void createEventTask(String userInput) throws JarvisException {
         Event eventTask = Parser.parseEvent(userInput);
         taskList.addTask(eventTask);
-        printAddedTask(eventTask);
     }
 
     /**
@@ -87,7 +84,6 @@ public class JarvisController {
         System.out.println("\nVery well Sir/Ma' am, I have marked the following task as: \n"
                 + taskList.getTask(taskIndex) + "\n"
                 + BORDER_LINE);
-
     }
 
     /**
@@ -101,11 +97,6 @@ public class JarvisController {
         int taskIndex = taskNumber - 1;
 
         validateTaskNumber(taskNumber);
-
-        System.out.printf("\nVery good Sir/Ma' am, I have removed the following task "
-                + "from your list of tasks-to-do: \n%s\n"
-                + "Please do note Sir/Ma' am, now you have %d task(s) awaiting you \n"
-                + BORDER_LINE, taskList.getTask(taskIndex), taskList.size() - 1);
 
         taskList.deleteTask(taskIndex);
     }
@@ -170,17 +161,6 @@ public class JarvisController {
                             taskList.size())
             );
         }
-    }
-
-    /**
-     * Prints a confirmation after adding a task using CLI.
-     *
-     * @param task Newly added task.
-     */
-    private void printAddedTask(Task task) {
-        System.out.printf("Very well Sir/Ma' am, I have added the following task below: \n"
-                + "%s\nPlease do note Sir/Ma' am, that you now currently have %d task(s) "
-                + "awaiting you \n%s", task, taskList.size(), BORDER_LINE);
     }
 }
 
