@@ -130,7 +130,6 @@ public class JarvisController {
      * @throws InvalidTaskNumberException If the number is invalid.
      */
     public Task getTask(int index) throws InvalidTaskNumberException {
-        validateTaskIndex(index);
         return taskList.getTask(index);
     }
 
@@ -153,26 +152,6 @@ public class JarvisController {
             throws InvalidTaskNumberException {
 
         if (taskNumber < 1 || taskNumber > taskList.size()) {
-            throw new InvalidTaskNumberException(
-                    "Error: The task number you inputted is invalid.\n"
-                            + String.format(
-                            "Please re-enter with a valid number ranging from "
-                                    + "1 to %d",
-                            taskList.size())
-            );
-        }
-    }
-
-    /**
-     * Validates a zero-based task number.
-     *
-     * @param index One-based task number.
-     * @throws InvalidTaskNumberException If the number is invalid.
-     */
-    private void validateTaskIndex(int index)
-            throws InvalidTaskNumberException {
-
-        if (index < 0 || index >= taskList.size()) {
             throw new InvalidTaskNumberException(
                     "Error: The task number you inputted is invalid.\n"
                             + String.format(
