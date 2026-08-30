@@ -3,6 +3,7 @@ package jarvis.ui;
 import java.util.List;
 import java.util.function.Consumer;
 
+import jarvis.backend.JarvisController;
 import jarvis.classes.Task;
 import jarvis.exceptions.JarvisException;
 import javafx.fxml.FXML;

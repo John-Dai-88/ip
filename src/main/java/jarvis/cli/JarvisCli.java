@@ -6,7 +6,7 @@ import java.util.Scanner;
 import jarvis.backend.Parser;
 import jarvis.classes.Task;
 import jarvis.exceptions.JarvisException;
-import jarvis.ui.JarvisController;
+import jarvis.backend.JarvisController;
 
 /**
  * Runs the Jarvis command-line chatbot and handles user commands.

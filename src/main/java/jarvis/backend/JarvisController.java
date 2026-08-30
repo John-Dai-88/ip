@@ -1,9 +1,7 @@
-package jarvis.ui;
+package jarvis.backend;
 
 import java.util.List;
 
-import jarvis.backend.Parser;
-import jarvis.backend.TaskList;
 import jarvis.classes.Deadline;
 import jarvis.classes.Event;
 import jarvis.classes.Task;
