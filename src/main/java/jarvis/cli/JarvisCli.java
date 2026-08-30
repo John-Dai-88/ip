@@ -3,38 +3,42 @@ package jarvis.cli;
 import java.util.List;
 import java.util.Scanner;
 
+import jarvis.backend.JarvisController;
 import jarvis.backend.Parser;
 import jarvis.classes.Task;
 import jarvis.exceptions.JarvisException;
-import jarvis.backend.JarvisController;
 
 /**
- * Runs the Jarvis command-line chatbot and handles user commands.
+ * Provides the command-line interface for the Jarvis chatbot.
  *
  * This class is responsible for reading commands from the user,
- * delegating task-related operations to {@link JarvisController}, and displaying
- * the appropriate responses through {@link Ui}.
+ * processing the commands, delegating task operations to
+ * {@link JarvisController}, and displaying the appropriate responses
+ * through {@link Ui}.
  */
 public class JarvisCli {
     /** Handles input and output for the command-line interface. */
     private static final Ui ui = new Ui();
 
+    /** Separates individual responses displayed in the CLI. */
     private static final String BORDER_LINE =
             "---------------------------------------------------------------------\n";
 
+    /** Controller responsible for managing Jarvis tasks. */
     private final JarvisController jarvisController;
 
     /**
-     * Test
+     * Creates a new CLI instance with a {@link JarvisController}
+     * for managing tasks.
      */
     public JarvisCli() {
         jarvisController = new JarvisController();
     }
 
     /**
-     * Starts the Jarvis Chatbot CLI interface
+     * Entry point for the Jarvis command-line application.
      *
-     * @param args
+     * @param args command-line arguments, which are not used by Jarvis
      */
     public static void main(String[] args) {
         JarvisCli cli = new JarvisCli();
@@ -42,7 +46,13 @@ public class JarvisCli {
     }
 
     /**
-     * Test
+     * Starts the Jarvis CLI and continuously reads user commands
+     * until the user exits the application.
+     *
+     * The method displays the welcome message, reads commands from
+     * standard input, and delegates each command to
+     * {@link #processCommand(String)}. The scanner is closed when the
+     * CLI terminates.
      */
     public void runCli() {
         Scanner scanner = new Scanner(System.in);
@@ -64,10 +74,13 @@ public class JarvisCli {
     }
 
     /**
-     * Starts the Jarvis chatbot and continuously processes user commands
-     * until the user enters {@code bye}.
+     * Processes a user command and performs the corresponding action.
      *
-     * @param userInput
+     * Supported commands include creating, listing, finding, marking,
+     * unmarking, and deleting tasks. Commands are delegated to the
+     * {@link JarvisController} where appropriate.
+     *
+     * @param userInput command entered by the user
      */
     public void processCommand(String userInput) {
 
@@ -109,7 +122,10 @@ public class JarvisCli {
     }
 
     /**
-     * Test
+     * Displays a confirmation message for the most recently added task.
+     *
+     * The message includes the newly added task and the current number
+     * of tasks in the task list.
      */
     private void printLastAddedTask() {
         Task task = jarvisController.getTask(
@@ -127,7 +143,11 @@ public class JarvisCli {
     }
 
     /**
-     * Test
+     * Displays all tasks currently stored by Jarvis.
+     *
+     * If the task list is empty, an appropriate message is displayed.
+     * Otherwise, each task is displayed with its corresponding
+     * one-based task number.
      */
     private void printAllTasks() {
         List<Task> tasks = jarvisController.getTasks();
@@ -146,10 +166,15 @@ public class JarvisCli {
     }
 
     /**
-     * Test
+     * Deletes the task specified by the user's command and displays
+     * a confirmation message.
      *
-     * @param input
-     * @throws JarvisException
+     * The task is retrieved before deletion so that its details can
+     * be displayed after it has been removed from the task list.
+     *
+     * @param input command containing the one-based task number to delete
+     * @throws JarvisException if the task number is invalid or cannot
+     *         be parsed
      */
     private void deleteTask(String input) throws JarvisException {
         int taskNumber = Parser.parseTaskNumber(input);
@@ -170,10 +195,14 @@ public class JarvisCli {
     }
 
     /**
-     * Test
+     * Finds and displays tasks matching the keyword in the user's command.
      *
-     * @param input
-     * @throws JarvisException
+     * If no tasks match the keyword, an appropriate message is displayed.
+     * Otherwise, each matching task is displayed with its corresponding
+     * one-based task number.
+     *
+     * @param input command containing the keyword to search for
+     * @throws JarvisException if the command cannot be parsed
      */
     private void printFindResults(String input) throws JarvisException {
         List<Task> tasks = jarvisController.filterTasks(input);
