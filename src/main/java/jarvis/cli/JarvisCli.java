@@ -28,6 +28,17 @@ public class JarvisCli {
     /** Controller responsible for managing Jarvis tasks. */
     private final JarvisController jarvisController;
 
+    private final String FUNNY_COMMAND = "Jarvis, clip that";
+    private final String LIST_COMMAND = "list";
+    private final String FIND_COMMAND = "find";
+    private final String MARK_COMMAND = "mark";
+    private final String UNMARK_COMMAND = "unmark";
+    private final String TODO_COMMAND = "todo";
+    private final String DEADLINE_COMMAND = "deadline";
+    private final String EVENT_COMMAND = "event";
+    private final String DELETE_COMMAND = "delete";
+    private final String BYE_COMMAND = "bye";
+
     /**
      * Creates a new CLI instance with a {@link JarvisController}
      * for managing tasks.
@@ -84,17 +95,6 @@ public class JarvisCli {
      * @param userInput command entered by the user
      */
     public void processCommand(String userInput) {
-
-        String FUNNY_COMMAND = "Jarvis, clip that";
-        String LIST_COMMAND = "list";
-        String FIND_COMMAND = "find";
-        String MARK_COMMAND = "mark";
-        String UNMARK_COMMAND = "unmark";
-        String TODO_COMMAND = "todo";
-        String DEADLINE_COMMAND = "deadline";
-        String EVENT_COMMAND = "event";
-        String DELETE_COMMAND = "delete";
-        String BYE_COMMAND = "bye";
 
         try {
             if (userInput.equals(FUNNY_COMMAND)) {
