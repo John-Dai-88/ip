@@ -78,10 +78,6 @@ public class JarvisController {
         validateTaskNumber(taskNumber);
 
         taskList.setCompletionStatus(taskIndex, status);
-
-        System.out.println("\nVery well Sir/Ma' am, I have marked the following task as: \n"
-                + taskList.getTask(taskIndex) + "\n"
-                + BORDER_LINE);
     }
 
     /**

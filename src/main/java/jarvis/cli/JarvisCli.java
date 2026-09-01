@@ -96,10 +96,12 @@ public class JarvisCli {
                 jarvisController.markTaskAs(
                         userInput,
                         Task.CompletionStatus.DONE);
+                printTaskStatus(Parser.parseTaskNumber(userInput));
             } else if (userInput.startsWith("unmark")) {
                 jarvisController.markTaskAs(
                         userInput,
                         Task.CompletionStatus.UNDONE);
+                printTaskStatus(Parser.parseTaskNumber(userInput));
             } else if (userInput.startsWith("todo")) {
                 jarvisController.createToDoTask(userInput);
                 printLastAddedTask();
@@ -218,5 +220,18 @@ public class JarvisCli {
         }
 
         System.out.println(BORDER_LINE);
+    }
+
+    /**
+     * Test
+     *
+     * @param taskNumber
+     * @throws InvalidTaskNumberException
+     */
+    private void printTaskStatus(int taskNumber) throws InvalidTaskNumberException {
+        int taskIndex = taskNumber - 1;
+        System.out.println("\nVery well Sir/Ma' am, I have marked the following task as: \n"
+                + jarvisController.getTask(taskIndex) + "\n"
+                + BORDER_LINE);
     }
 }
