@@ -21,6 +21,19 @@ import javafx.scene.layout.VBox;
  */
 public class JarvisGuiController {
 
+    private static final String TODO_COMMAND = "todo";
+    private static final String DEADLINE_COMMAND = "deadline";
+    private static final String EVENT_COMMAND = "event";
+    private static final String LIST_COMMAND = "list";
+    private static final String MARK_COMMAND = "mark";
+    private static final String UNMARK_COMMAND = "unmark";
+    private static final String DELETE_COMMAND = "delete";
+    private static final String FIND_COMMAND = "find";
+    private static final String BYE_COMMAND = "bye";
+    private static final String UNKNOWN_COMMAND = "I'm sorry, I don't understand that command.\n"
+            + "Available commands: todo, deadline, event, list, "
+            + "mark, unmark, delete, find, bye";
+
     @FXML
     private ScrollPane scrollPane;
     @FXML
@@ -33,8 +46,8 @@ public class JarvisGuiController {
     private JarvisController jarvisController;
     private Consumer<String> outputHandler;
 
-    private Image jarvisImage = new Image(this.getClass().getResourceAsStream("/images/jarvisPicture.png"));
-    private Image userImage = new Image(this.getClass().getResourceAsStream("/images/blankProfilePicture.png"));
+    private final Image jarvisImage = new Image(this.getClass().getResourceAsStream("/images/jarvisPicture.png"));
+    private final Image userImage = new Image(this.getClass().getResourceAsStream("/images/blankProfilePicture.png"));
 
     /**
      * Initializes the GUI controller.
@@ -87,48 +100,46 @@ public class JarvisGuiController {
         String lowerInput = input.toLowerCase().trim();
 
         try {
-            if (lowerInput.startsWith("todo")) {
+            if (lowerInput.startsWith(TODO_COMMAND)) {
                 jarvisController.createToDoTask(input);
                 displayMessage("Got it. I've added this task:\n"
                         + "  " + getLastTask().toString());
                 displayTaskCount();
-            } else if (lowerInput.startsWith("deadline")) {
+            } else if (lowerInput.startsWith(DEADLINE_COMMAND)) {
                 jarvisController.createDeadlineTask(input);
                 displayMessage("Got it. I've added this task:\n"
                         + "  " + getLastTask().toString());
                 displayTaskCount();
-            } else if (lowerInput.startsWith("event")) {
+            } else if (lowerInput.startsWith(EVENT_COMMAND)) {
                 jarvisController.createEventTask(input);
                 displayMessage("Got it. I've added this task:\n"
                         + "  " + getLastTask().toString());
                 displayTaskCount();
-            } else if (lowerInput.startsWith("list")) {
+            } else if (lowerInput.startsWith(LIST_COMMAND)) {
                 displayTasks();
-            } else if (lowerInput.startsWith("mark")) {
+            } else if (lowerInput.startsWith(MARK_COMMAND)) {
                 jarvisController.markTaskAs(input, Task.CompletionStatus.DONE);
                 displayMessage("Nice! I've marked this task as done:\n"
                         + "  " + getTaskFromCommand(input).toString());
-            } else if (lowerInput.startsWith("unmark")) {
+            } else if (lowerInput.startsWith(UNMARK_COMMAND)) {
                 jarvisController.markTaskAs(input, Task.CompletionStatus.UNDONE);
                 displayMessage("OK, I've marked this task as not done yet:\n"
                         + "  " + getTaskFromCommand(input).toString());
-            } else if (lowerInput.startsWith("delete")) {
+            } else if (lowerInput.startsWith(DELETE_COMMAND)) {
                 Task deletedTask = getTaskFromCommand(input);
                 jarvisController.deleteTask(input);
                 displayMessage("Noted. I've removed this task:\n"
                         + "  " + deletedTask.toString());
                 displayTaskCount();
-            } else if (lowerInput.startsWith("find")) {
+            } else if (lowerInput.startsWith(FIND_COMMAND)) {
                 List<Task> matchingTasks = jarvisController.filterTasks(input);
                 displayFindResults(matchingTasks);
-            } else if (lowerInput.equals("bye")) {
+            } else if (lowerInput.equals(BYE_COMMAND)) {
                 displayMessage("Goodbye! Your tasks have been saved.");
                 userInput.setDisable(true);
                 sendButton.setDisable(true);
             } else {
-                displayMessage("I'm sorry, I don't understand that command.\n"
-                        + "Available commands: todo, deadline, event, list, "
-                        + "mark, unmark, delete, find, bye");
+                displayMessage(UNKNOWN_COMMAND);
             }
         } catch (JarvisException e) {
             displayMessage(e.getMessage());
