@@ -223,10 +223,10 @@ public class JarvisCli {
     }
 
     /**
-     * Test
+     * Prints the updated status of the requested task to the console.
      *
-     * @param taskNumber
-     * @throws InvalidTaskNumberException
+     * @param taskNumber the one-based number of the task whose status is to be printed
+     * @throws InvalidTaskNumberException if the specified task number is invalid
      */
     private void printTaskStatus(int taskNumber) throws InvalidTaskNumberException {
         int taskIndex = taskNumber - 1;
