@@ -240,13 +240,4 @@ public class JarvisGuiController {
         int taskNumber = Parser.parseTaskNumber(input);
         return jarvisController.getTask(taskNumber - 1);
     }
-
-    /**
-     * Gets the Jarvis controller instance.
-     *
-     * @return JarvisController instance.
-     */
-    public JarvisController getJarvisController() {
-        return jarvisController;
-    }
 }
