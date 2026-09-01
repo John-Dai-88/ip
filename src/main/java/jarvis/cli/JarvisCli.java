@@ -28,17 +28,6 @@ public class JarvisCli {
     /** Controller responsible for managing Jarvis tasks. */
     private final JarvisController jarvisController;
 
-    private final String FUNNY_COMMAND = "Jarvis, clip that";
-    private final String LIST_COMMAND = "list";
-    private final String FIND_COMMAND = "find";
-    private final String MARK_COMMAND = "mark";
-    private final String UNMARK_COMMAND = "unmark";
-    private final String TODO_COMMAND = "todo";
-    private final String DEADLINE_COMMAND = "deadline";
-    private final String EVENT_COMMAND = "event";
-    private final String DELETE_COMMAND = "delete";
-    private final String BYE_COMMAND = "bye";
-
     /**
      * Creates a new CLI instance with a {@link JarvisController}
      * for managing tasks.
@@ -96,35 +85,46 @@ public class JarvisCli {
      */
     public void processCommand(String userInput) {
 
+        String byeCommand = "bye";
+        String deadlineCommand = "deadline";
+        String deleteCommand = "delete";
+        String eventCommand = "event";
+        String findCommand = "find";
+        String funnyCommand = "Jarvis, clip that";
+        String listCommand = "list";
+        String markCommand = "mark";
+        String todoCommand = "todo";
+        String unmarkCommand = "unmark";
+
         try {
-            if (userInput.equals(FUNNY_COMMAND)) {
+            if (userInput.equals(funnyCommand)) {
                 ui.showClipThat();
-            } else if (userInput.equals(LIST_COMMAND)) {
+            } else if (userInput.equals(listCommand)) {
                 printAllTasks();
-            } else if (userInput.startsWith(FIND_COMMAND)) {
+            } else if (userInput.startsWith(findCommand)) {
                 printFindResults(userInput);
-            } else if (userInput.startsWith(MARK_COMMAND)) {
+            } else if (userInput.startsWith(markCommand)) {
                 jarvisController.markTaskAs(
                         userInput,
                         Task.CompletionStatus.DONE);
                 printTaskStatus(Parser.parseTaskNumber(userInput));
-            } else if (userInput.startsWith(UNMARK_COMMAND)) {
+            } else if (userInput.startsWith(unmarkCommand)) {
                 jarvisController.markTaskAs(
                         userInput,
                         Task.CompletionStatus.UNDONE);
                 printTaskStatus(Parser.parseTaskNumber(userInput));
-            } else if (userInput.startsWith(TODO_COMMAND)) {
+            } else if (userInput.startsWith(todoCommand)) {
                 jarvisController.createToDoTask(userInput);
                 printLastAddedTask();
-            } else if (userInput.startsWith(DEADLINE_COMMAND)) {
+            } else if (userInput.startsWith(deadlineCommand)) {
                 jarvisController.createDeadlineTask(userInput);
                 printLastAddedTask();
-            } else if (userInput.startsWith(EVENT_COMMAND)) {
+            } else if (userInput.startsWith(eventCommand)) {
                 jarvisController.createEventTask(userInput);
                 printLastAddedTask();
-            } else if (userInput.startsWith(DELETE_COMMAND)) {
+            } else if (userInput.startsWith(deleteCommand)) {
                 deleteTask(userInput);
-            } else if (userInput.equals(BYE_COMMAND)) {
+            } else if (userInput.equals(byeCommand)) {
                 ui.sayGoodbye();
             } else {
                 ui.showUnknownCommand();
