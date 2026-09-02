@@ -5,7 +5,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 
-<fx:root alignment="CENTER_RIGHT" maxWidth="-Infinity" prefWidth="0.0" styleClass="message-box" stylesheets="@../style/MessageBox.css" type="javafx.scene.layout.HBox" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root alignment="CENTER_RIGHT" maxWidth="-Infinity" prefWidth="0.0" styleClass="message-box" stylesheets="@../style/MessageBox.css" type="javafx.scene.layout.HBox" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
 
     <children>
 
