@@ -15,9 +15,6 @@ import jarvis.storage.Storage;
  */
 public class JarvisController {
 
-    private static final String BORDER_LINE =
-            "---------------------------------------------------------------------\n";
-
     private final TaskList taskList;
     private final Storage storage = new Storage("./data/jarvis.txt");
 
