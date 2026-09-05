@@ -107,15 +107,12 @@ public class TaskList {
      */
     public List<Task> filterTasks(String taskKeyWord) {
         String filterKeyWord = taskKeyWord.toLowerCase();
-        List<Task> filteredTasks = new ArrayList<>();
 
-        for (Task task : tasks) {
-            if (task.getTaskName().toLowerCase().contains(filterKeyWord)) {
-                filteredTasks.add(task);
-            }
-        }
-
-        return filteredTasks;
+        return tasks.stream()
+                .filter(task -> task.getTaskName()
+                        .toLowerCase()
+                        .contains(filterKeyWord))
+                .toList();
     }
 
     /**
