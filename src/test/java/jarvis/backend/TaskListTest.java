@@ -19,6 +19,7 @@ import jarvis.classes.Task;
 import jarvis.classes.ToDo;
 import jarvis.exceptions.InvalidTaskNumberException;
 import jarvis.exceptions.JarvisException;
+import jarvis.exceptions.ScheduleConflictException;
 import jarvis.storage.Storage;
 
 /** Tests task-list operations. */
@@ -60,6 +61,110 @@ public class TaskListTest {
 
         assertEquals(deadlineTask, taskList.getTask(1));
         assertEquals(deadlineTask, taskList.getTasks().get(1));
+    }
+
+    /** Verifies that a non-conflicting event can be added successfully. */
+    @Test
+    public void addTask_nonConflictingEventIsStored() throws JarvisException {
+        TaskList taskList = new TaskList();
+
+        Event firstEvent = new Event(
+                "Meeting",
+                LocalDateTime.of(2026, 8, 22, 9, 0),
+                LocalDateTime.of(2026, 8, 22, 10, 0)
+        );
+
+        Event secondEvent = new Event(
+                "Lunch",
+                LocalDateTime.of(2026, 8, 22, 11, 0),
+                LocalDateTime.of(2026, 8, 22, 12, 0)
+        );
+
+        taskList.addTask(firstEvent);
+        taskList.addTask(secondEvent);
+
+        assertEquals(2, taskList.size());
+        assertEquals(firstEvent, taskList.getTask(0));
+        assertEquals(secondEvent, taskList.getTask(1));
+
+    }
+
+    /** Verifies that adding an overlapping event throws a schedule conflict exception. */
+    @Test
+    public void addTask_conflictingEvent_throwsScheduleConflictException()
+            throws JarvisException {
+        TaskList taskList = new TaskList();
+
+        Event existingEvent = new Event(
+                "Meeting",
+                LocalDateTime.of(2026, 8, 22, 9, 0),
+                LocalDateTime.of(2026, 8, 22, 10, 0)
+        );
+
+        Event conflictingEvent = new Event(
+                "Project Discussion",
+                LocalDateTime.of(2026, 8, 22, 9, 30),
+                LocalDateTime.of(2026, 8, 22, 10, 30)
+        );
+
+        taskList.addTask(existingEvent);
+
+        assertThrows(
+                ScheduleConflictException.class, () ->
+                        taskList.addTask(conflictingEvent)
+        );
+    }
+
+    /** Verifies that a conflicting event is not added to the task list. */
+    @Test
+    public void addTask_conflictingEventIsNotStored() throws JarvisException {
+        TaskList taskList = new TaskList();
+
+        Event existingEvent = new Event(
+                "Meeting",
+                LocalDateTime.of(2026, 8, 22, 9, 0),
+                LocalDateTime.of(2026, 8, 22, 10, 0)
+        );
+
+        Event conflictingEvent = new Event(
+                "Project Discussion",
+                LocalDateTime.of(2026, 8, 22, 9, 30),
+                LocalDateTime.of(2026, 8, 22, 10, 30)
+        );
+
+        taskList.addTask(existingEvent);
+
+        assertThrows(
+                ScheduleConflictException.class, () ->
+                        taskList.addTask(conflictingEvent)
+        );
+
+        assertEquals(1, taskList.size());
+        assertEquals(existingEvent, taskList.getTask(0));
+
+    }
+
+    /** Verifies that an event ending when another event starts is allowed. */
+    @Test
+    public void addTask_eventsTouchingAtBoundaryAreStored() throws JarvisException {
+        TaskList taskList = new TaskList();
+
+        Event firstEvent = new Event(
+                "Meeting",
+                LocalDateTime.of(2026, 8, 22, 9, 0),
+                LocalDateTime.of(2026, 8, 22, 10, 0)
+        );
+
+        Event secondEvent = new Event(
+                "Lunch",
+                LocalDateTime.of(2026, 8, 22, 10, 0),
+                LocalDateTime.of(2026, 8, 22, 11, 0)
+        );
+
+        taskList.addTask(firstEvent);
+        taskList.addTask(secondEvent);
+
+        assertEquals(2, taskList.size());
     }
 
     /** Verifies that deleting a task returns it and removes it from the list. */
