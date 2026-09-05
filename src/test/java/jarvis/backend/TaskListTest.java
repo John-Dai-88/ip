@@ -18,6 +18,7 @@ import jarvis.classes.Event;
 import jarvis.classes.Task;
 import jarvis.classes.ToDo;
 import jarvis.exceptions.InvalidTaskNumberException;
+import jarvis.exceptions.JarvisException;
 import jarvis.storage.Storage;
 
 /** Tests task-list operations. */
@@ -41,7 +42,7 @@ public class TaskListTest {
 
     /** Verifies that tasks can be added, retrieved, and counted. */
     @Test
-    public void addTask_taskIsStored() throws InvalidTaskNumberException {
+    public void addTask_taskIsStored() throws JarvisException {
         TaskList taskList = new TaskList();
 
         ToDo todoTask = new ToDo("Read book");
@@ -63,7 +64,7 @@ public class TaskListTest {
 
     /** Verifies that deleting a task returns it and removes it from the list. */
     @Test
-    public void deleteTask_taskIsRemoved() throws InvalidTaskNumberException {
+    public void deleteTask_taskIsRemoved() throws JarvisException {
         TaskList taskList = new TaskList();
 
         ToDo todoTask = new ToDo("Read book");
@@ -86,7 +87,7 @@ public class TaskListTest {
 
     /** Verifies that completion status updates are applied to the selected task. */
     @Test
-    public void setCompletionStatus_taskStatusIsUpdated() throws InvalidTaskNumberException {
+    public void setCompletionStatus_taskStatusIsUpdated() throws JarvisException {
         TaskList taskList = new TaskList();
 
         ToDo todoTask = new ToDo("Read book");
@@ -110,7 +111,7 @@ public class TaskListTest {
 
     /** Verifies that tasks are filtered correctly based on key word. */
     @Test
-    public void filterTasks_tasksAreFilteredCorrectly() {
+    public void filterTasks_tasksAreFilteredCorrectly() throws JarvisException {
         TaskList taskList = new TaskList();
         List<Task> testCase1TaskList = new ArrayList<>();
         List<Task> testCase2TaskList = new ArrayList<>();
@@ -159,7 +160,7 @@ public class TaskListTest {
 
     /** Verifies that filtering is case-insensitive. */
     @Test
-    public void filterTasks_keywordIsCaseInsensitive() {
+    public void filterTasks_keywordIsCaseInsensitive() throws JarvisException {
         ToDo todoTask = new ToDo("Read My BOOK");
 
         taskList.addTask(todoTask);
@@ -182,7 +183,7 @@ public class TaskListTest {
 
     /** Verifies that filtering with no matching keyword returns an empty list. */
     @Test
-    public void filterTasks_noMatch_returnsEmptyList() {
+    public void filterTasks_noMatch_returnsEmptyList() throws JarvisException {
         taskList.addTask(new ToDo("Read book"));
 
         assertTrue(taskList.filterTasks("shopping").isEmpty());
@@ -190,7 +191,7 @@ public class TaskListTest {
 
     /** Verifies that filtering with an empty keyword returns all tasks. */
     @Test
-    public void filterTasks_emptyKeyword_returnsAllTasks() {
+    public void filterTasks_emptyKeyword_returnsAllTasks() throws JarvisException {
         ToDo todoTask = new ToDo("Read book");
         Deadline deadlineTask = new Deadline(
                 "Return book",
@@ -208,7 +209,7 @@ public class TaskListTest {
 
     /** Verifies that size reflects additions and deletions. */
     @Test
-    public void size_reflectsNumberOfTasks() throws InvalidTaskNumberException {
+    public void size_reflectsNumberOfTasks() throws JarvisException {
         assertEquals(0, taskList.size());
 
         taskList.addTask(new ToDo("Task 1"));
@@ -232,7 +233,7 @@ public class TaskListTest {
 
     /** Verifies that an index equal to the task list size is rejected. */
     @Test
-    public void validateTaskIndex_indexEqualToSize_throwsException() {
+    public void validateTaskIndex_indexEqualToSize_throwsException() throws JarvisException {
         taskList.addTask(new ToDo("Read book"));
 
         assertThrows(InvalidTaskNumberException.class, () -> taskList.getTask(1));
@@ -240,7 +241,7 @@ public class TaskListTest {
 
     /** Verifies that an index greater than the task list size is rejected. */
     @Test
-    public void validateTaskIndex_indexGreaterThanSize_throwsException() {
+    public void validateTaskIndex_indexGreaterThanSize_throwsException() throws JarvisException {
         taskList.addTask(new ToDo("Read book"));
 
         assertThrows(InvalidTaskNumberException.class, () -> taskList.getTask(2));
@@ -249,7 +250,7 @@ public class TaskListTest {
     /** Verifies that index zero is valid when the list contains a task. */
     @Test
     public void validateTaskIndex_zeroIndex_doesNotThrowException()
-            throws InvalidTaskNumberException {
+            throws JarvisException {
         ToDo todoTask = new ToDo("Read book");
         taskList.addTask(todoTask);
 
@@ -258,7 +259,7 @@ public class TaskListTest {
 
     /** Verifies that an invalid task index produces the expected message. */
     @Test
-    public void validateTaskIndex_invalidIndex_hasCorrectMessage() {
+    public void validateTaskIndex_invalidIndex_hasCorrectMessage() throws JarvisException {
         taskList.addTask(new ToDo("Read book"));
 
         InvalidTaskNumberException exception =
