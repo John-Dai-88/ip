@@ -125,8 +125,7 @@ public class JarvisGuiController {
             } else if (lowerInput.startsWith(DELETE_COMMAND)) {
                 displayDeletedTask(input);
             } else if (lowerInput.startsWith(FIND_COMMAND)) {
-                List<Task> matchingTasks = jarvisController.filterTasks(input);
-                displayFindResults(matchingTasks);
+                displayFindResults(input);
             } else if (lowerInput.equals(BYE_COMMAND)) {
                 displayByeCommand();
             } else {
@@ -236,20 +235,25 @@ public class JarvisGuiController {
         displayMessage(sb.toString());
     }
 
+
     /**
-     * Displays find results.
+     * Filter tasks by user's inputted key word and display it back to the user
      *
-     * @param tasks Matching tasks.
+     * @param userInput User's command to find tasks based on a key word
+     * @throws JarvisException If there is an issue filtering tasks based on key word
      */
-    private void displayFindResults(List<Task> tasks) {
-        if (tasks.isEmpty()) {
+    private void displayFindResults(String userInput) throws JarvisException {
+
+        List<Task> matchingTasks = jarvisController.filterTasks(userInput);
+
+        if (matchingTasks.isEmpty()) {
             displayMessage("No matching tasks found.");
             return;
         }
 
         StringBuilder sb = new StringBuilder("Here are the matching tasks:\n");
-        for (int i = 0; i < tasks.size(); i++) {
-            sb.append(String.format("%d. %s\n", i + 1, tasks.get(i).toString()));
+        for (int i = 0; i < matchingTasks.size(); i++) {
+            sb.append(String.format("%d. %s\n", i + 1, matchingTasks.get(i).toString()));
         }
         displayMessage(sb.toString());
     }

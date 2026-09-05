@@ -146,9 +146,8 @@ public class JarvisController {
 
         if (taskList.size() == 0) {
             throw new InvalidTaskNumberException(
-                    "You currently have no tasks in your list.\n"
-                            + "Please add a task before trying to mark, "
-                            + "unmark, or delete one."
+                    "You have no tasks to mark, unmark, or delete.\n"
+                            + "Please add a task first."
             );
         }
 
