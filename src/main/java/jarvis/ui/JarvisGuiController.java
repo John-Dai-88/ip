@@ -115,7 +115,7 @@ public class JarvisGuiController {
                 displayMessage("Got it. I've added this task:\n"
                         + "  " + getLastTask().toString());
                 displayTaskCount();
-            } else if (lowerInput.startsWith(LIST_COMMAND)) {
+            } else if (lowerInput.equals(LIST_COMMAND)) {
                 displayTasks();
             } else if (lowerInput.startsWith(MARK_COMMAND)) {
                 jarvisController.markTaskAs(input, Task.CompletionStatus.DONE);
