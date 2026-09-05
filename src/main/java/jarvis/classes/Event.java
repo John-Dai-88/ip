@@ -31,8 +31,7 @@ public class Event extends Task {
      * Checks if there is a schedule clash between 2 events
      *
      * @param existingEvent Existing event
-     * @return boolean, indicating if the passed in event's schedule
-     * clashes with the event in question
+     * @return boolean, indicating if the passed in event's schedule clashes with the event in question
      */
     public boolean clashesWith(Event existingEvent) {
         return startTime.isBefore(existingEvent.endTime)
