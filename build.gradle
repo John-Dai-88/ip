@@ -80,6 +80,7 @@ tasks.register('buildJar') {
 
 run {
     standardInput = System.in
+    enableAssertions = true
 }
 
 checkstyle {
