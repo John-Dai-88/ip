@@ -83,13 +83,13 @@ public class JarvisController {
      * @param userInput User command containing the task number.
      * @throws JarvisException If the command or task number is invalid.
      */
-    public void deleteTask(String userInput) throws JarvisException {
+    public Task deleteTask(String userInput) throws JarvisException {
         int taskNumber = Parser.parseTaskNumber(userInput);
         int taskIndex = taskNumber - 1;
 
         validateTaskNumber(taskNumber);
 
-        taskList.deleteTask(taskIndex);
+        return taskList.deleteTask(taskIndex);
     }
 
     /**
@@ -143,6 +143,14 @@ public class JarvisController {
      */
     private void validateTaskNumber(int taskNumber)
             throws InvalidTaskNumberException {
+
+        if (taskList.size() == 0) {
+            throw new InvalidTaskNumberException(
+                    "You currently have no tasks in your list.\n"
+                            + "Please add a task before trying to mark, "
+                            + "unmark, or delete one."
+            );
+        }
 
         if (taskNumber < 1 || taskNumber > taskList.size()) {
             throw new InvalidTaskNumberException(

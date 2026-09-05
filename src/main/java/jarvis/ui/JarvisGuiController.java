@@ -34,6 +34,16 @@ public class JarvisGuiController {
             + "Available commands: todo, deadline, event, list, "
             + "mark, unmark, delete, find, bye";
 
+    private static final String JARVIS_IMAGE_DIRECTORY = "/images/jarvisPicture.png";
+    private static final String DEFAULT_USER_IMAGE_DIRECTORY = "/images/blankProfilePicture.png";
+
+    private static final String ADD_TASK_MSG_HEADER = "Got it. I've added this task:\n" + "  ";
+    private static final String MARK_TASK_AS_DONE_MSG_HEADER = "Nice! I've marked this task as done:\n" + "  ";
+    private static final String UNMARK_TASK_AS_DONE_MSG_HEADER =
+            "OK, I've marked this task as not done yet:\n" + "  ";
+    private static final String DELETE_TASK_MSG_HEADER = "Noted. I've removed this task:\n" + "  ";
+    private static final String BYE_MESSAGE = "Goodbye! Your tasks have been saved.";
+
     @FXML
     private ScrollPane scrollPane;
     @FXML
@@ -46,8 +56,8 @@ public class JarvisGuiController {
     private JarvisController jarvisController;
     private Consumer<String> outputHandler;
 
-    private final Image jarvisImage = new Image(this.getClass().getResourceAsStream("/images/jarvisPicture.png"));
-    private final Image userImage = new Image(this.getClass().getResourceAsStream("/images/blankProfilePicture.png"));
+    private final Image jarvisImage = new Image(this.getClass().getResourceAsStream(JARVIS_IMAGE_DIRECTORY));
+    private final Image userImage = new Image(this.getClass().getResourceAsStream(DEFAULT_USER_IMAGE_DIRECTORY));
 
     /**
      * Initializes the GUI controller.
@@ -101,43 +111,24 @@ public class JarvisGuiController {
 
         try {
             if (lowerInput.startsWith(TODO_COMMAND)) {
-                jarvisController.createToDoTask(input);
-                displayMessage("Got it. I've added this task:\n"
-                        + "  " + getLastTask().toString());
-                displayTaskCount();
+                displayTodoTaskCreation(input);
             } else if (lowerInput.startsWith(DEADLINE_COMMAND)) {
-                jarvisController.createDeadlineTask(input);
-                displayMessage("Got it. I've added this task:\n"
-                        + "  " + getLastTask().toString());
-                displayTaskCount();
+                displayDeadlineTaskCreation(input);
             } else if (lowerInput.startsWith(EVENT_COMMAND)) {
-                jarvisController.createEventTask(input);
-                displayMessage("Got it. I've added this task:\n"
-                        + "  " + getLastTask().toString());
-                displayTaskCount();
+                displayEventTaskCreation(input);
             } else if (lowerInput.equals(LIST_COMMAND)) {
                 displayTasks();
             } else if (lowerInput.startsWith(MARK_COMMAND)) {
-                jarvisController.markTaskAs(input, Task.CompletionStatus.DONE);
-                displayMessage("Nice! I've marked this task as done:\n"
-                        + "  " + getTaskFromCommand(input).toString());
+                displayMarkedTask(input);
             } else if (lowerInput.startsWith(UNMARK_COMMAND)) {
-                jarvisController.markTaskAs(input, Task.CompletionStatus.UNDONE);
-                displayMessage("OK, I've marked this task as not done yet:\n"
-                        + "  " + getTaskFromCommand(input).toString());
+                displayUnmarkedTask(input);
             } else if (lowerInput.startsWith(DELETE_COMMAND)) {
-                Task deletedTask = getTaskFromCommand(input);
-                jarvisController.deleteTask(input);
-                displayMessage("Noted. I've removed this task:\n"
-                        + "  " + deletedTask.toString());
-                displayTaskCount();
+                displayDeletedTask(input);
             } else if (lowerInput.startsWith(FIND_COMMAND)) {
                 List<Task> matchingTasks = jarvisController.filterTasks(input);
                 displayFindResults(matchingTasks);
             } else if (lowerInput.equals(BYE_COMMAND)) {
-                displayMessage("Goodbye! Your tasks have been saved.");
-                userInput.setDisable(true);
-                sendButton.setDisable(true);
+                displayByeCommand();
             } else {
                 displayMessage(UNKNOWN_COMMAND);
             }
@@ -146,6 +137,86 @@ public class JarvisGuiController {
         } catch (Exception e) {
             displayMessage("An unexpected error occurred: " + e.getMessage());
         }
+    }
+
+    /**
+     * Create a new todo task and displays it back to the user.
+     *
+     * @param userInput User's command for todo task.
+     * @throws JarvisException If there is issue in creating or displaying todo task.
+     */
+    private void displayTodoTaskCreation(String userInput) throws JarvisException {
+        jarvisController.createToDoTask(userInput);
+        displayMessage(ADD_TASK_MSG_HEADER + getLastTask().toString());
+        displayTaskCount();
+    }
+
+    /**
+     * Create a new deadline task and displays it back to the user.
+     *
+     * @param userInput User's command for deadline task.
+     * @throws JarvisException If there is issue in creating or displaying deadline task.
+     */
+    private void displayDeadlineTaskCreation(String userInput) throws JarvisException {
+        jarvisController.createDeadlineTask(userInput);
+        displayMessage(ADD_TASK_MSG_HEADER + getLastTask().toString());
+        displayTaskCount();
+    }
+
+    /**
+     * Create a new event task and displays it back to the user.
+     *
+     * @param userInput User's command for event task.
+     * @throws JarvisException If there is issue in creating or displaying deadline task.
+     */
+    private void displayEventTaskCreation(String userInput) throws JarvisException {
+        jarvisController.createEventTask(userInput);
+        displayMessage(ADD_TASK_MSG_HEADER + getLastTask().toString());
+        displayTaskCount();
+    }
+
+    /**
+     * Marks task as done and displays it back to the user.
+     *
+     * @param userInput User's command to mark a task as done.
+     * @throws JarvisException If there is issue in marking or displaying the task.
+     */
+    private void displayMarkedTask(String userInput) throws JarvisException {
+        jarvisController.markTaskAs(userInput, Task.CompletionStatus.DONE);
+        displayMessage(MARK_TASK_AS_DONE_MSG_HEADER + getTaskFromCommand(userInput).toString());
+    }
+
+    /**
+     * Unmarks task as done and displays it back to the user.
+     *
+     * @param userInput User's command to unmark a task as done.
+     * @throws JarvisException If there is issue in marking or displaying the task.
+     */
+    private void displayUnmarkedTask(String userInput) throws JarvisException {
+        jarvisController.markTaskAs(userInput, Task.CompletionStatus.UNDONE);
+        displayMessage(UNMARK_TASK_AS_DONE_MSG_HEADER + getTaskFromCommand(userInput).toString());
+    }
+
+    /**
+     * Deletes a task from the .txt file and display the deleted
+     * task back to the user.
+     *
+     * @param userInput User's command to delete a task.
+     * @throws JarvisException If there is an issue deleting or displaying the task.
+     */
+    private void displayDeletedTask(String userInput) throws JarvisException {
+        Task deletedTask = jarvisController.deleteTask(userInput);
+        displayMessage(DELETE_TASK_MSG_HEADER + deletedTask.toString());
+        displayTaskCount();
+    }
+
+    /**
+     * Displays bye message and disables user input controls.
+     */
+    private void displayByeCommand() {
+        displayMessage(BYE_MESSAGE);
+        userInput.setDisable(true);
+        sendButton.setDisable(true);
     }
 
     /**
