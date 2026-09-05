@@ -29,6 +29,7 @@ public class JarvisGuiController {
     private static final String UNMARK_COMMAND = "unmark";
     private static final String DELETE_COMMAND = "delete";
     private static final String FIND_COMMAND = "find";
+    private static final String HELP_COMMAND = "help";
     private static final String BYE_COMMAND = "bye";
     private static final String UNKNOWN_COMMAND = "I'm sorry, I don't understand that command.\n"
             + "Available commands: todo, deadline, event, list, "
@@ -43,6 +44,21 @@ public class JarvisGuiController {
             "OK, I've marked this task as not done yet:\n" + "  ";
     private static final String DELETE_TASK_MSG_HEADER = "Noted. I've removed this task:\n" + "  ";
     private static final String BYE_MESSAGE = "Goodbye! Your tasks have been saved.";
+
+    private static final String HELP_COMMAND_MSG_HEADER = "Available commands and their format\n";
+    private static final String TODO_TASK_FORMAT = "- Todo Task : todo <Task Name> \n";
+    private static final String DEADLINE_TASK_DATE_ONLY_FORMAT =
+            "- Deadline Task (Date only) : deadline <Task Name> /by yyyy-MM-dd\n";
+    private static final String DEADLINE_TASK_DATE_TIME_FORMAT =
+            "- Deadline Task (Date and Time) : deadline <Task Name> /by yyyy-MM-dd HH:mm\n";
+    private static final String EVENT_TASK_DATE_ONLY_FORMAT =
+            "- Event Task (Date only) : event <Task Name> /from yyyy-MM-dd /to yyyy-MM-dd\n";
+    private static final String EVENT_TASK_DATE_TIME_FORMAT =
+            "- Event Task (Date and Time) : event <Task Name> /from yyyy-MM-dd HH:mm /to yyyy-MM-dd HH:mm\n";
+    private static final String MARK_TASK_FORMAT = "- Mark Task : mark <Valid task number>\n";
+    private static final String UNMARK_TASK_FORMAT = "- Unmark Task : unmark <Valid task number>\n";
+    private static final String DELETE_TASK_FORMAT = "- Delete Task : delete <Valid task number>\n";
+    private static final String FIND_TASK_FORMAT = "- Find Task : find <Keyword (Min 2 characters long)>\n";
 
     @FXML
     private ScrollPane scrollPane;
@@ -126,6 +142,8 @@ public class JarvisGuiController {
                 displayDeletedTask(input);
             } else if (lowerInput.startsWith(FIND_COMMAND)) {
                 displayFindResults(input);
+            } else if (lowerInput.equals(HELP_COMMAND)) {
+                displayHelpCommands();
             } else if (lowerInput.equals(BYE_COMMAND)) {
                 displayByeCommand();
             } else {
@@ -267,12 +285,29 @@ public class JarvisGuiController {
     }
 
     /**
+     * Displays list of commands and their respective formats
+     */
+    private void displayHelpCommands() {
+        displayMessage(HELP_COMMAND_MSG_HEADER
+                + TODO_TASK_FORMAT
+                + DEADLINE_TASK_DATE_ONLY_FORMAT
+                + DEADLINE_TASK_DATE_TIME_FORMAT
+                + EVENT_TASK_DATE_ONLY_FORMAT
+                + EVENT_TASK_DATE_TIME_FORMAT
+                + MARK_TASK_FORMAT
+                + UNMARK_TASK_FORMAT
+                + DELETE_TASK_FORMAT
+                + FIND_TASK_FORMAT);
+    }
+
+    /**
      * Displays a welcome message.
      */
     private void displayWelcomeMessage() {
         displayMessage("Hello! I'm Jarvis\n"
                 + "What would you like me to do?\n"
-                + "Type 'bye' to exit.");
+                + "- Type 'help' for list of commands available.\n"
+                + "- Type 'bye' to exit.");
     }
 
     /**
