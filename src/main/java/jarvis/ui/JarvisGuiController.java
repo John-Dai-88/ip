@@ -34,6 +34,7 @@ public class JarvisGuiController {
             + "Available commands: todo, deadline, event, list, "
             + "mark, unmark, delete, find, bye";
 
+    private static final String ADD_TASK_MSG_HEADER = "Got it. I've added this task:\n" + "  ";
     private static final String BYE_MESSAGE = "Goodbye! Your tasks have been saved.";
 
     @FXML
@@ -103,10 +104,7 @@ public class JarvisGuiController {
 
         try {
             if (lowerInput.startsWith(TODO_COMMAND)) {
-                jarvisController.createToDoTask(input);
-                displayMessage("Got it. I've added this task:\n"
-                        + "  " + getLastTask().toString());
-                displayTaskCount();
+                displayTodoTaskCreation(lowerInput);
             } else if (lowerInput.startsWith(DEADLINE_COMMAND)) {
                 jarvisController.createDeadlineTask(input);
                 displayMessage("Got it. I've added this task:\n"
@@ -146,6 +144,18 @@ public class JarvisGuiController {
         } catch (Exception e) {
             displayMessage("An unexpected error occurred: " + e.getMessage());
         }
+    }
+
+    /**
+     * Create a new todo task and displays it to the user
+     *
+     * @param userInput User's command for todo task
+     * @throws JarvisException If there is issue in creating and displaying todo task
+     */
+    private void displayTodoTaskCreation(String userInput) throws JarvisException {
+        jarvisController.createToDoTask(userInput);
+        displayMessage(ADD_TASK_MSG_HEADER + getLastTask().toString());
+        displayTaskCount();
     }
 
     /**
