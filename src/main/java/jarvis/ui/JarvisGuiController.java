@@ -34,6 +34,9 @@ public class JarvisGuiController {
             + "Available commands: todo, deadline, event, list, "
             + "mark, unmark, delete, find, bye";
 
+    private static final String JARVIS_IMAGE_DIRECTORY = "/images/jarvisPicture.png";
+    private static final String DEFAULT_USER_IMAGE_DIRECTORY = "/images/blankProfilePicture.png";
+
     private static final String ADD_TASK_MSG_HEADER = "Got it. I've added this task:\n" + "  ";
     private static final String BYE_MESSAGE = "Goodbye! Your tasks have been saved.";
 
@@ -49,8 +52,8 @@ public class JarvisGuiController {
     private JarvisController jarvisController;
     private Consumer<String> outputHandler;
 
-    private final Image jarvisImage = new Image(this.getClass().getResourceAsStream("/images/jarvisPicture.png"));
-    private final Image userImage = new Image(this.getClass().getResourceAsStream("/images/blankProfilePicture.png"));
+    private final Image jarvisImage = new Image(this.getClass().getResourceAsStream(JARVIS_IMAGE_DIRECTORY));
+    private final Image userImage = new Image(this.getClass().getResourceAsStream(DEFAULT_USER_IMAGE_DIRECTORY));
 
     /**
      * Initializes the GUI controller.
