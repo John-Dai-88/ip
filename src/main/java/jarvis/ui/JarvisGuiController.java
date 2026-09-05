@@ -39,6 +39,8 @@ public class JarvisGuiController {
 
     private static final String ADD_TASK_MSG_HEADER = "Got it. I've added this task:\n" + "  ";
     private static final String MARK_TASK_AS_DONE_MSG_HEADER = "Nice! I've marked this task as done:\n" + "  ";
+    private static final String UNMARK_TASK_AS_DONE_MSG_HEADER =
+            "OK, I've marked this task as not done yet:\n" + "  ";
     private static final String BYE_MESSAGE = "Goodbye! Your tasks have been saved.";
 
     @FXML
@@ -118,9 +120,7 @@ public class JarvisGuiController {
             } else if (lowerInput.startsWith(MARK_COMMAND)) {
                 displayMarkedTask(input);
             } else if (lowerInput.startsWith(UNMARK_COMMAND)) {
-                jarvisController.markTaskAs(input, Task.CompletionStatus.UNDONE);
-                displayMessage("OK, I've marked this task as not done yet:\n"
-                        + "  " + getTaskFromCommand(input).toString());
+                displayUnmarkedTask(input);
             } else if (lowerInput.startsWith(DELETE_COMMAND)) {
                 Task deletedTask = getTaskFromCommand(input);
                 jarvisController.deleteTask(input);
@@ -182,11 +182,22 @@ public class JarvisGuiController {
      * Marks task as done and displays it back to the user
      *
      * @param userInput User's command to mark a task as done
-     * @throws JarvisException If there is issue in marking or displaying the tasl
+     * @throws JarvisException If there is issue in marking or displaying the task
      */
     private void displayMarkedTask(String userInput) throws JarvisException {
         jarvisController.markTaskAs(userInput, Task.CompletionStatus.DONE);
         displayMessage(MARK_TASK_AS_DONE_MSG_HEADER + getTaskFromCommand(userInput).toString());
+    }
+
+    /**
+     * Unmarks task as done and displays it back to the user
+     *
+     * @param userInput User's command to unmark a task as done
+     * @throws JarvisException If there is issue in marking or displaying the task
+     */
+    private void displayUnmarkedTask(String userInput) throws JarvisException {
+        jarvisController.markTaskAs(userInput, Task.CompletionStatus.UNDONE);
+        displayMessage(UNMARK_TASK_AS_DONE_MSG_HEADER + getTaskFromCommand(userInput).toString());
     }
 
     /**
