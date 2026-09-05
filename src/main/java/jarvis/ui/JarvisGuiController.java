@@ -111,10 +111,7 @@ public class JarvisGuiController {
             } else if (lowerInput.startsWith(DEADLINE_COMMAND)) {
                 displayDeadlineTaskCreation(input);
             } else if (lowerInput.startsWith(EVENT_COMMAND)) {
-                jarvisController.createEventTask(input);
-                displayMessage("Got it. I've added this task:\n"
-                        + "  " + getLastTask().toString());
-                displayTaskCount();
+                displayEventTaskCreation(input);
             } else if (lowerInput.equals(LIST_COMMAND)) {
                 displayTasks();
             } else if (lowerInput.startsWith(MARK_COMMAND)) {
@@ -166,6 +163,18 @@ public class JarvisGuiController {
      */
     private void displayDeadlineTaskCreation(String userInput) throws JarvisException {
         jarvisController.createDeadlineTask(userInput);
+        displayMessage(ADD_TASK_MSG_HEADER + getLastTask().toString());
+        displayTaskCount();
+    }
+
+    /**
+     * Create a new event task and displays it to the user
+     *
+     * @param userInput User's command for event task
+     * @throws JarvisException If there is issue in creating and displaying deadline task
+     */
+    private void displayEventTaskCreation(String userInput) throws JarvisException {
+        jarvisController.createEventTask(userInput);
         displayMessage(ADD_TASK_MSG_HEADER + getLastTask().toString());
         displayTaskCount();
     }
