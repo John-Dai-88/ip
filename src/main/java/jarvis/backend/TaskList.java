@@ -3,8 +3,10 @@ package jarvis.backend;
 import java.util.ArrayList;
 import java.util.List;
 
+import jarvis.classes.Event;
 import jarvis.classes.Task;
 import jarvis.exceptions.InvalidTaskNumberException;
+import jarvis.exceptions.ScheduleConflictException;
 import jarvis.storage.Storage;
 
 /** Stores, updates, and persists the user's tasks. */
@@ -30,10 +32,39 @@ public class TaskList {
      * Adds a task and saves the updated list.
      *
      * @param task Task to add.
+     * @throws ScheduleConflictException If there is a schedule conflict with another event task
      */
-    public void addTask(Task task) {
+    public void addTask(Task task) throws ScheduleConflictException {
+        assert task != null : "Task being added must not be null";
+
+        if (task instanceof Event event) {
+            Event conflictingEvent = findScheduleConflict(event);
+
+            if (conflictingEvent != null) {
+                throw new ScheduleConflictException(
+                        "Error : This event clashes with an existing event : \n"
+                        + "  " + conflictingEvent.toString()
+                );
+            }
+        }
+
         tasks.add(task);
         saveTasks();
+    }
+
+    /**
+     * Finds an existing event that clashes with the new event.
+     *
+     * @param newEvent Event being added.
+     * @return The conflicting event, or null if there is no clash.
+     */
+    private Event findScheduleConflict(Event newEvent) {
+        return tasks.stream()
+                .filter(task -> task instanceof Event)
+                .map(task -> (Event) task)
+                .filter(newEvent::clashesWith)
+                .findFirst()
+                .orElse(null);
     }
 
     /**
