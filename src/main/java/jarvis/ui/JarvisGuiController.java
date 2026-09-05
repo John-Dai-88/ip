@@ -34,6 +34,8 @@ public class JarvisGuiController {
             + "Available commands: todo, deadline, event, list, "
             + "mark, unmark, delete, find, bye";
 
+    private static final String BYE_MESSAGE = "Goodbye! Your tasks have been saved.";
+
     @FXML
     private ScrollPane scrollPane;
     @FXML
@@ -135,9 +137,7 @@ public class JarvisGuiController {
                 List<Task> matchingTasks = jarvisController.filterTasks(input);
                 displayFindResults(matchingTasks);
             } else if (lowerInput.equals(BYE_COMMAND)) {
-                displayMessage("Goodbye! Your tasks have been saved.");
-                userInput.setDisable(true);
-                sendButton.setDisable(true);
+                displayByeCommand();
             } else {
                 displayMessage(UNKNOWN_COMMAND);
             }
@@ -146,6 +146,15 @@ public class JarvisGuiController {
         } catch (Exception e) {
             displayMessage("An unexpected error occurred: " + e.getMessage());
         }
+    }
+
+    /**
+     * Displays bye message and disables user input controls.
+     */
+    private void displayByeCommand() {
+        displayMessage(BYE_MESSAGE);
+        userInput.setDisable(true);
+        sendButton.setDisable(true);
     }
 
     /**
