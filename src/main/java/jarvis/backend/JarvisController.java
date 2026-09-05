@@ -123,9 +123,6 @@ public class JarvisController {
      * @throws InvalidTaskNumberException If the number is invalid.
      */
     public Task getTask(int index) throws InvalidTaskNumberException {
-        assert index >= 0 && index < taskList.size()
-                : "getTask requires a valid zero-based task index";
-
         return taskList.getTask(index);
     }
 
