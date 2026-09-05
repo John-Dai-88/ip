@@ -41,8 +41,11 @@ public class TaskList {
      *
      * @param index Zero-based index of the task to remove.
      * @return Removed task.
+     * @throws InvalidTaskNumberException If the number is invalid.
      */
-    public Task deleteTask(int index) {
+    public Task deleteTask(int index) throws InvalidTaskNumberException {
+        validateTaskIndex(index);
+
         Task removedTask = tasks.remove(index);
         saveTasks();
         return removedTask;
@@ -62,6 +65,7 @@ public class TaskList {
      *
      * @param index Zero-based index of the task.
      * @return Task at the requested index.
+     * @throws InvalidTaskNumberException If the number is invalid.
      */
     public Task getTask(int index) throws InvalidTaskNumberException {
         validateTaskIndex(index);
@@ -74,7 +78,9 @@ public class TaskList {
      * @param index Zero-based index of the task to update.
      * @param status New completion status.
      */
-    public void setCompletionStatus(int index, Task.CompletionStatus status) {
+    public void setCompletionStatus(int index, Task.CompletionStatus status) throws InvalidTaskNumberException {
+        validateTaskIndex(index);
+
         tasks.get(index).setCompletionStatus(status);
         saveTasks();
     }
@@ -115,7 +121,7 @@ public class TaskList {
     /**
      * Validates a zero-based task number.
      *
-     * @param index One-based task number.
+     * @param index Zero-based task number.
      * @throws InvalidTaskNumberException If the number is invalid.
      */
     private void validateTaskIndex(int index)

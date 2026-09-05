@@ -208,7 +208,7 @@ public class TaskListTest {
 
     /** Verifies that size reflects additions and deletions. */
     @Test
-    public void size_reflectsNumberOfTasks() {
+    public void size_reflectsNumberOfTasks() throws InvalidTaskNumberException {
         assertEquals(0, taskList.size());
 
         taskList.addTask(new ToDo("Task 1"));

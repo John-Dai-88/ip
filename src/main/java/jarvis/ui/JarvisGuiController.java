@@ -115,7 +115,7 @@ public class JarvisGuiController {
                 displayMessage("Got it. I've added this task:\n"
                         + "  " + getLastTask().toString());
                 displayTaskCount();
-            } else if (lowerInput.startsWith(LIST_COMMAND)) {
+            } else if (lowerInput.equals(LIST_COMMAND)) {
                 displayTasks();
             } else if (lowerInput.startsWith(MARK_COMMAND)) {
                 jarvisController.markTaskAs(input, Task.CompletionStatus.DONE);
@@ -227,6 +227,9 @@ public class JarvisGuiController {
      * @throws InvalidTaskNumberException If the number is invalid.
      */
     private Task getLastTask() throws InvalidTaskNumberException {
+        assert jarvisController.size() > 0
+                : "getLastTask should only be called when at least one task exists";
+
         return jarvisController.getTask(jarvisController.size() - 1);
     }
 
