@@ -24,4 +24,4 @@ jobs:
           java-package: jdk+fx
 
       - name: Build and check with Gradle
-        run: ./gradlew check
+        run: ./gradlew clean check shadowJar --console=plain
