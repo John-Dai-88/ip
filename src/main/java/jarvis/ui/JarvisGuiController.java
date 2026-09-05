@@ -41,6 +41,7 @@ public class JarvisGuiController {
     private static final String MARK_TASK_AS_DONE_MSG_HEADER = "Nice! I've marked this task as done:\n" + "  ";
     private static final String UNMARK_TASK_AS_DONE_MSG_HEADER =
             "OK, I've marked this task as not done yet:\n" + "  ";
+    private static final String DELETE_TASK_MSG_HEADER = "Noted. I've removed this task:\n" + "  ";
     private static final String BYE_MESSAGE = "Goodbye! Your tasks have been saved.";
 
     @FXML
@@ -122,11 +123,7 @@ public class JarvisGuiController {
             } else if (lowerInput.startsWith(UNMARK_COMMAND)) {
                 displayUnmarkedTask(input);
             } else if (lowerInput.startsWith(DELETE_COMMAND)) {
-                Task deletedTask = getTaskFromCommand(input);
-                jarvisController.deleteTask(input);
-                displayMessage("Noted. I've removed this task:\n"
-                        + "  " + deletedTask.toString());
-                displayTaskCount();
+                displayDeletedTask(input);
             } else if (lowerInput.startsWith(FIND_COMMAND)) {
                 List<Task> matchingTasks = jarvisController.filterTasks(input);
                 displayFindResults(matchingTasks);
@@ -143,10 +140,10 @@ public class JarvisGuiController {
     }
 
     /**
-     * Create a new todo task and displays it back to the user
+     * Create a new todo task and displays it back to the user.
      *
-     * @param userInput User's command for todo task
-     * @throws JarvisException If there is issue in creating or displaying todo task
+     * @param userInput User's command for todo task.
+     * @throws JarvisException If there is issue in creating or displaying todo task.
      */
     private void displayTodoTaskCreation(String userInput) throws JarvisException {
         jarvisController.createToDoTask(userInput);
@@ -155,10 +152,10 @@ public class JarvisGuiController {
     }
 
     /**
-     * Create a new deadline task and displays it back to the user
+     * Create a new deadline task and displays it back to the user.
      *
-     * @param userInput User's command for deadline task
-     * @throws JarvisException If there is issue in creating or displaying deadline task
+     * @param userInput User's command for deadline task.
+     * @throws JarvisException If there is issue in creating or displaying deadline task.
      */
     private void displayDeadlineTaskCreation(String userInput) throws JarvisException {
         jarvisController.createDeadlineTask(userInput);
@@ -167,10 +164,10 @@ public class JarvisGuiController {
     }
 
     /**
-     * Create a new event task and displays it back to the user
+     * Create a new event task and displays it back to the user.
      *
-     * @param userInput User's command for event task
-     * @throws JarvisException If there is issue in creating or displaying deadline task
+     * @param userInput User's command for event task.
+     * @throws JarvisException If there is issue in creating or displaying deadline task.
      */
     private void displayEventTaskCreation(String userInput) throws JarvisException {
         jarvisController.createEventTask(userInput);
@@ -179,10 +176,10 @@ public class JarvisGuiController {
     }
 
     /**
-     * Marks task as done and displays it back to the user
+     * Marks task as done and displays it back to the user.
      *
-     * @param userInput User's command to mark a task as done
-     * @throws JarvisException If there is issue in marking or displaying the task
+     * @param userInput User's command to mark a task as done.
+     * @throws JarvisException If there is issue in marking or displaying the task.
      */
     private void displayMarkedTask(String userInput) throws JarvisException {
         jarvisController.markTaskAs(userInput, Task.CompletionStatus.DONE);
@@ -190,14 +187,27 @@ public class JarvisGuiController {
     }
 
     /**
-     * Unmarks task as done and displays it back to the user
+     * Unmarks task as done and displays it back to the user.
      *
-     * @param userInput User's command to unmark a task as done
-     * @throws JarvisException If there is issue in marking or displaying the task
+     * @param userInput User's command to unmark a task as done.
+     * @throws JarvisException If there is issue in marking or displaying the task.
      */
     private void displayUnmarkedTask(String userInput) throws JarvisException {
         jarvisController.markTaskAs(userInput, Task.CompletionStatus.UNDONE);
         displayMessage(UNMARK_TASK_AS_DONE_MSG_HEADER + getTaskFromCommand(userInput).toString());
+    }
+
+    /**
+     * Deletes a task from the .txt file and display the deleted
+     * task back to the user.
+     *
+     * @param userInput User's command to delete a task.
+     * @throws JarvisException If there is an issue deleting or displaying the task.
+     */
+    private void displayDeletedTask(String userInput) throws JarvisException {
+        Task deletedTask = jarvisController.deleteTask(userInput);
+        displayMessage(DELETE_TASK_MSG_HEADER + deletedTask.toString());
+        displayTaskCount();
     }
 
     /**
