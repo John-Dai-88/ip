@@ -28,6 +28,46 @@ public class Parser {
     private static final String EVENT_COMMAND = "event ";
     private static final String FIND_COMMAND = "find";
 
+    private static final String ERROR_PARAMETER_MISSING_MSG_HEADER =
+            "Error : Your command is missing certain parameters.";
+    private static final String ERROR_FORMAT_MSG_BODY = "Please re-enter your command in the format : ";
+    private static final String ERROR_INVALID_DATE_TIME_MSG_HEADER = "Error : Invalid start/end date/date & time.";
+    private static final String ERROR_FIND_KEYWORD_TOO_GENERAL_MSG_HEADER = "Error : Your <Key Word> is too general.";
+    private static final String ERROR_INVALID_DATE_TIME_FORMAT_MSG_HEADER = "Error : Invalid date/ date & time format.";
+
+
+    private static final String RE_ENTER_COMMAND_MSG_BODY = "Please re-enter your command in the format : ";
+    private static final String MULTIPLE_DATE_FORMAT_MSG_BODY = "Please use either one of the format below : ";
+
+
+    private static final String TODO_TASK_FORMAT = "todo <Task>";
+
+
+    private static final String DEADLINE_TASK_DATE_ONLY_FORMAT =
+            "For date only : deadline <Task> /by yyyy-MM-dd ";
+    private static final String DEADLINE_TASK_DATE_TIME_FORMAT =
+            "For date and time : deadline <Task> /by yyyy-MM-dd HH:mm";
+
+
+    private static final String EVENT_TASK_DATE_TIME_FORMAT =
+            "For date and time : event <Task> /from yyyy-MM-dd HH:mm /to yyyy-MM-dd HH:mm";
+    private static final String EVENT_TASK_DATE_ONLY_FORMAT =
+            "For date only : event <Task> /from yyyy-MM-dd /to yyyy-MM-dd";
+    private static final String EVENT_TASK_INVALID_DATE_TIME_MSG_BODY_1 =
+            "Please ensure that the start date is before the end date";
+    private static final String EVENT_TASK_INVALID_DATE_TIME_MSG_BODY_2 =
+            "and the end date is after the start date, respectively.";
+
+
+    private static final String MARK_UNMARK_DELETE_COMMAND_FORMAT =
+            "mark 1 / unmark 2 / delete 3, with a valid task number";
+
+
+    private static final String FIND_COMMAND_FORMAT = "find <key word>";
+    private static final String FIND_COMMAND_INPUT_MIN_2_CHARACTER_MSG_BODY =
+            "Please re-enter your command with a key word of minimum 2 characters.";
+
+
     /**
      * Extracts the description of a todo task.
      *
@@ -41,8 +81,8 @@ public class Parser {
         if (userInput.length() < 5) {
             throw new IncompleteCommandException(
                     buildErrorMessage(
-                    "Error : Your command is missing certain parameters.",
-                            "Please re-enter your command in the format : todo <Task>"
+                            ERROR_PARAMETER_MISSING_MSG_HEADER,
+                            ERROR_FORMAT_MSG_BODY, TODO_TASK_FORMAT
                     )
             );
         }
@@ -52,8 +92,8 @@ public class Parser {
         if (task.isEmpty()) {
             throw new IncompleteCommandException(
                     buildErrorMessage(
-                    "Error : Your command is missing certain parameters.",
-                            "Please re-enter your command in the format : todo <Task>"
+                    ERROR_PARAMETER_MISSING_MSG_HEADER,
+                            ERROR_FORMAT_MSG_BODY, TODO_TASK_FORMAT
                     )
             );
         }
@@ -77,9 +117,10 @@ public class Parser {
         if (positionOfBy == -1) {
             throw new IncompleteCommandException(
                     buildErrorMessage(
-                    "Error : Your command is missing certain parameters.",
-                            "Please re-enter your command in the format : ",
-                            "deadline <Task> /by <yyyy-MM-DD [HH:mm]>"
+                    ERROR_PARAMETER_MISSING_MSG_HEADER,
+                            RE_ENTER_COMMAND_MSG_BODY,
+                            DEADLINE_TASK_DATE_ONLY_FORMAT,
+                            DEADLINE_TASK_DATE_TIME_FORMAT
                     )
             );
         }
@@ -90,9 +131,10 @@ public class Parser {
         if (task.isEmpty() || deadline.isEmpty()) {
             throw new IncompleteCommandException(
                     buildErrorMessage(
-                    "Error : Your command is missing certain parameters.",
-                            "Please re-enter your command in the format : ",
-                            "deadline <Task> /by <yyyy-MM-DD [HH:mm]>"
+                    ERROR_PARAMETER_MISSING_MSG_HEADER,
+                            RE_ENTER_COMMAND_MSG_BODY,
+                            DEADLINE_TASK_DATE_ONLY_FORMAT,
+                            DEADLINE_TASK_DATE_TIME_FORMAT
                     )
             );
         }
@@ -113,11 +155,10 @@ public class Parser {
             } catch (DateTimeParseException error2) {
                 throw new InvalidDateAndTimeException(
                         buildErrorMessage(
-                                "Error : Invalid date/ date & time format.",
-                                "Please use either one of the format below : ",
-                                "For date only : deadline <Task> /by yyyy-MM-dd ",
-                                "For date and time : deadline <Task> /by yyyy-MM-dd HH:mm",
-                                "Ex : deadline <Task> /by 2026-08-22 18:00"
+                                ERROR_INVALID_DATE_TIME_FORMAT_MSG_HEADER,
+                                MULTIPLE_DATE_FORMAT_MSG_BODY,
+                                DEADLINE_TASK_DATE_ONLY_FORMAT,
+                                DEADLINE_TASK_DATE_TIME_FORMAT
                         )
                 );
             }
@@ -149,9 +190,10 @@ public class Parser {
 
             throw new IncompleteCommandException(
                     buildErrorMessage(
-                            "Error : Your command is missing certain parameters.",
-                            "Please re-enter your command in the format : ",
-                            "event <Task> /from <yyyy-MM-DD [HH:mm]> /to <yyyy-MM-DD [HH:mm]>"
+                            ERROR_PARAMETER_MISSING_MSG_HEADER,
+                            MULTIPLE_DATE_FORMAT_MSG_BODY,
+                            EVENT_TASK_DATE_ONLY_FORMAT,
+                            EVENT_TASK_DATE_TIME_FORMAT
                     )
             );
         }
@@ -170,9 +212,10 @@ public class Parser {
 
             throw new IncompleteCommandException(
                     buildErrorMessage(
-                            "Error : Your command is missing certain parameters.",
-                            "Please re-enter your command in the format : ",
-                            "event <Task> /from <yyyy-MM-DD [HH:mm]> /to <yyyy-MM-DD [HH:mm]>"
+                            ERROR_PARAMETER_MISSING_MSG_HEADER,
+                            MULTIPLE_DATE_FORMAT_MSG_BODY,
+                            EVENT_TASK_DATE_ONLY_FORMAT,
+                            EVENT_TASK_DATE_TIME_FORMAT
                     )
             );
         }
@@ -200,11 +243,10 @@ public class Parser {
             } catch (DateTimeParseException error2) {
                 throw new InvalidDateAndTimeException(
                         buildErrorMessage(
-                                "Error : Invalid date/date & time format.",
-                                "Please use either one of the format below : ",
-                                "For date only : event <Task> /from yyyy-MM-dd /to yyyy-MM-dd",
-                                "For date and time : event <Task> /from yyyy-MM-dd HH:mm /to yyyy-MM-dd HH:mm",
-                                "Ex : event <Task> /from 2026-08-27 12:00 /to 2026-08-28 12:00"
+                                ERROR_INVALID_DATE_TIME_FORMAT_MSG_HEADER,
+                                MULTIPLE_DATE_FORMAT_MSG_BODY,
+                                EVENT_TASK_DATE_ONLY_FORMAT,
+                                EVENT_TASK_DATE_TIME_FORMAT
                         )
                 );
             }
@@ -213,9 +255,9 @@ public class Parser {
         if (eventEndDateAndTime.isBefore(eventStartDateAndTime)) {
             throw new InvalidStartAndEndTimeException(
                     buildErrorMessage(
-                            "Error : Invalid start/end date/date & time.",
-                            "Please ensure that the start date is before the end date",
-                            "and the end date is after the start date, respectively."
+                            ERROR_INVALID_DATE_TIME_MSG_HEADER,
+                            EVENT_TASK_INVALID_DATE_TIME_MSG_BODY_1,
+                            EVENT_TASK_INVALID_DATE_TIME_MSG_BODY_2
                     )
             );
         }
@@ -240,9 +282,9 @@ public class Parser {
         } catch (ArrayIndexOutOfBoundsException | NumberFormatException error) {
             throw new IncompleteCommandException(
                     buildErrorMessage(
-                            "Error : Your command is missing certain parameters.",
-                            "Please re-enter your command with a valid task number in the form.",
-                            "mark 1 / unmark 2 / delete 3"
+                            ERROR_PARAMETER_MISSING_MSG_HEADER,
+                            RE_ENTER_COMMAND_MSG_BODY,
+                            MARK_UNMARK_DELETE_COMMAND_FORMAT
                     )
             );
         }
@@ -263,16 +305,17 @@ public class Parser {
         if (taskKeyWord.isEmpty()) {
             throw new IncompleteCommandException(
                     buildErrorMessage(
-                            "Error : Your command is missing certain parameters.",
-                            "Please re-enter your command with a key word in the format : find <key word>."
+                            ERROR_PARAMETER_MISSING_MSG_HEADER,
+                            RE_ENTER_COMMAND_MSG_BODY,
+                            FIND_COMMAND_FORMAT
                     )
 
             );
         } else if (taskKeyWord.length() == 1) {
             throw new TooSimpleArgumentException(
                     buildErrorMessage(
-                            "Error : Your <Key Word> is too general.",
-                            "Please re-enter your command with a key word of minimum 2 characters."
+                            ERROR_FIND_KEYWORD_TOO_GENERAL_MSG_HEADER,
+                            FIND_COMMAND_INPUT_MIN_2_CHARACTER_MSG_BODY
                     )
             );
         }
