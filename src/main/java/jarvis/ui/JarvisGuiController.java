@@ -38,6 +38,7 @@ public class JarvisGuiController {
     private static final String DEFAULT_USER_IMAGE_DIRECTORY = "/images/blankProfilePicture.png";
 
     private static final String ADD_TASK_MSG_HEADER = "Got it. I've added this task:\n" + "  ";
+    private static final String MARK_TASK_AS_DONE_MSG_HEADER = "Nice! I've marked this task as done:\n" + "  ";
     private static final String BYE_MESSAGE = "Goodbye! Your tasks have been saved.";
 
     @FXML
@@ -115,9 +116,7 @@ public class JarvisGuiController {
             } else if (lowerInput.equals(LIST_COMMAND)) {
                 displayTasks();
             } else if (lowerInput.startsWith(MARK_COMMAND)) {
-                jarvisController.markTaskAs(input, Task.CompletionStatus.DONE);
-                displayMessage("Nice! I've marked this task as done:\n"
-                        + "  " + getTaskFromCommand(input).toString());
+                displayMarkedTask(input);
             } else if (lowerInput.startsWith(UNMARK_COMMAND)) {
                 jarvisController.markTaskAs(input, Task.CompletionStatus.UNDONE);
                 displayMessage("OK, I've marked this task as not done yet:\n"
@@ -144,10 +143,10 @@ public class JarvisGuiController {
     }
 
     /**
-     * Create a new todo task and displays it to the user
+     * Create a new todo task and displays it back to the user
      *
      * @param userInput User's command for todo task
-     * @throws JarvisException If there is issue in creating and displaying todo task
+     * @throws JarvisException If there is issue in creating or displaying todo task
      */
     private void displayTodoTaskCreation(String userInput) throws JarvisException {
         jarvisController.createToDoTask(userInput);
@@ -156,10 +155,10 @@ public class JarvisGuiController {
     }
 
     /**
-     * Create a new deadline task and displays it to the user
+     * Create a new deadline task and displays it back to the user
      *
      * @param userInput User's command for deadline task
-     * @throws JarvisException If there is issue in creating and displaying deadline task
+     * @throws JarvisException If there is issue in creating or displaying deadline task
      */
     private void displayDeadlineTaskCreation(String userInput) throws JarvisException {
         jarvisController.createDeadlineTask(userInput);
@@ -168,15 +167,26 @@ public class JarvisGuiController {
     }
 
     /**
-     * Create a new event task and displays it to the user
+     * Create a new event task and displays it back to the user
      *
      * @param userInput User's command for event task
-     * @throws JarvisException If there is issue in creating and displaying deadline task
+     * @throws JarvisException If there is issue in creating or displaying deadline task
      */
     private void displayEventTaskCreation(String userInput) throws JarvisException {
         jarvisController.createEventTask(userInput);
         displayMessage(ADD_TASK_MSG_HEADER + getLastTask().toString());
         displayTaskCount();
+    }
+
+    /**
+     * Marks task as done and displays it back to the user
+     *
+     * @param userInput User's command to mark a task as done
+     * @throws JarvisException If there is issue in marking or displaying the tasl
+     */
+    private void displayMarkedTask(String userInput) throws JarvisException {
+        jarvisController.markTaskAs(userInput, Task.CompletionStatus.DONE);
+        displayMessage(MARK_TASK_AS_DONE_MSG_HEADER + getTaskFromCommand(userInput).toString());
     }
 
     /**
