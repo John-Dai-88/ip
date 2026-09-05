@@ -87,6 +87,9 @@ public class Parser {
             );
         }
 
+        assert userInput.toLowerCase().startsWith(TODO_COMMAND)
+                : "parseToDo should only receive a todo command";
+
         String task = userInput.substring(TODO_COMMAND.length()).trim();
 
         if (task.isEmpty()) {
@@ -124,6 +127,9 @@ public class Parser {
                     )
             );
         }
+
+        assert positionOfBy >= DEADLINE_COMMAND.length()
+                : "The /by command must appear after the deadline task prefix";
 
         String task = userInput.substring(DEADLINE_COMMAND.length(), positionOfBy).trim();
         String deadline = userInput.substring(positionOfBy + BY_COMMAND.length()).trim();
@@ -164,6 +170,10 @@ public class Parser {
             }
         }
 
+        // In case of bug with try-catches above, the assert will catch the error
+        assert deadlineDateAndTime != null
+                : "A valid deadline command must produce a date and time";
+
         return new Deadline(task, deadlineDateAndTime);
     }
 
@@ -197,6 +207,10 @@ public class Parser {
                     )
             );
         }
+
+        // In case of bug with try-catches above, the assert will catch the error
+        assert positionOfFrom < positionOfTo
+                : "The /from command must occur before the /to command";
 
         String task = userInput.substring(EVENT_COMMAND.length(), positionOfFrom).trim();
 
@@ -261,6 +275,9 @@ public class Parser {
                     )
             );
         }
+
+        assert !eventEndDateAndTime.isBefore(eventStartDateAndTime)
+                : "An event's end time must not be before its start time";
 
         return new Event(task, eventStartDateAndTime, eventEndDateAndTime);
     }
