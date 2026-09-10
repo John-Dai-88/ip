@@ -27,4 +27,4 @@ jobs:
         run: ./gradlew clean check shadowJar --console=plain
 
       - name: Run JAR
-        run: java -jar build/libs/myapp-1.0-all.jar
+        run: java -jar jar_output/jarvis.jar
