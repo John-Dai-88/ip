@@ -112,3 +112,52 @@ JARVIS MESSAGE HOVER
     0
     );
 }
+
+/* =========================
+   ERROR MESSAGE
+   ========================= */
+
+.error-message .message-text {
+    /* Dark red panel that fits the JARVIS theme */
+    -fx-background-color: #35151a;
+
+    -fx-background-radius: 15px 15px 15px 3px;
+
+    /* Red warning border */
+    -fx-border-color: #ff4d5a;
+    -fx-border-width: 1.5px;
+    -fx-border-radius: 15px 15px 15px 3px;
+
+    /* Soft, readable error text */
+    -fx-text-fill: #ffd9dc;
+    -fx-font-weight: bold;
+
+    /* Red holographic glow */
+    -fx-effect: dropshadow(
+        gaussian,
+        rgba(255, 77, 90, 0.60),
+        10,
+        0.25,
+        0,
+        0
+    );
+}
+
+/* =========================
+   ERROR MESSAGE HOVER
+   ========================= */
+
+.error-message .message-text:hover {
+    -fx-background-color: #461b21;
+
+    -fx-border-color: #ff7a83;
+
+    -fx-effect: dropshadow(
+        gaussian,
+        rgba(255, 77, 90, 0.90),
+        16,
+        0.30,
+        0,
+        0
+    );
+}
