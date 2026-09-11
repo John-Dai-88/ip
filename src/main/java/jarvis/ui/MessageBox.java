@@ -44,9 +44,23 @@ public class MessageBox extends HBox {
      */
     public MessageBox(String message, Image image, MessageType messageType) {
 
+        if (message == null) {
+            throw new IllegalArgumentException("Message must not be null.");
+        }
+
+        if (messageType == null) {
+            throw new IllegalArgumentException("Message type must not be null.");
+        }
+
         FXMLLoader loader = new FXMLLoader(
                 MessageBox.class.getResource("/view/MessageBox.fxml")
         );
+
+        if (loader.getLocation() == null) {
+            throw new IllegalStateException(
+                    "Unable to find /view/MessageBox.fxml."
+            );
+        }
 
         loader.setRoot(this);
         loader.setController(this);
@@ -65,45 +79,18 @@ public class MessageBox extends HBox {
         switch (messageType) {
             case USER:
                 getStyleClass().add("user-message");
-                // Crop the user profile picture into a circle for user messages
-                double radius = Math.min(
-                        displayPicture.getFitWidth(),
-                        displayPicture.getFitHeight()
-                ) / 2;
-
-                Circle clip = new Circle(radius, radius, radius);
-                displayPicture.setClip(clip);
+                clipAsCircle();
                 break;
 
             case JARVIS:
                 getStyleClass().add("jarvis-message");
-                // Round the corners of JARVIS image for Jarvis messages
-                Rectangle jarvisClip = new Rectangle(
-                        displayPicture.getFitWidth(),
-                        displayPicture.getFitHeight()
-                );
-
-                jarvisClip.setArcWidth(15);
-                jarvisClip.setArcHeight(15);
-
-                displayPicture.setClip(jarvisClip);
-
+                clipAsRoundedRectangle();
                 flip();
                 break;
 
             case ERROR:
                 getStyleClass().add("error-message");
-                // Round the corners of JARVIS image for error messages
-                Rectangle errorClip = new Rectangle(
-                        displayPicture.getFitWidth(),
-                        displayPicture.getFitHeight()
-                );
-
-                errorClip.setArcWidth(15);
-                errorClip.setArcHeight(15);
-
-                displayPicture.setClip(errorClip);
-
+                clipAsRoundedRectangle();
                 flip();
                 break;
 
@@ -112,6 +99,41 @@ public class MessageBox extends HBox {
                         "Unknown message type: " + messageType
                 );
         }
+    }
+
+    /**
+     * Clips the profile image into a circle.
+     */
+    private void clipAsCircle() {
+        double width = displayPicture.getFitWidth();
+        double height = displayPicture.getFitHeight();
+
+        if (width <= 0 || height <= 0) {
+            return;
+        }
+
+        double radius = Math.min(width, height) / 2.0;
+
+        Circle clip = new Circle(radius, radius, radius);
+        displayPicture.setClip(clip);
+    }
+
+    /**
+     * Clips the image into a rounded rectangle.
+     */
+    private void clipAsRoundedRectangle() {
+        double width = displayPicture.getFitWidth();
+        double height = displayPicture.getFitHeight();
+
+        if (width <= 0 || height <= 0) {
+            return;
+        }
+
+        Rectangle clip = new Rectangle(width, height);
+        clip.setArcWidth(15);
+        clip.setArcHeight(15);
+
+        displayPicture.setClip(clip);
     }
 
     /**
