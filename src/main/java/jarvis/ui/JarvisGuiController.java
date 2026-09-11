@@ -8,12 +8,15 @@ import jarvis.backend.Parser;
 import jarvis.classes.Task;
 import jarvis.exceptions.InvalidTaskNumberException;
 import jarvis.exceptions.JarvisException;
+import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import javafx.util.Duration;
 
 /**
  * Controller for the Jarvis GUI.
@@ -234,6 +237,15 @@ public class JarvisGuiController {
         displayMessage(BYE_MESSAGE);
         userInput.setDisable(true);
         sendButton.setDisable(true);
+
+        PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
+
+        pause.setOnFinished(event -> {
+            Stage stage = (Stage) userInput.getScene().getWindow();
+            stage.close();
+        });
+
+        pause.play();
     }
 
     /**
