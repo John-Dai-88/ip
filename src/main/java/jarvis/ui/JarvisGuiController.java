@@ -153,9 +153,9 @@ public class JarvisGuiController {
                 displayMessage(UNKNOWN_COMMAND);
             }
         } catch (JarvisException e) {
-            displayMessage(e.getMessage());
+            displayErrorMessage(e.getMessage());
         } catch (Exception e) {
-            displayMessage("An unexpected error occurred: " + e.getMessage());
+            displayErrorMessage("An unexpected error occurred: " + e.getMessage());
         }
     }
 
@@ -231,7 +231,7 @@ public class JarvisGuiController {
     }
 
     /**
-     * Displays bye message and disables user input controls.
+     * Displays bye message and closes the GUI console.
      */
     private void displayByeCommand() {
         displayMessage(BYE_MESSAGE);
@@ -328,7 +328,7 @@ public class JarvisGuiController {
      * @param message User message.
      */
     private void displayUserMessage(String message) {
-        MessageBox userMessageBox = new MessageBox(message, userImage, true);
+        MessageBox userMessageBox = new MessageBox(message, userImage, MessageBox.MessageType.USER);
         dialogContainer.getChildren().add(userMessageBox);
     }
 
@@ -338,9 +338,22 @@ public class JarvisGuiController {
      * @param message System message.
      */
     private void displayMessage(String message) {
-        MessageBox jarvisMessageBox = new MessageBox(message, jarvisImage, false);
+        MessageBox jarvisMessageBox = new MessageBox(message, jarvisImage, MessageBox.MessageType.JARVIS);
         dialogContainer.getChildren().add(jarvisMessageBox);
     }
+
+    /**
+     * Displays an error message in the dialog container.
+     *
+     * @param message Error message.
+     */
+    private void displayErrorMessage(String message) {
+        MessageBox errorMessageBox =
+                new MessageBox(message, jarvisImage, MessageBox.MessageType.ERROR);
+
+        dialogContainer.getChildren().add(errorMessageBox);
+    }
+
 
     /**
      * Gets the last task from the task list.
