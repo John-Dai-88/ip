@@ -55,6 +55,8 @@ public class JarvisGuiController {
     private static final String UNMARK_TASK_AS_DONE_MSG_HEADER =
             "Understood. I've restored the following task to your active list:\n" + "  ";
     private static final String DELETE_TASK_MSG_HEADER = "Understood. I've removed the following task:\n" + "  ";
+    private static final String NON_CRITICAL_ERROR_MSG_HEADER = "⚠ Warning : \n";
+    private static final String CRITICAL_ERROR_MSG_HEADER = "⚠ SYSTEM Error : \n";
 
     private static final String HELP_COMMAND_MSG_HEADER = "J.A.R.V.I.S. COMMAND DIRECTORY\n"
             + "============================\n";
@@ -168,11 +170,9 @@ public class JarvisGuiController {
                 displayMessage(UNKNOWN_COMMAND);
             }
         } catch (JarvisException e) {
-            displayErrorMessage("⚠ SYSTEM ALERT\n" + e.getMessage());
+            displayErrorMessage(NON_CRITICAL_ERROR_MSG_HEADER + e.getMessage());
         } catch (Exception e) {
-            displayErrorMessage("⚠ SYSTEM Error\n"
-                    + "An unexpected error occurred: "
-                    + e.getMessage());
+            displayErrorMessage(CRITICAL_ERROR_MSG_HEADER + e.getMessage());
         }
     }
 
