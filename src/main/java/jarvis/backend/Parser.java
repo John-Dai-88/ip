@@ -77,6 +77,7 @@ public class Parser {
      */
     public static ToDo parseToDo(String userInput)
             throws IncompleteCommandException {
+        assert userInput != null : "userInput should not be null";
 
         if (userInput.length() < 5) {
             throw new IncompleteCommandException(
@@ -86,9 +87,6 @@ public class Parser {
                     )
             );
         }
-
-        assert userInput.toLowerCase().startsWith(TODO_COMMAND)
-                : "parseToDo should only receive a todo command";
 
         String task = userInput.substring(TODO_COMMAND.length()).trim();
 
@@ -114,6 +112,7 @@ public class Parser {
      */
     public static Deadline parseDeadline(String userInput)
             throws IncompleteCommandException, InvalidDateAndTimeException {
+        assert userInput != null : "userInput should not be null";
 
         int positionOfBy = userInput.indexOf(BY_COMMAND);
 
@@ -190,6 +189,7 @@ public class Parser {
             throws IncompleteCommandException,
             InvalidDateAndTimeException,
             InvalidStartAndEndTimeException {
+        assert userInput != null : "userInput should not be null";
 
         int positionOfFrom = userInput.indexOf(FROM_COMMAND);
         int positionOfTo = userInput.indexOf(TO_COMMAND);
@@ -291,6 +291,7 @@ public class Parser {
      */
     public static int parseTaskNumber(String userInput)
             throws IncompleteCommandException {
+        assert userInput != null : "userInput should not be null";
 
         String[] splitUserInput = userInput.trim().split("\\s+");
 
@@ -317,6 +318,8 @@ public class Parser {
      */
     public static String parseTaskKeyWord(String userInput)
             throws IncompleteCommandException, TooSimpleArgumentException {
+        assert userInput != null : "userInput should not be null";
+
         String taskKeyWord = userInput.substring(FIND_COMMAND.length()).trim().toLowerCase();
 
         if (taskKeyWord.isEmpty()) {

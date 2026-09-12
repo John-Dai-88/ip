@@ -25,6 +25,7 @@ public class TaskList {
      * @param tasks Existing tasks.
      */
     public TaskList(List<Task> tasks) {
+        assert tasks != null : "task list should not be null";
         this.tasks = new ArrayList<>(tasks);
     }
 
@@ -59,6 +60,7 @@ public class TaskList {
      * @return The conflicting event, or null if there is no clash.
      */
     private Event findScheduleConflict(Event newEvent) {
+        assert newEvent != null : "event should not be null";
         return tasks.stream()
                 .filter(task -> task instanceof Event)
                 .map(task -> (Event) task)
