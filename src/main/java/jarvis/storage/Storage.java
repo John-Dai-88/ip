@@ -17,6 +17,7 @@ import jarvis.classes.Deadline;
 import jarvis.classes.Event;
 import jarvis.classes.Task;
 import jarvis.classes.ToDo;
+import jarvis.exceptions.InvalidTaskDataException;
 
 /** Handles saving and loading Jarvis tasks from the hard disk. */
 public class Storage {
@@ -75,9 +76,19 @@ public class Storage {
 
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line;
+            int lineNumber = 0;
+
             while ((line = reader.readLine()) != null) {
+                lineNumber++;
                 if (!line.trim().isEmpty()) {
-                    addTaskFromLine(tasks, line);
+                    try {
+                        addTaskFromLine(tasks, line);
+                    } catch (InvalidTaskDataException e) {
+                        System.err.println(
+                                "Warning : Unable to load task for line no "
+                                + lineNumber + ". Skipping it."
+                        );
+                    }
                 }
             }
         } catch (IOException | DateTimeParseException error) {
@@ -94,20 +105,41 @@ public class Storage {
      * @param tasks Destination task list.
      * @param line Serialized task line.
      */
-    private static void addTaskFromLine(List<Task> tasks, String line) {
+    private static void addTaskFromLine(List<Task> tasks, String line) throws InvalidTaskDataException {
         if (line.startsWith("[T]")) {
             boolean isDone = line.startsWith("[T][X]");
             String prefix = isDone ? "[T][X]" : "[T][]";
-            ToDo task = new ToDo(line.substring(prefix.length()).trim());
+
+            if (!line.startsWith(prefix)) {
+                throw new InvalidTaskDataException("Malformed todo line");
+            }
+
+            String description = line.substring(prefix.length()).trim();
+
+            if (description.isEmpty()) {
+                throw new InvalidTaskDataException("Missing todo description");
+            }
+
+            ToDo task = new ToDo(description);
             setDoneIfNeeded(task, isDone);
             tasks.add(task);
         } else if (line.startsWith("[D]")) {
             boolean isDone = line.startsWith("[D][X]");
             String prefix = isDone ? "[D][X]" : "[D][]";
             int byPosition = line.indexOf("(by:");
+
+            if (byPosition == -1 || byPosition <= prefix.length()) {
+                throw new InvalidTaskDataException("Malformed deadline line");
+            }
+
             String description = line.substring(prefix.length(), byPosition).trim();
             String dateText = removeClosingParenthesis(
                     line.substring(byPosition + "(by:".length()).trim());
+
+            if (dateText.isEmpty()) {
+                throw new InvalidTaskDataException("Missing deadline date");
+            }
+
             Deadline task = new Deadline(description, parseDateTime(dateText));
             setDoneIfNeeded(task, isDone);
             tasks.add(task);
@@ -116,13 +148,36 @@ public class Storage {
             String prefix = isDone ? "[E][X]" : "[E][]";
             int fromPosition = line.indexOf("(from:");
             int toPosition = line.indexOf(" to:");
+
+            if (fromPosition == -1
+                    || toPosition == -1
+                    || fromPosition <= prefix.length()
+                    || toPosition <= fromPosition) {
+                throw new InvalidTaskDataException("Malformed event line");
+            }
+
             String description = line.substring(prefix.length(), fromPosition).trim();
-            String startText = line.substring(fromPosition + "(from:".length(), toPosition).trim();
+            String startText = line.substring(
+                    fromPosition + "(from:".length(), toPosition).trim();
             String endText = removeClosingParenthesis(
                     line.substring(toPosition + " to:".length()).trim());
-            Event task = new Event(description, parseDateTime(startText), parseDateTime(endText));
+
+            if (description.isEmpty()
+                    || startText.isEmpty()
+                    || endText.isEmpty()) {
+                throw new InvalidTaskDataException("Malformed event line");
+            }
+
+            Event task = new Event(
+                    description,
+                    parseDateTime(startText),
+                    parseDateTime(endText)
+            );
+
             setDoneIfNeeded(task, isDone);
             tasks.add(task);
+        } else {
+            throw new InvalidTaskDataException("Unknown task type");
         }
     }
 
