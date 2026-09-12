@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
 
 import jarvis.classes.Deadline;
 import jarvis.classes.Event;
@@ -18,8 +19,12 @@ import jarvis.exceptions.TooSimpleArgumentException;
 public class Parser {
 
     private static final DateTimeFormatter DATE_TIME_FORMATTER =
-            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm")
+                    .withResolverStyle(ResolverStyle.STRICT);
+    private static final DateTimeFormatter DATE_FORMATTER =
+            DateTimeFormatter.ofPattern("uuuu-MM-dd")
+            .withResolverStyle(ResolverStyle.STRICT);
+
     private static final String FROM_COMMAND = "/from";
     private static final String TO_COMMAND = "/to";
     private static final String BY_COMMAND = "/by";
@@ -53,10 +58,9 @@ public class Parser {
             "For date and time : event <Task> /from yyyy-MM-dd HH:mm /to yyyy-MM-dd HH:mm";
     private static final String EVENT_TASK_DATE_ONLY_FORMAT =
             "For date only : event <Task> /from yyyy-MM-dd /to yyyy-MM-dd";
-    private static final String EVENT_TASK_INVALID_DATE_TIME_MSG_BODY_1 =
-            "Please ensure that the start date is before the end date";
-    private static final String EVENT_TASK_INVALID_DATE_TIME_MSG_BODY_2 =
-            "and the end date is after the start date, respectively.";
+    private static final String EVENT_TASK_INVALID_DATE_TIME_MSG_BODY =
+            "Ensure the start date is strictly before the end date for date only events\n"
+            + "If the event includes time, the start time must also be strictly before the end time.";
 
 
     private static final String MARK_UNMARK_DELETE_COMMAND_FORMAT =
@@ -78,6 +82,8 @@ public class Parser {
     public static ToDo parseToDo(String userInput)
             throws IncompleteCommandException {
         assert userInput != null : "userInput should not be null";
+
+        userInput = userInput.trim();
 
         if (userInput.length() < 5) {
             throw new IncompleteCommandException(
@@ -113,6 +119,8 @@ public class Parser {
     public static Deadline parseDeadline(String userInput)
             throws IncompleteCommandException, InvalidDateAndTimeException {
         assert userInput != null : "userInput should not be null";
+
+        userInput = userInput.trim();
 
         int positionOfBy = userInput.indexOf(BY_COMMAND);
 
@@ -191,6 +199,8 @@ public class Parser {
             InvalidStartAndEndTimeException {
         assert userInput != null : "userInput should not be null";
 
+        userInput = userInput.trim();
+
         int positionOfFrom = userInput.indexOf(FROM_COMMAND);
         int positionOfTo = userInput.indexOf(TO_COMMAND);
 
@@ -266,17 +276,16 @@ public class Parser {
             }
         }
 
-        if (eventEndDateAndTime.isBefore(eventStartDateAndTime)) {
+        if (!eventEndDateAndTime.isAfter(eventStartDateAndTime)) {
             throw new InvalidStartAndEndTimeException(
                     buildErrorMessage(
                             ERROR_INVALID_DATE_TIME_MSG_HEADER,
-                            EVENT_TASK_INVALID_DATE_TIME_MSG_BODY_1,
-                            EVENT_TASK_INVALID_DATE_TIME_MSG_BODY_2
+                            EVENT_TASK_INVALID_DATE_TIME_MSG_BODY
                     )
             );
         }
 
-        assert !eventEndDateAndTime.isBefore(eventStartDateAndTime)
+        assert eventEndDateAndTime.isAfter(eventStartDateAndTime)
                 : "An event's end time must not be before its start time";
 
         return new Event(task, eventStartDateAndTime, eventEndDateAndTime);
@@ -292,6 +301,8 @@ public class Parser {
     public static int parseTaskNumber(String userInput)
             throws IncompleteCommandException {
         assert userInput != null : "userInput should not be null";
+
+        userInput = userInput.trim();
 
         String[] splitUserInput = userInput.trim().split("\\s+");
 
@@ -319,6 +330,8 @@ public class Parser {
     public static String parseTaskKeyWord(String userInput)
             throws IncompleteCommandException, TooSimpleArgumentException {
         assert userInput != null : "userInput should not be null";
+
+        userInput = userInput.trim();
 
         String taskKeyWord = userInput.substring(FIND_COMMAND.length()).trim().toLowerCase();
 
