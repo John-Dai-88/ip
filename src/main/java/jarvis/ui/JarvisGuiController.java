@@ -24,6 +24,10 @@ import javafx.util.Duration;
  */
 public class JarvisGuiController {
 
+    private static final String WELCOME_MESSAGE = "Hello! I'm Jarvis\n"
+            + "What would you like me to do?\n"
+            + "- Type 'help' for list of commands available.\n"
+            + "- Type 'bye' to exit.";
     private static final String TODO_COMMAND = "todo";
     private static final String DEADLINE_COMMAND = "deadline";
     private static final String EVENT_COMMAND = "event";
@@ -35,8 +39,7 @@ public class JarvisGuiController {
     private static final String HELP_COMMAND = "help";
     private static final String BYE_COMMAND = "bye";
     private static final String UNKNOWN_COMMAND = "I'm sorry, I don't understand that command.\n"
-            + "Available commands: todo, deadline, event, list, "
-            + "mark, unmark, delete, find, bye";
+            + "- Type 'help' for list of commands available.";
 
     private static final String JARVIS_IMAGE_DIRECTORY = "/images/jarvisPicture.png";
     private static final String DEFAULT_USER_IMAGE_DIRECTORY = "/images/blankProfilePicture.png";
@@ -126,28 +129,27 @@ public class JarvisGuiController {
      * @param input User command.
      */
     private void processCommand(String input) {
-        String lowerInput = input.toLowerCase().trim();
 
         try {
-            if (lowerInput.startsWith(TODO_COMMAND)) {
+            if (isCommand(input, TODO_COMMAND)) {
                 displayTodoTaskCreation(input);
-            } else if (lowerInput.startsWith(DEADLINE_COMMAND)) {
+            } else if (isCommand(input, DEADLINE_COMMAND)) {
                 displayDeadlineTaskCreation(input);
-            } else if (lowerInput.startsWith(EVENT_COMMAND)) {
+            } else if (isCommand(input, EVENT_COMMAND)) {
                 displayEventTaskCreation(input);
-            } else if (lowerInput.equals(LIST_COMMAND)) {
+            } else if (isCommand(input, LIST_COMMAND)) {
                 displayTasks();
-            } else if (lowerInput.startsWith(MARK_COMMAND)) {
+            } else if (isCommand(input, MARK_COMMAND)) {
                 displayMarkedTask(input);
-            } else if (lowerInput.startsWith(UNMARK_COMMAND)) {
+            } else if (isCommand(input, UNMARK_COMMAND)) {
                 displayUnmarkedTask(input);
-            } else if (lowerInput.startsWith(DELETE_COMMAND)) {
+            } else if (isCommand(input, DELETE_COMMAND)) {
                 displayDeletedTask(input);
-            } else if (lowerInput.startsWith(FIND_COMMAND)) {
+            } else if (isCommand(input, FIND_COMMAND)) {
                 displayFindResults(input);
-            } else if (lowerInput.equals(HELP_COMMAND)) {
+            } else if (isCommand(input, HELP_COMMAND)) {
                 displayHelpCommands();
-            } else if (lowerInput.equals(BYE_COMMAND)) {
+            } else if (isCommand(input, BYE_COMMAND)) {
                 displayByeCommand();
             } else {
                 displayMessage(UNKNOWN_COMMAND);
@@ -157,6 +159,22 @@ public class JarvisGuiController {
         } catch (Exception e) {
             displayErrorMessage("An unexpected error occurred: " + e.getMessage());
         }
+    }
+
+    /**
+     * Checks if the user input matches the given command.
+     *
+     * @param input User's input.
+     * @param command Command to check against.
+     * @return true if the input is the given command or starts with the command
+     *         followed by a space.
+     */
+    private boolean isCommand(
+            String input,
+            String command) {
+
+        return input.equals(command)
+                || input.startsWith(command + " ");
     }
 
     /**
@@ -316,10 +334,7 @@ public class JarvisGuiController {
      * Displays a welcome message.
      */
     private void displayWelcomeMessage() {
-        displayMessage("Hello! I'm Jarvis\n"
-                + "What would you like me to do?\n"
-                + "- Type 'help' for list of commands available.\n"
-                + "- Type 'bye' to exit.");
+        displayMessage(WELCOME_MESSAGE);
     }
 
     /**
