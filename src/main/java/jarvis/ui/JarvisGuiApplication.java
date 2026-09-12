@@ -29,7 +29,7 @@ public class JarvisGuiApplication extends Application {
         // Create the scene
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
-        primaryStage.setTitle("Jarvis - Task Manager");
+        primaryStage.setTitle("J.A.R.V.I.S. - Personal Task Management System");
         primaryStage.setMinWidth(670);
         primaryStage.setMinHeight(655);
         primaryStage.show();

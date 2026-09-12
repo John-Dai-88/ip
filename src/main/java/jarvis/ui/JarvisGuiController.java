@@ -11,6 +11,7 @@ import jarvis.exceptions.JarvisException;
 import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -24,10 +25,14 @@ import javafx.util.Duration;
  */
 public class JarvisGuiController {
 
-    private static final String WELCOME_MESSAGE = "Hello! I'm Jarvis\n"
-            + "What would you like me to do?\n"
-            + "- Type 'help' for list of commands available.\n"
-            + "- Type 'bye' to exit.";
+    private static final String WELCOME_MESSAGE = "Good evening.\n"
+            + "I am J.A.R.V.I.S., your personal task management system.\n\n"
+            + "How may I assist you?\n"
+            + "- Type 'help' to view available commands.\n"
+            + "- Type 'bye' to terminate the session.";
+    private static final String BYE_MESSAGE = "Understood. Your tasks have been safely saved.\n"
+            + "Until next time.";
+
     private static final String TODO_COMMAND = "todo";
     private static final String DEADLINE_COMMAND = "deadline";
     private static final String EVENT_COMMAND = "event";
@@ -38,33 +43,34 @@ public class JarvisGuiController {
     private static final String FIND_COMMAND = "find";
     private static final String HELP_COMMAND = "help";
     private static final String BYE_COMMAND = "bye";
-    private static final String UNKNOWN_COMMAND = "I'm sorry, I don't understand that command.\n"
-            + "- Type 'help' for list of commands available.";
+    private static final String UNKNOWN_COMMAND = "I'm afraid I don't recognize that command.\n"
+            + "- Type 'help' to view the available commands.";
 
     private static final String JARVIS_IMAGE_DIRECTORY = "/images/jarvisPicture.png";
     private static final String DEFAULT_USER_IMAGE_DIRECTORY = "/images/blankProfilePicture.png";
 
-    private static final String ADD_TASK_MSG_HEADER = "Got it. I've added this task:\n" + "  ";
-    private static final String MARK_TASK_AS_DONE_MSG_HEADER = "Nice! I've marked this task as done:\n" + "  ";
+    private static final String ADD_TASK_MSG_HEADER = "Certainly. I've added the following task:\n" + "  ";
+    private static final String MARK_TASK_AS_DONE_MSG_HEADER =
+            "Very good. I've marked the following task as complete:\n" + "  ";
     private static final String UNMARK_TASK_AS_DONE_MSG_HEADER =
-            "OK, I've marked this task as not done yet:\n" + "  ";
-    private static final String DELETE_TASK_MSG_HEADER = "Noted. I've removed this task:\n" + "  ";
-    private static final String BYE_MESSAGE = "Goodbye! Your tasks have been saved.";
+            "Understood. I've restored the following task to your active list:\n" + "  ";
+    private static final String DELETE_TASK_MSG_HEADER = "Understood. I've removed the following task:\n" + "  ";
 
-    private static final String HELP_COMMAND_MSG_HEADER = "Available commands and their format\n";
-    private static final String TODO_TASK_FORMAT = "- Todo Task : todo <Task Name> \n";
+    private static final String HELP_COMMAND_MSG_HEADER = "J.A.R.V.I.S. COMMAND DIRECTORY\n"
+            + "============================\n";
+    private static final String TODO_TASK_FORMAT = "- [TODO] : todo <Task Name> \n";
     private static final String DEADLINE_TASK_DATE_ONLY_FORMAT =
-            "- Deadline Task (Date only) : deadline <Task Name> /by yyyy-MM-dd\n";
+            "- [DEADLINE] (Date only) : deadline <Task Name> /by yyyy-MM-dd\n";
     private static final String DEADLINE_TASK_DATE_TIME_FORMAT =
-            "- Deadline Task (Date and Time) : deadline <Task Name> /by yyyy-MM-dd HH:mm\n";
+            "- [DEADLINE] (Date and Time) : deadline <Task Name> /by yyyy-MM-dd HH:mm\n";
     private static final String EVENT_TASK_DATE_ONLY_FORMAT =
-            "- Event Task (Date only) : event <Task Name> /from yyyy-MM-dd /to yyyy-MM-dd\n";
+            "- [EVENT] (Date only) : event <Task Name> /from yyyy-MM-dd /to yyyy-MM-dd\n";
     private static final String EVENT_TASK_DATE_TIME_FORMAT =
-            "- Event Task (Date and Time) : event <Task Name> /from yyyy-MM-dd HH:mm /to yyyy-MM-dd HH:mm\n";
-    private static final String MARK_TASK_FORMAT = "- Mark Task : mark <Valid task number>\n";
-    private static final String UNMARK_TASK_FORMAT = "- Unmark Task : unmark <Valid task number>\n";
-    private static final String DELETE_TASK_FORMAT = "- Delete Task : delete <Valid task number>\n";
-    private static final String FIND_TASK_FORMAT = "- Find Task : find <Keyword (Min 2 characters long)>\n";
+            "- [EVENT (Date and Time) : event <Task Name> /from yyyy-MM-dd HH:mm /to yyyy-MM-dd HH:mm\n";
+    private static final String MARK_TASK_FORMAT = "- [MARK] : mark <Valid task number>\n";
+    private static final String UNMARK_TASK_FORMAT = "- [UNMARK] : unmark <Valid task number>\n";
+    private static final String DELETE_TASK_FORMAT = "- [DELETE] : delete <Valid task number>\n";
+    private static final String FIND_TASK_FORMAT = "- [FIND] : find <Keyword (Min 2 characters long)>\n";
 
     @FXML
     private ScrollPane scrollPane;
@@ -74,6 +80,8 @@ public class JarvisGuiController {
     private TextField userInput;
     @FXML
     private Button sendButton;
+    @FXML
+    private Label taskStatusLabel;
 
     private JarvisController jarvisController;
     private Consumer<String> outputHandler;
@@ -90,8 +98,10 @@ public class JarvisGuiController {
         jarvisController = new JarvisController();
         outputHandler = this::displayMessage;
 
-        // Set up scroll pane to auto-scroll to bottom
-        scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
+        // Automatically scroll to the latest message
+        dialogContainer.heightProperty().addListener((obs, oldHeight, newHeight) -> {
+            scrollPane.setVvalue(1.0);
+        });
 
         // Set up send button action
         sendButton.setOnAction(event -> handleUserInput());
@@ -101,6 +111,9 @@ public class JarvisGuiController {
 
         // Display welcome message
         displayWelcomeMessage();
+
+        // Update number of outstanding tasks
+        updateTaskStatus();
     }
 
     /**
@@ -155,9 +168,11 @@ public class JarvisGuiController {
                 displayMessage(UNKNOWN_COMMAND);
             }
         } catch (JarvisException e) {
-            displayErrorMessage(e.getMessage());
+            displayErrorMessage("⚠ SYSTEM ALERT\n" + e.getMessage());
         } catch (Exception e) {
-            displayErrorMessage("An unexpected error occurred: " + e.getMessage());
+            displayErrorMessage("⚠ SYSTEM Error\n"
+                    + "An unexpected error occurred: "
+                    + e.getMessage());
         }
     }
 
@@ -187,6 +202,7 @@ public class JarvisGuiController {
         jarvisController.createToDoTask(userInput);
         displayMessage(ADD_TASK_MSG_HEADER + getLastTask().toString());
         displayTaskCount();
+        updateTaskStatus();
     }
 
     /**
@@ -199,6 +215,7 @@ public class JarvisGuiController {
         jarvisController.createDeadlineTask(userInput);
         displayMessage(ADD_TASK_MSG_HEADER + getLastTask().toString());
         displayTaskCount();
+        updateTaskStatus();
     }
 
     /**
@@ -211,6 +228,7 @@ public class JarvisGuiController {
         jarvisController.createEventTask(userInput);
         displayMessage(ADD_TASK_MSG_HEADER + getLastTask().toString());
         displayTaskCount();
+        updateTaskStatus();
     }
 
     /**
@@ -246,6 +264,15 @@ public class JarvisGuiController {
         Task deletedTask = jarvisController.deleteTask(userInput);
         displayMessage(DELETE_TASK_MSG_HEADER + deletedTask.toString());
         displayTaskCount();
+        updateTaskStatus();
+    }
+
+    /**
+     * Updates the task count displayed in the J.A.R.V.I.S. header.
+     */
+    private void updateTaskStatus() {
+        int count = jarvisController.size();
+        taskStatusLabel.setText("TASKS: " + count);
     }
 
     /**
@@ -272,11 +299,11 @@ public class JarvisGuiController {
     private void displayTasks() {
         List<Task> tasks = jarvisController.getTasks();
         if (tasks.isEmpty()) {
-            displayMessage("You have no tasks in your list.");
+            displayMessage("Your task list is currently empty.");
             return;
         }
 
-        StringBuilder sb = new StringBuilder("Here are your tasks:\n");
+        StringBuilder sb = new StringBuilder("Certainly. Here is your current task list:\n");
         for (int i = 0; i < tasks.size(); i++) {
             sb.append(String.format("%d. %s\n", i + 1, tasks.get(i).toString()));
         }
@@ -295,11 +322,11 @@ public class JarvisGuiController {
         List<Task> matchingTasks = jarvisController.filterTasks(userInput);
 
         if (matchingTasks.isEmpty()) {
-            displayMessage("No matching tasks found.");
+            displayMessage("I'm afraid I couldn't locate any tasks matching that description.");
             return;
         }
 
-        StringBuilder sb = new StringBuilder("Here are the matching tasks:\n");
+        StringBuilder sb = new StringBuilder("I've located the following matching tasks:\n");
         for (int i = 0; i < matchingTasks.size(); i++) {
             sb.append(String.format("%d. %s\n", i + 1, matchingTasks.get(i).toString()));
         }
@@ -311,7 +338,12 @@ public class JarvisGuiController {
      */
     private void displayTaskCount() {
         int size = jarvisController.size();
-        displayMessage("Now you have " + size + " task" + (size > 1 ? "s" : "") + " in the list.");
+        displayMessage(
+                "Task registry updated. You now have "
+                        + size
+                        + " active task"
+                        + (size == 1 ? "" : "s")
+                        + ".");
     }
 
     /**

@@ -39,59 +39,56 @@ USER MESSAGE
 }
 
 .user-message .message-text {
-/* Dark Stark-tech blue */
--fx-background-color: #102b3a;
+    -fx-background-color: #102B3A;
 
--fx-background-radius: 15px 15px 3px 15px;
+    -fx-background-radius: 12px 12px 2px 12px;
 
--fx-border-color: #007c91;
--fx-border-width: 1px;
--fx-border-radius: 15px 15px 3px 15px;
+    -fx-border-color: #007C91;
+    -fx-border-width: 1px;
+    -fx-border-radius: 12px 12px 2px 12px;
 
--fx-text-fill: #c8f7ff;
+    -fx-text-fill: #C8F7FF;
 
--fx-effect: dropshadow(
-    gaussian,
-    rgba(0, 188, 212, 0.25),
-    8,
-    0.2,
-    0,
-    0
-);
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 13px;
 
-
+    -fx-effect: dropshadow(
+        gaussian,
+        rgba(0, 188, 212, 0.30),
+        8,
+        0.2,
+        0,
+        0
+    );
 }
 
 /* =========================
 JARVIS MESSAGE
 ========================= */
 
-.jarvis-message {
--fx-alignment: CENTER_LEFT;
-}
-
 .jarvis-message .message-text {
-/* Holographic JARVIS panel */
--fx-background-color: #0b2029;
+    /* Holographic J.A.R.V.I.S. panel */
+    -fx-background-color: rgba(11, 32, 41, 0.95);
 
--fx-background-radius: 15px 15px 15px 3px;
+    -fx-background-radius: 12px 12px 12px 2px;
 
--fx-border-color: #00e5ff;
--fx-border-width: 1px;
--fx-border-radius: 15px 15px 15px 3px;
+    -fx-border-color: #00E5FF;
+    -fx-border-width: 1px;
+    -fx-border-radius: 12px 12px 12px 2px;
 
--fx-text-fill: #e0fbff;
+    -fx-text-fill: #E0FBFF;
 
--fx-effect: dropshadow(
-    gaussian,
-    rgba(0, 229, 255, 0.55),
-    10,
-    0.25,
-    0,
-    0
-);
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 13px;
 
-
+    -fx-effect: dropshadow(
+        gaussian,
+        rgba(0, 229, 255, 0.60),
+        12,
+        0.25,
+        0,
+        0
+    );
 }
 
 /* =========================
