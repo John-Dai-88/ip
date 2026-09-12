@@ -10,11 +10,11 @@
 
 ---
 Jarvis is a *fast and intuitive task scheduler that helps you to keep track of your tasks and deadlines. So much so that you will be feeling like Tony Stark below.
+
+
 *When completed
 
-![Screenshot of an internet meme of Tony Stark telling his AI assistant, Jarvis, to capture the moment using lingo.](https://media1.tenor.com/m/KoEBx4a31-gAAAAd/jarvis.gif)
-
-(Image Source : [Source](https://tenor.com/en-GB/view/jarvis-gif-3062731178058962920))
+![Screenshot of product](https://john-dai-88.github.io/ip/Ui.png)
 
 ---
 ## Current capabilities of Jarvis :
@@ -26,9 +26,13 @@ Jarvis is a *fast and intuitive task scheduler that helps you to keep track of y
 ---
 ## How to download and run Jarvis
 1. Download the latest java executable (.jar file) from [here](https://github.com/John-Dai-88/ip/releases)
-2. Place it in the Documents folder
-3. Open a command prompt terminal and navigate to the file directory the java executable file is located in
+2. Place it in your desired directory
+3. Open a command prompt terminal and navigate to the directory the java executable file is located in
 4. Run the command `java-jar jarvis.jar`
-5. Alternatively, double-click the java executable to run the program
+* Alternatively, double-click the java executable to run the program
 
 ***Above instructions will be updated once GUI has been implemented**
+
+---
+## Additional Documentation
+See the [docs folder](https://github.com/John-Dai-88/ip/tree/master/docs) for a more detailed documentation
