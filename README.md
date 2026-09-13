@@ -28,7 +28,7 @@ Jarvis is a *fast and intuitive task scheduler that helps you to keep track of y
 1. Download the latest java executable (.jar file) from [here](https://github.com/John-Dai-88/ip/releases)
 2. Place it in your desired directory
 3. Open a command prompt terminal and navigate to the directory the java executable file is located in
-4. Run the command `java-jar jarvis.jar`
+4. Run the command `java -jar jarvis.jar`
 * Alternatively, double-click the java executable to run the program
 
 ---
