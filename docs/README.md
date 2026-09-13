@@ -25,6 +25,7 @@ Jarvis stores tasks in`data/jarvis.txt` which is located within the same directo
 ## Available Commands
 
 ### Command Appendix
+
 | Command Type                | Command Format                                                             | Example                                                          | Function                                                         |
 |-----------------------------|----------------------------------------------------------------------------|------------------------------------------------------------------|------------------------------------------------------------------|
 | Getting help                | `help`                                                                     | `help`                                                           | Displays list of commands available and their respective formats |
