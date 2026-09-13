@@ -25,20 +25,20 @@ Jarvis stores tasks in`data/jarvis.txt` which is located within the same directo
 ## Available Commands
 
 ### Command Appendix
-| Command Type |                               Command Format                               |                             Example                              |                             Function                             |
-|:---:|:--------------------------------------------------------------------------:|:----------------------------------------------------------------:|:----------------------------------------------------------------:|
-| Getting help |                                   `help`                                   |                              `help`                              | Displays list of commands available and their respective formats |
-| To-do task |                         `todo <TASK_DESCRIPTION>`                          |                        `todo Buy a book`                         |                       Creates a to-do task                       |
-| Deadline task (Date only) |               `deadline <TASK_DESCRIPTION> /by <yyyy-mm-dd>`               |              `deadline Return book /by 2026-07-20`               |                Creates a date-only deadline task                 |
-| Deadline task (Date & Time) |            `deadline <TASK_DESCRIPTION> /by <yyyy-mm-dd HH:MM>`            |           `deadline Return book /by 2026-07-20 15:30`            |              Creates a date-and-time deadline task               |
-| Event task (Date only) |       `event <TASK_DESCRIPTION> /from <yyyy-mm-dd> /to <yyyy-mm-dd>`       |        `event Book sale /from 2026-07-05 /to 2026-07-10`         |                  Creates a date-only event task                  |
-| Event task (Date & Time) | `event <TASK_DESCRIPTION> /from <yyyy-mm-dd HH:MM> /to <yyyy-mm-dd HH:MM>` | `event Book seminar /from 2026-07-15 10:00 /to 2026-07-15 14:00` |                Creates a date-and-time event task                |
-| Listing of tasks |                                   `list`                                   |                              `list`                              |                      Lists all stored tasks                      |
-| Marking task |                         `mark <VALID_TASK_NUMBER>`                         |                             `mark 3`                             |                       Marks a task as done                       |
-| Unmarking task |                        `unmark <VALID_TASK_NUMBER>`                        |                            `unmark 5`                            |                      Marks a task as undone                      |
-| Deletion of task |                        `delete <VALID_TASK_NUMBER>`                        |                            `delete 8`                            |        Deletes a task from Jarvis's list of stored tasks         |
-| Finding tasks |                 `find <KEY_WORD>` (more than 2 characters)                 |                           `find book`                            |    Finds all tasks that fully or partially match the keyword     |
-| Exiting the program |                                   `bye`                                    |                              `bye`                               |                           Quits Jarvis                           |
+| Command Type | Command Format | Example | Function |
+|:---:|:---|:---|:---|
+| Getting help | `help` | `help` | Displays list of commands available and their respective formats |
+| To-do task | `todo <TASK_DESCRIPTION>` | `todo Buy a book` | Creates a to-do task |
+| Deadline task (Date only) | `deadline <TASK_DESCRIPTION> /by <yyyy-mm-dd>` | `deadline Return book /by 2026-07-20` | Creates a date-only deadline task |
+| Deadline task (Date & Time) | `deadline <TASK_DESCRIPTION> /by <yyyy-mm-dd HH:MM>` | `deadline Return book /by 2026-07-20 15:30` | Creates a date-and-time deadline task |
+| Event task (Date only) | `event <TASK_DESCRIPTION> /from <yyyy-mm-dd> /to <yyyy-mm-dd>` | `event Book sale /from 2026-07-05 /to 2026-07-10` | Creates a date-only event task |
+| Event task (Date & Time) | `event <TASK_DESCRIPTION> /from <yyyy-mm-dd HH:MM> /to <yyyy-mm-dd HH:MM>` | `event Book seminar /from 2026-07-15 10:00 /to 2026-07-15 14:00` | Creates a date-and-time event task |
+| Listing of tasks | `list` | `list` | Lists all stored tasks |
+| Marking task | `mark <VALID_TASK_NUMBER>` | `mark 3` | Marks a task as done |
+| Unmarking task | `unmark <VALID_TASK_NUMBER>` | `unmark 5` | Marks a task as undone |
+| Deletion of task | `delete <VALID_TASK_NUMBER>` | `delete 8` | Deletes a task from Jarvis's list of stored tasks |
+| Finding tasks | `find <KEY_WORD>` (more than 2 characters) | `find book` | Finds all tasks that fully or partially match the keyword |
+| Exiting the program | `bye` | `bye` | Quits Jarvis |
 
 
 ### Understanding the parameters
