@@ -103,17 +103,17 @@ Cause : Jarvis executable is most likely not in the same folder as `data/jarvis.
 
 Remedy : Verify that the Jarvis jar executable file is located in the same folder you ran from previously
 
-As Jarvis reads tasks from `data/jarvis.txt` relative to the folder it os located in
+As Jarvis reads tasks from `data/jarvis.txt` relative to the folder it is located in
 
 ### Command is not executed properly
 Cause : Command format inputted by user does not match the program's format
 
-Remedy : Please follow the command format specified in the *Command Appendix* table **EXACTLY**
+Remedy : Please follow the command format specified in the [*Command Appendix*](https://john-dai-88.github.io/ip/#command-appendix) table **EXACTLY**
 
 ### Imported task is not read properly
 Cause : Imported task data format is malformed or missing certain parameters
 
-Remedy : Please follow the task data follows the format specified in the *Importing Data* section **EXACTLY**
+Remedy : Please follow the task data follows the format specified in the [*Importing Data*](https://john-dai-88.github.io/ip/#importing-data) section **EXACTLY**
 , else the program will skip reading that task
 
 ---
