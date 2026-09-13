@@ -31,8 +31,6 @@ Jarvis is a *fast and intuitive task scheduler that helps you to keep track of y
 4. Run the command `java-jar jarvis.jar`
 * Alternatively, double-click the java executable to run the program
 
-***Above instructions will be updated once GUI has been implemented**
-
 ---
 ## Additional Documentation
 See the [docs folder](https://github.com/John-Dai-88/ip/tree/master/docs) for a more detailed documentation
