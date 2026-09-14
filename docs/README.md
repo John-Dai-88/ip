@@ -38,7 +38,7 @@ Jarvis stores tasks in`data/jarvis.txt` which is located within the same directo
 | Marking task                | `mark <VALID_TASK_NUMBER>`                                                 | `mark 3`                                                         | Marks a task as done                                             |
 | Unmarking task              | `unmark <VALID_TASK_NUMBER>`                                               | `unmark 5`                                                       | Marks a task as undone                                           |
 | Deletion of task            | `delete <VALID_TASK_NUMBER>`                                               | `delete 8`                                                       | Deletes a task from Jarvis's list of stored tasks                |
-| Finding tasks               | `find <KEY_WORD>` (more than 2 characters)                                 | `find book`                                                      | Finds all tasks that fully or partially match the keyword        |
+| Finding tasks               | `find <KEY_WORD>` (Minimum 2 characters long)                              | `find book`                                                      | Finds all tasks that fully or partially match the keyword        |
 | Exiting the program         | `bye`                                                                      | `bye`                                                            | Quits Jarvis                                                     |
 
 
